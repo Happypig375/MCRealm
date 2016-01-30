@@ -23,7 +23,12 @@
 
             Server.StartInfo.UseShellExecute = False
             ' You can start any process, HelloWorld is a do-nothing example.
-            Server.StartInfo.FileName = JAR.Text
+            Server.StartInfo.FileName = "java"
+            Server.StartInfo.Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
+            Server.StartInfo.RedirectStandardError = True
+            Server.StartInfo.RedirectStandardInput = True
+            Server.StartInfo.RedirectStandardOutput = True
+
             Server.StartInfo.CreateNoWindow = True
             Server.Start()
             ' This code assumes the process you are starting will terminate itself. 
