@@ -1,5 +1,5 @@
 ﻿Public Class Main
-    Dim WithEvents Server As New Process()
+    Friend WithEvents Server As New Process()
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
