@@ -23,7 +23,7 @@
         Try
 
             With Server.StartInfo
-                .WorkingDirectory = "C:\Users\PJ\games\Minecraft\Server\Craftbukkit 1.6.4 Server"
+                .WorkingDirectory = System.IO.Path.JAR.Text
                 .FileName = "java.exe"
                 .Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
                 .UseShellExecute = False
@@ -49,9 +49,9 @@
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
         If Output.InvokeRequired Then
             Dim myDelegate As New AppendOutputTextDelegate(AddressOf Display)
-            Me.Invoke(myDelegate, Text)
+            Me.Invoke(myDelegate, e.Data)
         Else
-            Output.AppendText(Text)
+            Output.AppendText(e.Data)
         End If
     End Sub
 End Class
