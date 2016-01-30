@@ -20,6 +20,7 @@
 
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
         Try
+
             Server.StartInfo.UseShellExecute = False
             ' You can start any process, HelloWorld is a do-nothing example.
             Server.StartInfo.FileName = JAR.Text
