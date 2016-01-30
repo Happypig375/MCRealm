@@ -24,7 +24,7 @@
         AboutBox.Show()
     End Sub
 
-    Private Delegate Sub AppendOutputTextDelegate(sender As Object, e As System.Diagnostics.DataReceivedEventArgs)
+    Private Delegate Sub AppendOutputTextDelegate(Text As String)
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
         Try
 
@@ -53,13 +53,13 @@
         End Try
     End Sub
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
-
+        AppendOutputText(e.Data)
     End Sub
     Private Sub AppendOutputText(Text As String)
 #If True Then
 
         If Output.InvokeRequired Then
-            Dim myDelegate As New AppendOutputTextDelegate(AddressOf Display)
+            Dim myDelegate As New AppendOutputTextDelegate(AddressOf AppendOutputText)
             Me.Invoke(myDelegate, Text)
         Else
             Output.AppendText(Text)
