@@ -1,5 +1,5 @@
 ﻿Public Class Main
-    Dim Server As New Process()
+    Dim WithEvents Server As New Process()
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -38,5 +38,8 @@
         Catch ex As Exception
             MsgBox(ex.ToString, MsgBoxStyle.Critical)
         End Try
+    End Sub
+    Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
+        Output.Text &= e.Data & vbCrLf
     End Sub
 End Class
