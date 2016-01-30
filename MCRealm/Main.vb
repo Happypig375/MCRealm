@@ -18,19 +18,26 @@
         AboutBox.Show()
     End Sub
 
+    Private Delegate Sub AppendOutputTextDelegate(sender As Object, e As System.Diagnostics.DataReceivedEventArgs)
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
         Try
 
-            Server.StartInfo.UseShellExecute = False
+            With Server.StartInfo
+                .WorkingDirectory = "C:\Users\PJ\games\Minecraft\Server\Craftbukkit 1.6.4 Server"
+                .FileName = "java.exe"
+                .Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
+                .UseShellExecute = False
+                .CreateNoWindow = True
+                .RedirectStandardInput = True
+                .RedirectStandardOutput = True
+                .RedirectStandardError = True
+            End With
             ' You can start any process, HelloWorld is a do-nothing example.
-            Server.StartInfo.FileName = "java"
-            Server.StartInfo.Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
-            Server.StartInfo.RedirectStandardError = True
-            Server.StartInfo.RedirectStandardInput = True
-            Server.StartInfo.RedirectStandardOutput = True
-
-            Server.StartInfo.CreateNoWindow = True
-            Server.Start()
+            With Server
+                .Start()
+                .BeginErrorReadLine()
+                .BeginOutputReadLine()
+            End With
             ' This code assumes the process you are starting will terminate itself. 
             ' Given that is is started without a window so you cannot terminate it 
             ' on the desktop, it must terminate itself or you can do it programmatically
@@ -40,6 +47,11 @@
         End Try
     End Sub
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
-        Output.Text &= e.Data & vbCrLf
+        If Output.InvokeRequired Then
+            Dim myDelegate As New AppendOutputTextDelegate(AddressOf Display)
+            Me.Invoke(myDelegate, Text)
+        Else
+            Output.AppendText(Text)
+        End If
     End Sub
 End Class
