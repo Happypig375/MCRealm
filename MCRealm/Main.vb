@@ -1,5 +1,11 @@
 ﻿Public Class Main
     Friend WithEvents Server As New Process()
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Server.StandardInput.WriteLine("EXIT") 'send an EXIT command to the Command Prompt
+        Server.StandardInput.Flush()
+        Server.Close()
+    End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -23,7 +29,7 @@
         Try
 
             With Server.StartInfo
-                .WorkingDirectory = System.IO.Path.JAR.Text
+                .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                 .FileName = "java.exe"
                 .Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
                 .UseShellExecute = False
@@ -47,11 +53,19 @@
         End Try
     End Sub
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
+
+    End Sub
+    Private Sub AppendOutputText(Text As String)
+#If True Then
+
         If Output.InvokeRequired Then
             Dim myDelegate As New AppendOutputTextDelegate(AddressOf Display)
-            Me.Invoke(myDelegate, e.Data)
+            Me.Invoke(myDelegate, Text)
         Else
-            Output.AppendText(e.Data)
+            Output.AppendText(Text)
         End If
+#Else
+        Output.Text &= Text
+#End If
     End Sub
 End Class
