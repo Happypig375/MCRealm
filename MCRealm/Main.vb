@@ -7,11 +7,7 @@
         End Get
     End Property
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If ServerRunning Then
-            Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
-            Server.StandardInput.Flush()
-            Server.Close()
-        End If
+        If ServerRunning Then RunServer_Click(sender, e)
     End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _ServerRunning = False
@@ -35,6 +31,9 @@
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
+                    Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
+                    Server.StandardInput.Flush()
+                    Server.Close()
                 Main_FormClosing(sender, CType(e, FormClosingEventArgs))
                 _ServerRunning = False
                 ServerSwitch.Text = "Run Server"
