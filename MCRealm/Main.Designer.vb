@@ -30,6 +30,7 @@ Partial Class Main
         Me.RunServer = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.TextBox()
         Me.About = New System.Windows.Forms.Button()
+        Me.JSelect = New System.Windows.Forms.DomainUpDown()
         Me.SuspendLayout()
         '
         'LoadWorld
@@ -107,11 +108,22 @@ Partial Class Main
         Me.About.Text = "About..."
         Me.About.UseVisualStyleBackColor = True
         '
+        'JSelect
+        '
+        Me.JSelect.Items.Add("java")
+        Me.JSelect.Items.Add("javaw")
+        Me.JSelect.Location = New System.Drawing.Point(184, 67)
+        Me.JSelect.Name = "JSelect"
+        Me.JSelect.Size = New System.Drawing.Size(89, 20)
+        Me.JSelect.TabIndex = 8
+        Me.JSelect.Text = "Use..."
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 286)
+        Me.Controls.Add(Me.JSelect)
         Me.Controls.Add(Me.About)
         Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.RunServer)
@@ -134,5 +146,6 @@ Partial Class Main
     Friend WithEvents RunServer As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.TextBox
     Friend WithEvents About As System.Windows.Forms.Button
+    Friend WithEvents JSelect As System.Windows.Forms.DomainUpDown
 
 End Class
