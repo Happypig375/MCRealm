@@ -143,4 +143,30 @@
     Private Sub Output_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Output.KeyPress
         e.Handled = True
     End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs)
+
+        ' Create a new SpeechRecognitionEngine instance.
+        Dim recognizer As New Speech.Recognition.SpeechRecognizer()
+
+        ' Create a simple grammar that recognizes "red", "green", or "blue".
+        Dim colors As New Speech.Recognition.Choices()
+        colors.Add(New String() {"red", "green", "blue"})
+
+        ' Create a GrammarBuilder object and append the Choices object.
+        Dim gb As New Speech.Recognition.GrammarBuilder()
+        gb.Append(colors)
+
+        ' Create the Grammar instance and load it into the speech recognition engine.
+        Dim g As New Speech.Recognition.Grammar(gb)
+        recognizer.LoadGrammar(g)
+
+        ' Register a handler for the SpeechRecognized event.
+        AddHandler recognizer.SpeechRecognized, New EventHandler(Of Speech.Recognition.SpeechRecognizedEventArgs)(AddressOf sre_SpeechRecognized)
+    End Sub
+
+    ' Create a simple handler for the SpeechRecognized event.
+    Private Sub sre_SpeechRecognized(sender As Object, e As Speech.Recognition.SpeechRecognizedEventArgs)
+        MessageBox.Show("Speech recognized: " + e.Result.Text)
+    End Sub
 End Class
