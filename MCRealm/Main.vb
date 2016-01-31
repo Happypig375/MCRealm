@@ -40,7 +40,6 @@
                     Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
                     Server.StandardInput.Flush()
                     Server.Close()
-                Main_FormClosing(sender, CType(e, FormClosingEventArgs))
             Else
 #If False Then
             ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
@@ -87,7 +86,7 @@
                 Catch ex As InvalidOperationException
                     Try
                         For Each p In Process.GetProcesses
-                            If p.ProcessName = Determine() Then
+                            If p.ProcessName = Determine() And Not p.Id = Server.Id Then
                                 p.Kill()
                             End If
                         Next
