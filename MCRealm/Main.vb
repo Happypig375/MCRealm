@@ -93,4 +93,9 @@
         Output.Text &= Text
 #End If
     End Sub
+
+    Private Sub Input_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Input.KeyPress
+        If e.KeyChar <> Chr(13) Then Exit Sub
+
+    End Sub
 End Class
