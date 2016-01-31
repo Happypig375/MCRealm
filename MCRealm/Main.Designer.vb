@@ -33,6 +33,7 @@ Partial Class Main
         Me.JAVASwitch = New System.Windows.Forms.TrackBar()
         Me.JAVALabel = New System.Windows.Forms.Label()
         Me.JAVAWLabel = New System.Windows.Forms.Label()
+        Me.SpeechButton = New System.Windows.Forms.Button()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -99,7 +100,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Input.Location = New System.Drawing.Point(13, 260)
         Me.Input.Name = "Input"
-        Me.Input.Size = New System.Drawing.Size(260, 20)
+        Me.Input.Size = New System.Drawing.Size(231, 20)
         Me.Input.TabIndex = 6
         '
         'About
@@ -139,11 +140,21 @@ Partial Class Main
         Me.JAVAWLabel.TabIndex = 9
         Me.JAVAWLabel.Text = "javaw"
         '
+        'SpeechButton
+        '
+        Me.SpeechButton.Location = New System.Drawing.Point(250, 260)
+        Me.SpeechButton.Name = "SpeechButton"
+        Me.SpeechButton.Size = New System.Drawing.Size(23, 23)
+        Me.SpeechButton.TabIndex = 10
+        Me.SpeechButton.Text = "🎤"
+        Me.SpeechButton.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 286)
+        Me.Controls.Add(Me.SpeechButton)
         Me.Controls.Add(Me.JAVAWLabel)
         Me.Controls.Add(Me.JAVALabel)
         Me.Controls.Add(Me.JAVASwitch)
@@ -173,5 +184,6 @@ Partial Class Main
     Friend WithEvents JAVASwitch As System.Windows.Forms.TrackBar
     Friend WithEvents JAVALabel As System.Windows.Forms.Label
     Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
+    Friend WithEvents SpeechButton As System.Windows.Forms.Button
 
 End Class
