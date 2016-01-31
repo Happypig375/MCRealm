@@ -5,6 +5,7 @@
         Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
         Server.StandardInput.Flush()
         Server.Close()
+        Server.Kill()
     End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -96,9 +97,14 @@
 
     Private Sub Input_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Input.KeyPress
         If e.KeyChar <> Chr(13) Then Exit Sub
+#If False Then
         AppActivate(Server.Id)
         SendKeys.Send(Input.Text)
         Me.TopMost = True
         Me.Focus()
+#Else
+        Server.StandardInput.WriteLine(Input.Text)
+        Input.Clear()
+#End If
     End Sub
 End Class
