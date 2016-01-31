@@ -23,7 +23,7 @@
     Private Sub About_Click(sender As Object, e As EventArgs) Handles About.Click
         AboutBox.Show()
     End Sub
-    Dim ProcID As Integer
+    'Dim ProcID As Integer
     Private Delegate Sub AppendOutputTextDelegate(Text As String)
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
         Try
@@ -34,6 +34,7 @@
             Me.TopMost = True
             Me.Focus()
 #Else
+#If False Then
             'Declare Processes
             Dim appDataStartInfo As ProcessStartInfo = New ProcessStartInfo()
             Dim javaStartInfo As ProcessStartInfo = New ProcessStartInfo()
@@ -43,7 +44,12 @@
             appDataStartInfo.Arguments = "/c start cd " & appPath & "&& set APPDATA=" & appPath & "\LocalAppData"
             appDataStartInfo.UseShellExecute = True
             Process.Start(appDataStartInfo)
-            ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
+            'Launch Minecraft
+            javaStartInfo.FileName = "javaw.exe"
+            javaStartInfo.Arguments = "-Xms4096M -Xmx4096M -cp " & appPath & "\LocalAppData\.minecraft\bin\Minecraft.jar net.minecraft.LauncherFrame"
+            javaStartInfo.UseShellExecute = True
+            Process.Start(javaStartInfo)
+#End If
             With Server.StartInfo
                 .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                 .FileName = "java.exe"
