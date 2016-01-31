@@ -76,6 +76,7 @@ Partial Class Main
         Me.Output.Location = New System.Drawing.Point(13, 96)
         Me.Output.Multiline = True
         Me.Output.Name = "Output"
+        Me.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.Output.Size = New System.Drawing.Size(259, 158)
         Me.Output.TabIndex = 4
         '
