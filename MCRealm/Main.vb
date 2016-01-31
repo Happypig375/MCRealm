@@ -2,7 +2,18 @@
     Friend WithEvents Server As New Process()
     Friend ReadOnly Property ServerRunning As Boolean
         Get
-            Return Not Server.HasExited
+            Dim [Return] As Boolean
+            Try
+                [Return] = Not Server.HasExited
+            Catch ex As InvalidOperationException
+                [Return] = False
+            End Try
+            If [Return] Then
+                ServerSwitch.Text = "Stop Server"
+            Else
+                ServerSwitch.Text = "Start Server"
+            End If
+            Return [Return]
         End Get
     End Property
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
@@ -23,7 +34,6 @@
         AboutBox.Show()
     End Sub
     'Dim ProcID As Integer
-    Private Delegate Sub AppendOutputTextDelegate(Text As String)
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
@@ -31,7 +41,6 @@
                     Server.StandardInput.Flush()
                     Server.Close()
                 Main_FormClosing(sender, CType(e, FormClosingEventArgs))
-                ServerSwitch.Text = "Run Server"
             Else
 #If False Then
             ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
@@ -59,7 +68,7 @@
 
                 With Server.StartInfo
                     .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
-                    .FileName = "javaw.exe"
+                    .FileName = Determine()
                     .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
                     .UseShellExecute = False
                     .CreateNoWindow = True
@@ -68,14 +77,25 @@
                     .RedirectStandardError = True
                 End With
                 ' You can start any process, HelloWorld is a do-nothing example.
-                With Server
-                    .EnableRaisingEvents = True
-                    .Start()
-                    .BeginErrorReadLine()
-                    .BeginOutputReadLine()
-                End With
+                Try
+                    With Server
+                        .EnableRaisingEvents = True
+                        .Start()
+                        .BeginErrorReadLine()
+                        .BeginOutputReadLine()
+                    End With
+                Catch ex As InvalidOperationException
+                    Try
+                        For Each p In Process.GetProcesses
+                            If p.ProcessName = Determine() Then
+                                p.Kill()
+                            End If
+                        Next
+                    Catch exc As System.ComponentModel.Win32Exception
+                        MsgBox(exc.ToString)
+                    End Try
+                End Try
 #End If
-                ServerSwitch.Text = "Stop Server"
                 ' This code assumes the process you are starting will terminate itself. 
                 ' Given that is is started without a window so you cannot terminate it 
                 ' on the desktop, it must terminate itself or you can do it programmatically
@@ -85,9 +105,13 @@
             MsgBox(ex.ToString, MsgBoxStyle.Critical)
         End Try
     End Sub
+    Friend Function Determine() As String
+        Return If(JAVASwitch.Value = 0, "java.exe", "javaw.exe")
+    End Function
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
         AppendOutputText(e.Data & vbCrLf)
     End Sub
+    Private Delegate Sub AppendOutputTextDelegate(Text As String)
     Private Sub AppendOutputText(Text As String)
 #If True Then
 

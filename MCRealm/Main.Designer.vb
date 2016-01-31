@@ -30,10 +30,10 @@ Partial Class Main
         Me.ServerSwitch = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.TextBox()
         Me.About = New System.Windows.Forms.Button()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.JAVASwitch = New System.Windows.Forms.TrackBar()
         Me.JAVALabel = New System.Windows.Forms.Label()
         Me.JAVAWLabel = New System.Windows.Forms.Label()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'LoadWorld
@@ -90,7 +90,7 @@ Partial Class Main
         Me.ServerSwitch.Name = "ServerSwitch"
         Me.ServerSwitch.Size = New System.Drawing.Size(75, 23)
         Me.ServerSwitch.TabIndex = 5
-        Me.ServerSwitch.Text = "Run Server"
+        Me.ServerSwitch.Text = "Start Server"
         Me.ServerSwitch.UseVisualStyleBackColor = True
         '
         'Input
@@ -111,15 +111,15 @@ Partial Class Main
         Me.About.Text = "About..."
         Me.About.UseVisualStyleBackColor = True
         '
-        'TrackBar1
+        'JAVASwitch
         '
-        Me.TrackBar1.AutoSize = False
-        Me.TrackBar1.LargeChange = 1
-        Me.TrackBar1.Location = New System.Drawing.Point(201, 67)
-        Me.TrackBar1.Maximum = 1
-        Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(37, 23)
-        Me.TrackBar1.TabIndex = 1
+        Me.JAVASwitch.AutoSize = False
+        Me.JAVASwitch.LargeChange = 1
+        Me.JAVASwitch.Location = New System.Drawing.Point(201, 67)
+        Me.JAVASwitch.Maximum = 1
+        Me.JAVASwitch.Name = "JAVASwitch"
+        Me.JAVASwitch.Size = New System.Drawing.Size(37, 23)
+        Me.JAVASwitch.TabIndex = 1
         '
         'JAVALabel
         '
@@ -146,7 +146,7 @@ Partial Class Main
         Me.ClientSize = New System.Drawing.Size(284, 286)
         Me.Controls.Add(Me.JAVAWLabel)
         Me.Controls.Add(Me.JAVALabel)
-        Me.Controls.Add(Me.TrackBar1)
+        Me.Controls.Add(Me.JAVASwitch)
         Me.Controls.Add(Me.About)
         Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.ServerSwitch)
@@ -157,7 +157,7 @@ Partial Class Main
         Me.Controls.Add(Me.LoadWorld)
         Me.Name = "Main"
         Me.Text = "MCRealm"
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -170,7 +170,7 @@ Partial Class Main
     Friend WithEvents ServerSwitch As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.TextBox
     Friend WithEvents About As System.Windows.Forms.Button
-    Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar
+    Friend WithEvents JAVASwitch As System.Windows.Forms.TrackBar
     Friend WithEvents JAVALabel As System.Windows.Forms.Label
     Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
 
