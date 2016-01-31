@@ -96,6 +96,9 @@
 
     Private Sub Input_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Input.KeyPress
         If e.KeyChar <> Chr(13) Then Exit Sub
-
+        AppActivate(Server.Id)
+        SendKeys.Send(Input.Text)
+        Me.TopMost = True
+        Me.Focus()
     End Sub
 End Class
