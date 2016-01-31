@@ -5,7 +5,6 @@
         Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
         Server.StandardInput.Flush()
         Server.Close()
-        Server.Kill()
     End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
