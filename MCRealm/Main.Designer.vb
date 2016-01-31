@@ -27,7 +27,7 @@ Partial Class Main
         Me.LoadJAR = New System.Windows.Forms.Button()
         Me.JAR = New System.Windows.Forms.TextBox()
         Me.Output = New System.Windows.Forms.TextBox()
-        Me.RunServer = New System.Windows.Forms.Button()
+        Me.ServerSwitch = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.TextBox()
         Me.About = New System.Windows.Forms.Button()
         Me.TrackBar1 = New System.Windows.Forms.TrackBar()
@@ -84,14 +84,14 @@ Partial Class Main
         Me.Output.Size = New System.Drawing.Size(259, 158)
         Me.Output.TabIndex = 4
         '
-        'RunServer
+        'ServerSwitch
         '
-        Me.RunServer.Location = New System.Drawing.Point(102, 67)
-        Me.RunServer.Name = "RunServer"
-        Me.RunServer.Size = New System.Drawing.Size(75, 23)
-        Me.RunServer.TabIndex = 5
-        Me.RunServer.Text = "Run Server"
-        Me.RunServer.UseVisualStyleBackColor = True
+        Me.ServerSwitch.Location = New System.Drawing.Point(102, 67)
+        Me.ServerSwitch.Name = "ServerSwitch"
+        Me.ServerSwitch.Size = New System.Drawing.Size(75, 23)
+        Me.ServerSwitch.TabIndex = 5
+        Me.ServerSwitch.Text = "Run Server"
+        Me.ServerSwitch.UseVisualStyleBackColor = True
         '
         'Input
         '
@@ -149,7 +149,7 @@ Partial Class Main
         Me.Controls.Add(Me.TrackBar1)
         Me.Controls.Add(Me.About)
         Me.Controls.Add(Me.Input)
-        Me.Controls.Add(Me.RunServer)
+        Me.Controls.Add(Me.ServerSwitch)
         Me.Controls.Add(Me.Output)
         Me.Controls.Add(Me.JAR)
         Me.Controls.Add(Me.LoadJAR)
@@ -167,7 +167,7 @@ Partial Class Main
     Friend WithEvents LoadJAR As System.Windows.Forms.Button
     Friend WithEvents JAR As System.Windows.Forms.TextBox
     Friend WithEvents Output As System.Windows.Forms.TextBox
-    Friend WithEvents RunServer As System.Windows.Forms.Button
+    Friend WithEvents ServerSwitch As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.TextBox
     Friend WithEvents About As System.Windows.Forms.Button
     Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar

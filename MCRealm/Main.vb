@@ -32,8 +32,13 @@
     End Sub
     'Dim ProcID As Integer
     Private Delegate Sub AppendOutputTextDelegate(Text As String)
-    Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
+    Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
+            If ServerRunning Then
+                Main_FormClosing(sender, CType(e, FormClosingEventArgs))
+                _ServerRunning = False
+                ServerSwitch.Text = "Run Server"
+            Else
 #If False Then
             ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
             AppActivate(ProcID)
@@ -58,29 +63,31 @@
             Process.Start(javaStartInfo)
 #End If
 
-            With Server.StartInfo
-                .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
-                .FileName = "javaw.exe"
-                .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
-                .UseShellExecute = False
-                .CreateNoWindow = True
-                .RedirectStandardInput = True
-                .RedirectStandardOutput = True
-                .RedirectStandardError = True
-            End With
-            _ServerRunning = True
-            ' You can start any process, HelloWorld is a do-nothing example.
-            With Server
-                .EnableRaisingEvents = True
-                .Start()
-                .BeginErrorReadLine()
-                .BeginOutputReadLine()
-            End With
+                With Server.StartInfo
+                    .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
+                    .FileName = "javaw.exe"
+                    .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
+                    .UseShellExecute = False
+                    .CreateNoWindow = True
+                    .RedirectStandardInput = True
+                    .RedirectStandardOutput = True
+                    .RedirectStandardError = True
+                End With
+                _ServerRunning = True
+                ' You can start any process, HelloWorld is a do-nothing example.
+                With Server
+                    .EnableRaisingEvents = True
+                    .Start()
+                    .BeginErrorReadLine()
+                    .BeginOutputReadLine()
+                End With
 #End If
-            ' This code assumes the process you are starting will terminate itself. 
-            ' Given that is is started without a window so you cannot terminate it 
-            ' on the desktop, it must terminate itself or you can do it programmatically
-            ' from this application using the Kill method.
+                ServerSwitch.Text = "Stop Server"
+                ' This code assumes the process you are starting will terminate itself. 
+                ' Given that is is started without a window so you cannot terminate it 
+                ' on the desktop, it must terminate itself or you can do it programmatically
+                ' from this application using the Kill method.
+            End If
         Catch ex As Exception
             MsgBox(ex.ToString, MsgBoxStyle.Critical)
         End Try
