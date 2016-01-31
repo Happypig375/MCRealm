@@ -30,7 +30,10 @@ Partial Class Main
         Me.RunServer = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.TextBox()
         Me.About = New System.Windows.Forms.Button()
-        Me.JSelect = New System.Windows.Forms.DomainUpDown()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.JAVALabel = New System.Windows.Forms.Label()
+        Me.JAVAWLabel = New System.Windows.Forms.Label()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'LoadWorld
@@ -108,22 +111,42 @@ Partial Class Main
         Me.About.Text = "About..."
         Me.About.UseVisualStyleBackColor = True
         '
-        'JSelect
+        'TrackBar1
         '
-        Me.JSelect.Items.Add("java")
-        Me.JSelect.Items.Add("javaw")
-        Me.JSelect.Location = New System.Drawing.Point(184, 67)
-        Me.JSelect.Name = "JSelect"
-        Me.JSelect.Size = New System.Drawing.Size(89, 20)
-        Me.JSelect.TabIndex = 8
-        Me.JSelect.Text = "Use..."
+        Me.TrackBar1.AutoSize = False
+        Me.TrackBar1.LargeChange = 1
+        Me.TrackBar1.Location = New System.Drawing.Point(201, 67)
+        Me.TrackBar1.Maximum = 1
+        Me.TrackBar1.Name = "TrackBar1"
+        Me.TrackBar1.Size = New System.Drawing.Size(37, 23)
+        Me.TrackBar1.TabIndex = 1
+        '
+        'JAVALabel
+        '
+        Me.JAVALabel.AutoSize = True
+        Me.JAVALabel.Location = New System.Drawing.Point(178, 72)
+        Me.JAVALabel.Name = "JAVALabel"
+        Me.JAVALabel.Size = New System.Drawing.Size(27, 13)
+        Me.JAVALabel.TabIndex = 8
+        Me.JAVALabel.Text = "java"
+        '
+        'JAVAWLabel
+        '
+        Me.JAVAWLabel.AutoSize = True
+        Me.JAVAWLabel.Location = New System.Drawing.Point(238, 72)
+        Me.JAVAWLabel.Name = "JAVAWLabel"
+        Me.JAVAWLabel.Size = New System.Drawing.Size(35, 13)
+        Me.JAVAWLabel.TabIndex = 9
+        Me.JAVAWLabel.Text = "javaw"
         '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 286)
-        Me.Controls.Add(Me.JSelect)
+        Me.Controls.Add(Me.JAVAWLabel)
+        Me.Controls.Add(Me.JAVALabel)
+        Me.Controls.Add(Me.TrackBar1)
         Me.Controls.Add(Me.About)
         Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.RunServer)
@@ -134,6 +157,7 @@ Partial Class Main
         Me.Controls.Add(Me.LoadWorld)
         Me.Name = "Main"
         Me.Text = "MCRealm"
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -146,6 +170,8 @@ Partial Class Main
     Friend WithEvents RunServer As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.TextBox
     Friend WithEvents About As System.Windows.Forms.Button
-    Friend WithEvents JSelect As System.Windows.Forms.DomainUpDown
+    Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar
+    Friend WithEvents JAVALabel As System.Windows.Forms.Label
+    Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
 
 End Class
