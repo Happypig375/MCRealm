@@ -2,7 +2,7 @@
     Friend WithEvents Server As New Process()
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Server.StandardInput.WriteLine("EXIT") 'send an EXIT command to the Command Prompt
+        Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
         Server.StandardInput.Flush()
         Server.Close()
     End Sub
@@ -50,10 +50,11 @@
             javaStartInfo.UseShellExecute = True
             Process.Start(javaStartInfo)
 #End If
+
             With Server.StartInfo
                 .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
-                .FileName = "java.exe"
-                .Arguments = String.Format("-Xms1024M -Xmx2048M -jar {0} nogui -o true", JAR.Text)
+                .FileName = "javaw.exe"
+                .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
                 .UseShellExecute = False
                 .CreateNoWindow = True
                 .RedirectStandardInput = True
@@ -62,6 +63,7 @@
             End With
             ' You can start any process, HelloWorld is a do-nothing example.
             With Server
+                .EnableRaisingEvents = True
                 .Start()
                 .BeginErrorReadLine()
                 .BeginOutputReadLine()
