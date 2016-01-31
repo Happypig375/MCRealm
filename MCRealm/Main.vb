@@ -1,16 +1,12 @@
 ﻿Public Class Main
     Friend WithEvents Server As New Process()
-    Dim _ServerRunning As Boolean
     Friend ReadOnly Property ServerRunning As Boolean
         Get
-            Return _ServerRunning
+            Return Not Server.HasExited
         End Get
     End Property
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If ServerRunning Then RunServer_Click(sender, e)
-    End Sub
-    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        _ServerRunning = False
     End Sub
 
     Private Sub LoadWorld_Click(sender As Object, e As EventArgs) Handles LoadWorld.Click
@@ -35,7 +31,6 @@
                     Server.StandardInput.Flush()
                     Server.Close()
                 Main_FormClosing(sender, CType(e, FormClosingEventArgs))
-                _ServerRunning = False
                 ServerSwitch.Text = "Run Server"
             Else
 #If False Then
@@ -72,7 +67,6 @@
                     .RedirectStandardOutput = True
                     .RedirectStandardError = True
                 End With
-                _ServerRunning = True
                 ' You can start any process, HelloWorld is a do-nothing example.
                 With Server
                     .EnableRaisingEvents = True
@@ -116,9 +110,6 @@
         Me.TopMost = True
         Me.Focus()
 #Else
-        If Input.Text.ToLower.StartsWith("stop") Or Input.Text.ToLower.StartsWith("/stop") Then
-            _ServerRunning = False
-        End If
         Server.StandardInput.WriteLine(Input.Text)
         Input.Clear()
 #End If
