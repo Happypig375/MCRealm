@@ -23,11 +23,27 @@
     Private Sub About_Click(sender As Object, e As EventArgs) Handles About.Click
         AboutBox.Show()
     End Sub
-
+    Dim ProcID As Integer
     Private Delegate Sub AppendOutputTextDelegate(Text As String)
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles RunServer.Click
         Try
-
+#If False Then
+            ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
+            AppActivate(ProcID)
+            SendKeys.Send(Input.Text)
+            Me.TopMost = True
+            Me.Focus()
+#Else
+            'Declare Processes
+            Dim appDataStartInfo As ProcessStartInfo = New ProcessStartInfo()
+            Dim javaStartInfo As ProcessStartInfo = New ProcessStartInfo()
+            Dim appPath As String = Application.StartupPath()
+            'Launch appdata relocation process
+            appDataStartInfo.FileName = "cmd.exe"
+            appDataStartInfo.Arguments = "/c start cd " & appPath & "&& set APPDATA=" & appPath & "\LocalAppData"
+            appDataStartInfo.UseShellExecute = True
+            Process.Start(appDataStartInfo)
+            ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
             With Server.StartInfo
                 .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                 .FileName = "java.exe"
@@ -44,6 +60,7 @@
                 .BeginErrorReadLine()
                 .BeginOutputReadLine()
             End With
+#End If
             ' This code assumes the process you are starting will terminate itself. 
             ' Given that is is started without a window so you cannot terminate it 
             ' on the desktop, it must terminate itself or you can do it programmatically
@@ -53,7 +70,7 @@
         End Try
     End Sub
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
-        AppendOutputText(e.Data)
+        AppendOutputText(e.Data & vbCrLf)
     End Sub
     Private Sub AppendOutputText(Text As String)
 #If True Then
