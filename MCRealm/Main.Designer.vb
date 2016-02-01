@@ -149,6 +149,14 @@ Partial Class Main
         Me.Input.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Input.FormattingEnabled = True
+        Me.Input.Items.AddRange(New String() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
+                                                                     "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute",
+                                                                     "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op",
+                                                                     "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off",
+                                                                     "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn",
+                                                                     "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor",
+                                                                     "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger",
+                                                                     "weather", "whitelist", "worldborder", "xp"})
         Me.Input.Location = New System.Drawing.Point(13, 260)
         Me.Input.Name = "Input"
         Me.Input.Size = New System.Drawing.Size(231, 21)

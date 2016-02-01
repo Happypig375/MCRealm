@@ -103,6 +103,7 @@
     End Function
     Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
+        JAVASwitch.Enabled = True
         If ServerSwitch.InvokeRequired Then
             Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
