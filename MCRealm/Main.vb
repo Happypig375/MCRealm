@@ -101,10 +101,10 @@
     Friend Function Determine() As String
         Return If(JAVASwitch.Value = 0, "java.exe", "javaw.exe")
     End Function
-    Private Delegate Sub ServerExitedDelegate(sender As Object, e As EventArgs)
+    Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
         If ServerSwitch.InvokeRequired Then
-            Dim myDelegate As New ServerExitedDelegate(AddressOf Server_Exited)
+            Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
         Else
             ServerSwitch.Text = "Start Server"
@@ -113,11 +113,11 @@
     Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
         AppendOutputText(e.Data & vbCrLf)
     End Sub
-    Private Delegate Sub AppendOutputTextDelegate(Text As String)
+    Private Delegate Sub AppendTextDelegate(Text As String)
     Private Sub AppendOutputText(Text As String)
 #If True Then
         If Output.InvokeRequired Then
-            Dim myDelegate As New AppendOutputTextDelegate(AddressOf AppendOutputText)
+            Dim myDelegate As New AppendTextDelegate(AddressOf AppendOutputText)
             Me.Invoke(myDelegate, Text)
         Else
             Output.AppendText(Text)
@@ -1961,7 +1961,7 @@
     End Sub
     Private Sub AppendInputText(Text As String)
         If Input.InvokeRequired Then
-            Dim myDelegate As New AppendOutputTextDelegate(AddressOf AppendOutputText)
+            Dim myDelegate As New AppendTextDelegate(AddressOf AppendOutputText)
             Me.Invoke(myDelegate, Text)
         Else
             Input.AppendText(Text)
