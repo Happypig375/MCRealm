@@ -136,7 +136,7 @@
         Me.Focus()
 #Else
         Server.StandardInput.WriteLine(Input.Text)
-        Input.Clear()
+        Input.ResetText()
 #End If
     End Sub
 
@@ -1957,14 +1957,14 @@
 
     ' Create a simple handler for the SpeechRecognized event.
     Private Sub sre_SpeechRecognized(sender As Object, e As Speech.Recognition.SpeechRecognizedEventArgs)
-        AppendInputText(e.Result.Text)
+        AppendInputext(e.Result.Text)
     End Sub
-    Private Sub AppendInputText(Text As String)
+    Private Sub AppendInputext(Text As String)
         If Input.InvokeRequired Then
             Dim myDelegate As New AppendTextDelegate(AddressOf AppendOutputText)
             Me.Invoke(myDelegate, Text)
         Else
-            Input.AppendText(Text)
+            Input.Text &= Text
         End If
     End Sub
 End Class

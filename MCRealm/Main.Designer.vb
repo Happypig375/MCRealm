@@ -28,12 +28,12 @@ Partial Class Main
         Me.JAR = New System.Windows.Forms.TextBox()
         Me.Output = New System.Windows.Forms.TextBox()
         Me.ServerSwitch = New System.Windows.Forms.Button()
-        Me.Input = New System.Windows.Forms.TextBox()
         Me.About = New System.Windows.Forms.Button()
         Me.JAVASwitch = New System.Windows.Forms.TrackBar()
         Me.JAVALabel = New System.Windows.Forms.Label()
         Me.JAVAWLabel = New System.Windows.Forms.Label()
         Me.SpeechButton = New System.Windows.Forms.Button()
+        Me.Input = New System.Windows.Forms.ComboBox()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,15 +94,6 @@ Partial Class Main
         Me.ServerSwitch.Text = "Start Server"
         Me.ServerSwitch.UseVisualStyleBackColor = True
         '
-        'Input
-        '
-        Me.Input.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Input.Location = New System.Drawing.Point(13, 260)
-        Me.Input.Name = "Input"
-        Me.Input.Size = New System.Drawing.Size(231, 20)
-        Me.Input.TabIndex = 6
-        '
         'About
         '
         Me.About.Location = New System.Drawing.Point(12, 67)
@@ -114,6 +105,8 @@ Partial Class Main
         '
         'JAVASwitch
         '
+        Me.JAVASwitch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAVASwitch.AutoSize = False
         Me.JAVASwitch.LargeChange = 1
         Me.JAVASwitch.Location = New System.Drawing.Point(201, 67)
@@ -133,6 +126,7 @@ Partial Class Main
         '
         'JAVAWLabel
         '
+        Me.JAVAWLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAVAWLabel.AutoSize = True
         Me.JAVAWLabel.Location = New System.Drawing.Point(238, 72)
         Me.JAVAWLabel.Name = "JAVAWLabel"
@@ -142,6 +136,7 @@ Partial Class Main
         '
         'SpeechButton
         '
+        Me.SpeechButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SpeechButton.Location = New System.Drawing.Point(250, 260)
         Me.SpeechButton.Name = "SpeechButton"
         Me.SpeechButton.Size = New System.Drawing.Size(23, 23)
@@ -149,17 +144,27 @@ Partial Class Main
         Me.SpeechButton.Text = "🎤"
         Me.SpeechButton.UseVisualStyleBackColor = True
         '
+        'Input
+        '
+        Me.Input.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Input.FormattingEnabled = True
+        Me.Input.Location = New System.Drawing.Point(13, 260)
+        Me.Input.Name = "Input"
+        Me.Input.Size = New System.Drawing.Size(231, 21)
+        Me.Input.TabIndex = 11
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 286)
+        Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.SpeechButton)
         Me.Controls.Add(Me.JAVAWLabel)
         Me.Controls.Add(Me.JAVALabel)
         Me.Controls.Add(Me.JAVASwitch)
         Me.Controls.Add(Me.About)
-        Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.ServerSwitch)
         Me.Controls.Add(Me.Output)
         Me.Controls.Add(Me.JAR)
@@ -179,11 +184,11 @@ Partial Class Main
     Friend WithEvents JAR As System.Windows.Forms.TextBox
     Friend WithEvents Output As System.Windows.Forms.TextBox
     Friend WithEvents ServerSwitch As System.Windows.Forms.Button
-    Friend WithEvents Input As System.Windows.Forms.TextBox
     Friend WithEvents About As System.Windows.Forms.Button
     Friend WithEvents JAVASwitch As System.Windows.Forms.TrackBar
     Friend WithEvents JAVALabel As System.Windows.Forms.Label
     Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
     Friend WithEvents SpeechButton As System.Windows.Forms.Button
+    Friend WithEvents Input As System.Windows.Forms.ComboBox
 
 End Class
