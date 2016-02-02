@@ -1,15 +1,19 @@
 ﻿Imports System.Windows.Forms
 
 Public Class Load_From
-    Public Sub Display(ByVal Mode As Boolean, Optional ByVal Args As String = "")
+    Public Function Display(ByVal Mode As Boolean, Optional ByVal Args As String = "") As System.Windows.Forms.DialogResult
         Me.Hide()
         If Mode Then
-            OK_Button_Click(Nothing, Nothing)
+            Dim Result As System.Windows.Forms.DialogResult = Folder.ShowDialog()
+            _Path = Folder.SelectedPath
+            Return Result
         Else
             File.Filter = Args & If(Args = "", "All Files|*.*", "|All Files|*.*")
-            Cancel_Button_Click(Nothing, Nothing)
+            Dim Result As System.Windows.Forms.DialogResult = File.ShowDialog()
+            _Path = File.FileName
+            Return Result
         End If
-    End Sub
+    End Function
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Dim Result As System.Windows.Forms.DialogResult = Folder.ShowDialog()
         _Path = Folder.SelectedPath
