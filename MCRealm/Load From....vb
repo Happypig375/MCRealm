@@ -1,9 +1,9 @@
 ﻿Imports System.Windows.Forms
 
 Public Class Load_From
-    Public Function Display(ByVal Mode As Boolean, Optional ByVal Args As String = "") As System.Windows.Forms.DialogResult
+    Public Function Display(ByVal FromFolder As Boolean, Optional ByVal Args As String = "") As System.Windows.Forms.DialogResult
         Me.Hide()
-        If Mode Then
+        If FromFolder Then
             Dim Result As System.Windows.Forms.DialogResult = Folder.ShowDialog()
             _Path = Folder.SelectedPath
             Return Result

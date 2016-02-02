@@ -1,4 +1,5 @@
 ﻿Public Class Main
+    Friend ReadOnly MinSize As System.Drawing.Size = Me.Size
     Friend WithEvents Server As New Process()
     Friend ReadOnly Property ServerRunning As Boolean
         Get
@@ -19,7 +20,7 @@
     End Sub
 
     Private Sub LoadJAR_Click(sender As Object, e As EventArgs) Handles LoadJAR.Click
-        If Load_From.ShowDialog = System.Windows.Forms.DialogResult.Cancel Then Exit Sub
+        If Load_From.Display(False, "JAR files|*.jar") = System.Windows.Forms.DialogResult.Cancel Then Exit Sub
         JAR.Text = Load_From.Path
     End Sub
 
@@ -82,12 +83,12 @@
                 ' You can start any process, HelloWorld is a do-nothing example.
                 JAVASwitch.Enabled = False
                 ServerSwitch.Text = "Stop Server"
-                    With Server
-                        .EnableRaisingEvents = True
-                        .Start()
-                        .BeginErrorReadLine()
-                        .BeginOutputReadLine()
-                    End With
+                With Server
+                    .EnableRaisingEvents = True
+                    .Start()
+                    .BeginErrorReadLine()
+                    .BeginOutputReadLine()
+                End With
 #End If
                 ' This code assumes the process you are starting will terminate itself. 
                 ' Given that is is started without a window so you cannot terminate it 
@@ -1967,5 +1968,9 @@
         Else
             Input.Text &= Text
         End If
+    End Sub
+
+    Private Sub Main_Layout(sender As Object, e As EventArgs) Handles Me.Layout
+        If Me.Size.Width < MinSize.Width OrElse Me.Size.Height < MinSize.Height Then Me.Size = MinSize
     End Sub
 End Class
