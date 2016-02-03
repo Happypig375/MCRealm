@@ -96,7 +96,7 @@
                 ' from this application using the Kill method.
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString, MsgBoxStyle.Critical)
+            DisplayError(ex)
         End Try
     End Sub
     Friend Function Determine() As String
@@ -1976,5 +1976,8 @@
 
     Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles SettingsButton.Click
         Settings.Show()
+    End Sub
+    Public Sub DisplayError(ByVal Exception As Exception)
+        MsgBox(Exception.ToString, MsgBoxStyle.Critical)
     End Sub
 End Class
