@@ -29,12 +29,9 @@ Partial Class Main
         Me.Output = New System.Windows.Forms.TextBox()
         Me.ServerSwitch = New System.Windows.Forms.Button()
         Me.About = New System.Windows.Forms.Button()
-        Me.JAVASwitch = New System.Windows.Forms.TrackBar()
-        Me.JAVALabel = New System.Windows.Forms.Label()
-        Me.JAVAWLabel = New System.Windows.Forms.Label()
         Me.SpeechButton = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.ComboBox()
-        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SettingsButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'LoadWorld
@@ -103,37 +100,6 @@ Partial Class Main
         Me.About.Text = "About..."
         Me.About.UseVisualStyleBackColor = True
         '
-        'JAVASwitch
-        '
-        Me.JAVASwitch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.JAVASwitch.AutoSize = False
-        Me.JAVASwitch.LargeChange = 1
-        Me.JAVASwitch.Location = New System.Drawing.Point(201, 67)
-        Me.JAVASwitch.Maximum = 1
-        Me.JAVASwitch.Name = "JAVASwitch"
-        Me.JAVASwitch.Size = New System.Drawing.Size(37, 23)
-        Me.JAVASwitch.TabIndex = 1
-        '
-        'JAVALabel
-        '
-        Me.JAVALabel.AutoSize = True
-        Me.JAVALabel.Location = New System.Drawing.Point(178, 72)
-        Me.JAVALabel.Name = "JAVALabel"
-        Me.JAVALabel.Size = New System.Drawing.Size(27, 13)
-        Me.JAVALabel.TabIndex = 8
-        Me.JAVALabel.Text = "java"
-        '
-        'JAVAWLabel
-        '
-        Me.JAVAWLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.JAVAWLabel.AutoSize = True
-        Me.JAVAWLabel.Location = New System.Drawing.Point(238, 72)
-        Me.JAVAWLabel.Name = "JAVAWLabel"
-        Me.JAVAWLabel.Size = New System.Drawing.Size(35, 13)
-        Me.JAVAWLabel.TabIndex = 9
-        Me.JAVAWLabel.Text = "javaw"
-        '
         'SpeechButton
         '
         Me.SpeechButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -149,29 +115,29 @@ Partial Class Main
         Me.Input.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Input.FormattingEnabled = True
-        Me.Input.Items.AddRange(New String() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
-                                                                     "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute",
-                                                                     "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op",
-                                                                     "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off",
-                                                                     "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn",
-                                                                     "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor",
-                                                                     "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger",
-                                                                     "weather", "whitelist", "worldborder", "xp"})
+        Me.Input.Items.AddRange(New Object() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug", "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute", "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op", "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off", "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn", "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor", "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger", "weather", "whitelist", "worldborder", "xp"})
         Me.Input.Location = New System.Drawing.Point(13, 260)
         Me.Input.Name = "Input"
         Me.Input.Size = New System.Drawing.Size(231, 21)
         Me.Input.TabIndex = 11
+        '
+        'SettingsButton
+        '
+        Me.SettingsButton.Location = New System.Drawing.Point(184, 67)
+        Me.SettingsButton.Name = "SettingsButton"
+        Me.SettingsButton.Size = New System.Drawing.Size(75, 23)
+        Me.SettingsButton.TabIndex = 12
+        Me.SettingsButton.Text = "Settings..."
+        Me.SettingsButton.UseVisualStyleBackColor = True
         '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 286)
+        Me.Controls.Add(Me.SettingsButton)
         Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.SpeechButton)
-        Me.Controls.Add(Me.JAVAWLabel)
-        Me.Controls.Add(Me.JAVALabel)
-        Me.Controls.Add(Me.JAVASwitch)
         Me.Controls.Add(Me.About)
         Me.Controls.Add(Me.ServerSwitch)
         Me.Controls.Add(Me.Output)
@@ -181,7 +147,6 @@ Partial Class Main
         Me.Controls.Add(Me.LoadWorld)
         Me.Name = "Main"
         Me.Text = "MCRealm"
-        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -193,10 +158,8 @@ Partial Class Main
     Friend WithEvents Output As System.Windows.Forms.TextBox
     Friend WithEvents ServerSwitch As System.Windows.Forms.Button
     Friend WithEvents About As System.Windows.Forms.Button
-    Friend WithEvents JAVASwitch As System.Windows.Forms.TrackBar
-    Friend WithEvents JAVALabel As System.Windows.Forms.Label
-    Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
     Friend WithEvents SpeechButton As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.ComboBox
+    Friend WithEvents SettingsButton As System.Windows.Forms.Button
 
 End Class

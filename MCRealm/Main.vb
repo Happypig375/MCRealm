@@ -31,7 +31,7 @@
     Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
-                JAVASwitch.Enabled = True
+                Settings.JAVASwitch.Enabled = True
                 Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
                 Server.StandardInput.Flush()
                 Server.CancelErrorRead()
@@ -81,7 +81,7 @@
                     .RedirectStandardError = True
                 End With
                 ' You can start any process, HelloWorld is a do-nothing example.
-                JAVASwitch.Enabled = False
+                Settings.JAVASwitch.Enabled = False
                 ServerSwitch.Text = "Stop Server"
                 With Server
                     .EnableRaisingEvents = True
@@ -100,11 +100,11 @@
         End Try
     End Sub
     Friend Function Determine() As String
-        Return If(JAVASwitch.Value = 0, "java.exe", "javaw.exe")
+        Return If(Settings.JAVASwitch.Value = 0, "java.exe", "javaw.exe")
     End Function
     Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
-        JAVASwitch.Enabled = True
+        Settings.JAVASwitch.Enabled = True
         If ServerSwitch.InvokeRequired Then
             Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
@@ -1972,5 +1972,9 @@
 
     Private Sub Main_Layout(sender As Object, e As EventArgs) Handles Me.Layout
         If Me.Size.Width < MinSize.Width OrElse Me.Size.Height < MinSize.Height Then Me.Size = MinSize
+    End Sub
+
+    Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles SettingsButton.Click
+        Settings.Show()
     End Sub
 End Class
