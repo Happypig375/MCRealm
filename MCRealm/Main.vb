@@ -73,7 +73,9 @@
                 With Server.StartInfo
                     .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                     .FileName = Determine()
-                    .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
+                    .Arguments = String.Format("-Xms{0}{1} -Xmx{2}{3} -jar ""{4}"" nogui -o true", Settings.MemoryMinimum.Value,
+                                               Settings.MemoryMinimumUnit.SelectedText, Settings.MemoryMaximum.Value,
+                                               Settings.MemoryMaximumUnit.SelectedText, JAR.Text)
                     .UseShellExecute = False
                     .CreateNoWindow = True
                     .RedirectStandardInput = True
@@ -1979,5 +1981,10 @@
     End Sub
     Public Sub DisplayError(ByVal Exception As Exception)
         MsgBox(Exception.ToString, MsgBoxStyle.Critical)
+    End Sub
+
+    Private Sub Main_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Settings.MemoryMaximumUnit.SelectedItem = "M"
+        Settings.MemoryMinimumUnit.SelectedItem = "M"
     End Sub
 End Class

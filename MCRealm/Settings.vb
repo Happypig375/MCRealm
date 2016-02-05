@@ -18,10 +18,14 @@ Public Class Settings
 
     End Sub
 
+    Private Sub Settings_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+
+    End Sub
+
     Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim PropertiesPath As String
         Try
-            PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properites")
+            PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
         Catch ex As ArgumentException
             Main.DisplayError(ex)
             Me.Close()
@@ -33,7 +37,6 @@ Public Class Settings
             Exit Sub
         End If
         Reader = New System.IO.StreamReader(PropertiesPath)
-        Writer = New System.IO.StreamWriter(PropertiesPath)
         Reader.ReadLine()
         Try
             Do While Reader.Peek() >= 0
@@ -43,47 +46,47 @@ Public Class Settings
                     Case "#"
                         Continue Do
                     Case "allow-flight"
-                    Case "spawn-protection"
-                    Case "max-tick-time"
-                    Case "query.port"
-                    Case "generator-Settings"
-                    Case "force-gamemode"
                     Case "allow-nether"
-                    Case "gamemode"
-                    Case "broadcast-console-to-ops"
-                    Case "enable-query"
-                    Case "player-idle-timeout"
-                    Case "difficulty"
-                    Case "spawn-monsters"
-                    Case "op-permission-level"
-                    Case "resource-pack-hash"
                     Case "announce-player-achievements"
-                    Case "pvp"
-                    Case "snooper-enabled"
-                    Case "level-type"
-                    Case "hardcore"
-                    Case "enable-Command-block"
-                    Case "max-players"
-                    Case "network-compression-threshold"
-                    Case "resource-pack-sha1"
-                    Case "max-world-size"
-                    Case "rcon.port"
-                    Case "server-port"
+                    Case "broadcast-console-to-ops"
                     Case "debug"
-                    Case "server-ip"
-                    Case "spawn-npcs"
-                    Case "level-name"
-                    Case "view-distance"
-                    Case "resource-pack"
-                    Case "spawn-animals"
-                    Case "white-list"
-                    Case "rcon.password"
-                    Case "generate-structures"
-                    Case "max-build-height"
-                    Case "online-mode"
-                    Case "level-seed"
-                    Case "motd"
+                    Case "difficulty"
+                    Case "enable-command-block"
+                    Case "enable-query"
                     Case "enable-rcon"
+                    Case "force-gamemode"
+                    Case "gamemode"
+                    Case "generate-structures"
+                    Case "generator-settings"
+                    Case "hardcore"
+                    Case "level-name"
+                    Case "level-seed"
+                    Case "level-type"
+                    Case "max-build-height"
+                    Case "max-players"
+                    Case "max-tick-time"
+                    Case "max-world-size"
+                    Case "motd"
+                    Case "network-compression-threshold"
+                    Case "online-mode"
+                    Case "op-permission-level"
+                    Case "player-idle-timeout"
+                    Case "pvp"
+                    Case "query.port"
+                    Case "rcon.port"
+                    Case "rcon.password"
+                    Case "resource-pack"
+                    Case "resource-pack-hash"
+                    Case "resource-pack-sha1"
+                    Case "server-ip"
+                    Case "server-port"
+                    Case "snooper-enabled"
+                    Case "spawn-animals"
+                    Case "spawn-monsters"
+                    Case "spawn-npcs"
+                    Case "spawn-protection"
+                    Case "view-distance"
+                    Case "white-list"
                 End Select
             Loop
             Reader.Close()
@@ -91,4 +94,20 @@ Public Class Settings
             Main.DisplayError(ex)
         End Try
     End Sub
+    'Writer = New System.IO.StreamWriter(PropertiesPath)
+
+    Private Sub RemoteConnectionPasswordButton_MouseDown(sender As Object, e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseDown
+        RemoteConnectionPassword.PasswordChar = Nothing
+    End Sub
+
+    Private Sub RemoteConnectionPasswordButton_MouseMove(sender As Object, e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseMove
+        If e.X < RemoteConnectionPasswordButton.Location.X OrElse e.X > RemoteConnectionPasswordButton.Location.X +
+            RemoteConnectionPasswordButton.Size.Width OrElse e.Y < RemoteConnectionPasswordButton.Location.Y OrElse e.Y >
+            RemoteConnectionPasswordButton.Location.Y + RemoteConnectionPasswordButton.Size.Height Then RemoteConnectionPassword.PasswordChar = "*"c
+    End Sub
+
+    Private Sub RemoteConnectionPasswordButton_MouseUp(sender As Object, e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
+        RemoteConnectionPassword.PasswordChar = "*"c
+    End Sub
+
 End Class
