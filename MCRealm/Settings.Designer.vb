@@ -86,6 +86,7 @@ Partial Class Settings
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
         Me.ServerPortLabel = New System.Windows.Forms.Label()
         Me.ServerPort = New System.Windows.Forms.NumericUpDown()
+        Me.NetworkCompressionThresholdUnit = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Environment.SuspendLayout()
@@ -601,6 +602,7 @@ Partial Class Settings
         '
         Me.Server.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Server.Controls.Add(Me.NetworkCompressionThresholdUnit)
         Me.Server.Controls.Add(Me.ServerPort)
         Me.Server.Controls.Add(Me.ServerPortLabel)
         Me.Server.Controls.Add(Me.RemoteConnectionPasswordButton)
@@ -684,12 +686,12 @@ Partial Class Settings
         'NetworkCompressionThreshold
         '
         Me.NetworkCompressionThreshold.Location = New System.Drawing.Point(172, 109)
-        Me.NetworkCompressionThreshold.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.NetworkCompressionThreshold.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NetworkCompressionThreshold.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.NetworkCompressionThreshold.Minimum = New Decimal(New Integer() {1, 0, 0, -2147483648})
         Me.NetworkCompressionThreshold.Name = "NetworkCompressionThreshold"
         Me.NetworkCompressionThreshold.Size = New System.Drawing.Size(52, 20)
         Me.NetworkCompressionThreshold.TabIndex = 16
-        Me.NetworkCompressionThreshold.Value = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.NetworkCompressionThreshold.Value = New Decimal(New Integer() {256, 0, 0, 0})
         '
         'NetworkCompressionThresholdLabel
         '
@@ -781,6 +783,15 @@ Partial Class Settings
         Me.ServerPort.Size = New System.Drawing.Size(50, 20)
         Me.ServerPort.TabIndex = 27
         Me.ServerPort.Value = New Decimal(New Integer() {25565, 0, 0, 0})
+        '
+        'NetworkCompressionThresholdUnit
+        '
+        Me.NetworkCompressionThresholdUnit.AutoSize = True
+        Me.NetworkCompressionThresholdUnit.Location = New System.Drawing.Point(230, 111)
+        Me.NetworkCompressionThresholdUnit.Name = "NetworkCompressionThresholdUnit"
+        Me.NetworkCompressionThresholdUnit.Size = New System.Drawing.Size(33, 13)
+        Me.NetworkCompressionThresholdUnit.TabIndex = 28
+        Me.NetworkCompressionThresholdUnit.Text = "Bytes"
         '
         'Settings
         '
@@ -891,5 +902,6 @@ Partial Class Settings
     Friend WithEvents DifficultyLabel As System.Windows.Forms.Label
     Friend WithEvents ServerPort As System.Windows.Forms.NumericUpDown
     Friend WithEvents ServerPortLabel As System.Windows.Forms.Label
+    Friend WithEvents NetworkCompressionThresholdUnit As System.Windows.Forms.Label
 
 End Class

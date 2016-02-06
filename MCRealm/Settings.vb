@@ -144,15 +144,23 @@ Public Class Settings
     Private Sub RemoteConnectionPasswordButton_MouseUp(ByVal sender As Object, ByVal e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
         RemoteConnectionPassword.PasswordChar = "*"c
     End Sub
-    Friend NetworkCompressionThresholdValue As Decimal
+    Friend NetworkCompressionThresholdValue As Integer
     Private Sub NetworkCompressionThreshold_ValueChanged(sender As Object, e As EventArgs) Handles NetworkCompressionThreshold.ValueChanged
         Select Case NetworkCompressionThreshold.Value
             Case Is < 40
-                MsgBox("The Ethernet spec requires that packets less than 64 bytes become padded to 64 bytes." & vbCrLf &
-                       "Thus, setting a value lower than 64 may not be beneficial." & vbCrLf & "Do you still want to continue?")
+                If MsgBox("The Ethernet spec requires that packets less than 64 bytes become padded to 64 bytes." & vbCrLf &
+                       "Thus, setting a value lower than 64 may not be beneficial." & vbCrLf & "Do you still want to continue?",
+                       MsgBoxStyle.YesNo Or MsgBoxStyle.Question) = MsgBoxResult.No Then
+                    NetworkCompressionThreshold.Value = NetworkCompressionThresholdValue
+                End If
             Case Is > 1500
-                MsgBox("It is not recommended to exceed the Maximum Transmission Unit (MTU), typically 1500 bytes." & vbCrLf &
-                       "Do you still want to continue?")
+                If MsgBox("It is not recommended to exceed the Maximum Transmission Unit (MTU), typically 1500 bytes." & vbCrLf &
+                       "Do you still want to continue?",
+                       MsgBoxStyle.YesNo Or MsgBoxStyle.Question) = MsgBoxResult.No Then
+                    NetworkCompressionThreshold.Value = NetworkCompressionThresholdValue
+                End If
+            Case Else
+                NetworkCompressionThresholdValue = CInt(NetworkCompressionThreshold.Value)
         End Select
     End Sub
 End Class
