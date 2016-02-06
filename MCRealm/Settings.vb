@@ -45,15 +45,19 @@ Public Class Settings
                 'Line = Line(0).Split("="c)
                 Line(1) = Line(0).Skip(Line(0).IndexOf("="c) + 1).ToString
                 Line(0) = Line(0).Take(Line(0).IndexOf("="c) + 1).ToString.ToLower
-                Select Case Line(0).ToLower
+                Select Case Line(0)
                     Case "#"
                         Continue Do
                     Case "allow-flight"
-                        AllowFlight.Checked = 
+                        AllowFlight.Checked = Convert.ToBoolean(Line(1))
                     Case "allow-nether"
+                        AllowNether.Checked = Convert.ToBoolean(Line(1))
                     Case "announce-player-achievements"
+                        AnnouncePlayerAchievements.Checked = Convert.ToBoolean(Line(1))
                     Case "broadcast-console-to-ops"
+                        BroadcastConsoleToOPs.Checked = Convert.ToBoolean(Line(1))
                     Case "debug"
+                        Debug.Checked = Convert.ToBoolean(Line(1))
                     Case "difficulty"
                     Case "enable-command-block"
                     Case "enable-query"
