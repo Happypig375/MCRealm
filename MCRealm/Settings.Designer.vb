@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Settings
     Inherits System.Windows.Forms.Form
 
@@ -84,6 +84,8 @@ Partial Class Settings
         Me.Debug = New System.Windows.Forms.CheckBox()
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
+        Me.Difficulty = New System.Windows.Forms.ComboBox()
+        Me.DifficultyLabel = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Environment.SuspendLayout()
@@ -115,7 +117,7 @@ Partial Class Settings
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Apply_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(204, 455)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(204, 500)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
@@ -173,7 +175,7 @@ Partial Class Settings
         'JAVASwitch
         '
         Me.JAVASwitch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAVASwitch.AutoSize = False
         Me.JAVASwitch.LargeChange = 1
         Me.JAVASwitch.Location = New System.Drawing.Point(34, 11)
@@ -203,7 +205,7 @@ Partial Class Settings
         'MemoryUsageTo
         '
         Me.MemoryUsageTo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MemoryUsageTo.AutoSize = True
         Me.MemoryUsageTo.Location = New System.Drawing.Point(108, 51)
         Me.MemoryUsageTo.Name = "MemoryUsageTo"
@@ -263,7 +265,9 @@ Partial Class Settings
         'World
         '
         Me.World.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.World.Controls.Add(Me.Difficulty)
         Me.World.Controls.Add(Me.SpawnProtection)
+        Me.World.Controls.Add(Me.DifficultyLabel)
         Me.World.Controls.Add(Me.SpawnVillagers)
         Me.World.Controls.Add(Me.SpawnMonsters)
         Me.World.Controls.Add(Me.SpawnAnimals)
@@ -279,7 +283,7 @@ Partial Class Settings
         Me.World.Controls.Add(Me.AllowNether)
         Me.World.Location = New System.Drawing.Point(246, 12)
         Me.World.Name = "World"
-        Me.World.Size = New System.Drawing.Size(182, 294)
+        Me.World.Size = New System.Drawing.Size(182, 339)
         Me.World.TabIndex = 14
         Me.World.TabStop = False
         Me.World.Text = "World"
@@ -287,7 +291,7 @@ Partial Class Settings
         'SpawnProtection
         '
         Me.SpawnProtection.AutoSize = True
-        Me.SpawnProtection.Location = New System.Drawing.Point(7, 270)
+        Me.SpawnProtection.Location = New System.Drawing.Point(7, 291)
         Me.SpawnProtection.Name = "SpawnProtection"
         Me.SpawnProtection.Size = New System.Drawing.Size(110, 17)
         Me.SpawnProtection.TabIndex = 15
@@ -297,7 +301,7 @@ Partial Class Settings
         'SpawnVillagers
         '
         Me.SpawnVillagers.AutoSize = True
-        Me.SpawnVillagers.Location = New System.Drawing.Point(7, 246)
+        Me.SpawnVillagers.Location = New System.Drawing.Point(7, 267)
         Me.SpawnVillagers.Name = "SpawnVillagers"
         Me.SpawnVillagers.Size = New System.Drawing.Size(101, 17)
         Me.SpawnVillagers.TabIndex = 14
@@ -307,7 +311,7 @@ Partial Class Settings
         'SpawnMonsters
         '
         Me.SpawnMonsters.AutoSize = True
-        Me.SpawnMonsters.Location = New System.Drawing.Point(7, 223)
+        Me.SpawnMonsters.Location = New System.Drawing.Point(7, 244)
         Me.SpawnMonsters.Name = "SpawnMonsters"
         Me.SpawnMonsters.Size = New System.Drawing.Size(105, 17)
         Me.SpawnMonsters.TabIndex = 13
@@ -317,7 +321,7 @@ Partial Class Settings
         'SpawnAnimals
         '
         Me.SpawnAnimals.AutoSize = True
-        Me.SpawnAnimals.Location = New System.Drawing.Point(7, 200)
+        Me.SpawnAnimals.Location = New System.Drawing.Point(7, 221)
         Me.SpawnAnimals.Name = "SpawnAnimals"
         Me.SpawnAnimals.Size = New System.Drawing.Size(98, 17)
         Me.SpawnAnimals.TabIndex = 12
@@ -326,7 +330,7 @@ Partial Class Settings
         '
         'NumericUpDown1
         '
-        Me.NumericUpDown1.Location = New System.Drawing.Point(121, 170)
+        Me.NumericUpDown1.Location = New System.Drawing.Point(120, 194)
         Me.NumericUpDown1.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.NumericUpDown1.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NumericUpDown1.Name = "NumericUpDown1"
@@ -337,7 +341,7 @@ Partial Class Settings
         'OPPermissionLevelLabel
         '
         Me.OPPermissionLevelLabel.AutoSize = True
-        Me.OPPermissionLevelLabel.Location = New System.Drawing.Point(7, 172)
+        Me.OPPermissionLevelLabel.Location = New System.Drawing.Point(6, 196)
         Me.OPPermissionLevelLabel.Name = "OPPermissionLevelLabel"
         Me.OPPermissionLevelLabel.Size = New System.Drawing.Size(104, 13)
         Me.OPPermissionLevelLabel.TabIndex = 10
@@ -345,7 +349,7 @@ Partial Class Settings
         '
         'MaximumWorldSize
         '
-        Me.MaximumWorldSize.Location = New System.Drawing.Point(121, 140)
+        Me.MaximumWorldSize.Location = New System.Drawing.Point(120, 164)
         Me.MaximumWorldSize.Maximum = New Decimal(New Integer() {30000000, 0, 0, 0})
         Me.MaximumWorldSize.Name = "MaximumWorldSize"
         Me.MaximumWorldSize.Size = New System.Drawing.Size(52, 20)
@@ -354,7 +358,7 @@ Partial Class Settings
         'MaximumWorldSizeLabel
         '
         Me.MaximumWorldSizeLabel.AutoSize = True
-        Me.MaximumWorldSizeLabel.Location = New System.Drawing.Point(7, 142)
+        Me.MaximumWorldSizeLabel.Location = New System.Drawing.Point(6, 166)
         Me.MaximumWorldSizeLabel.Name = "MaximumWorldSizeLabel"
         Me.MaximumWorldSizeLabel.Size = New System.Drawing.Size(105, 13)
         Me.MaximumWorldSizeLabel.TabIndex = 8
@@ -362,7 +366,7 @@ Partial Class Settings
         '
         'MaximumBuildHeight
         '
-        Me.MaximumBuildHeight.Location = New System.Drawing.Point(121, 112)
+        Me.MaximumBuildHeight.Location = New System.Drawing.Point(120, 136)
         Me.MaximumBuildHeight.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
         Me.MaximumBuildHeight.Name = "MaximumBuildHeight"
         Me.MaximumBuildHeight.Size = New System.Drawing.Size(52, 20)
@@ -371,7 +375,7 @@ Partial Class Settings
         'MaximumBuildHeightLabel
         '
         Me.MaximumBuildHeightLabel.AutoSize = True
-        Me.MaximumBuildHeightLabel.Location = New System.Drawing.Point(7, 114)
+        Me.MaximumBuildHeightLabel.Location = New System.Drawing.Point(6, 138)
         Me.MaximumBuildHeightLabel.Name = "MaximumBuildHeightLabel"
         Me.MaximumBuildHeightLabel.Size = New System.Drawing.Size(111, 13)
         Me.MaximumBuildHeightLabel.TabIndex = 4
@@ -380,7 +384,7 @@ Partial Class Settings
         'Hardcore
         '
         Me.Hardcore.AutoSize = True
-        Me.Hardcore.Location = New System.Drawing.Point(7, 90)
+        Me.Hardcore.Location = New System.Drawing.Point(6, 114)
         Me.Hardcore.Name = "Hardcore"
         Me.Hardcore.Size = New System.Drawing.Size(70, 17)
         Me.Hardcore.TabIndex = 3
@@ -390,7 +394,7 @@ Partial Class Settings
         'GenerateStructures
         '
         Me.GenerateStructures.AutoSize = True
-        Me.GenerateStructures.Location = New System.Drawing.Point(7, 66)
+        Me.GenerateStructures.Location = New System.Drawing.Point(6, 90)
         Me.GenerateStructures.Name = "GenerateStructures"
         Me.GenerateStructures.Size = New System.Drawing.Size(121, 17)
         Me.GenerateStructures.TabIndex = 2
@@ -400,7 +404,7 @@ Partial Class Settings
         'EnableCommandBlocks
         '
         Me.EnableCommandBlocks.AutoSize = True
-        Me.EnableCommandBlocks.Location = New System.Drawing.Point(7, 43)
+        Me.EnableCommandBlocks.Location = New System.Drawing.Point(6, 67)
         Me.EnableCommandBlocks.Name = "EnableCommandBlocks"
         Me.EnableCommandBlocks.Size = New System.Drawing.Size(144, 17)
         Me.EnableCommandBlocks.TabIndex = 1
@@ -435,7 +439,7 @@ Partial Class Settings
         Me.Players.Controls.Add(Me.NumericUpDown2)
         Me.Players.Location = New System.Drawing.Point(12, 102)
         Me.Players.Name = "Players"
-        Me.Players.Size = New System.Drawing.Size(228, 204)
+        Me.Players.Size = New System.Drawing.Size(228, 249)
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
@@ -575,7 +579,7 @@ Partial Class Settings
         'Server
         '
         Me.Server.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Server.Controls.Add(Me.RemoteConnectionPasswordButton)
         Me.Server.Controls.Add(Me.RemoteConnectionPassword)
         Me.Server.Controls.Add(Me.RemoteConnectionLabel)
@@ -593,7 +597,7 @@ Partial Class Settings
         Me.Server.Controls.Add(Me.Debug)
         Me.Server.Controls.Add(Me.MaximumTickTime)
         Me.Server.Controls.Add(Me.MaximumTickTimeLabel)
-        Me.Server.Location = New System.Drawing.Point(12, 312)
+        Me.Server.Location = New System.Drawing.Point(12, 357)
         Me.Server.Name = "Server"
         Me.Server.Size = New System.Drawing.Size(416, 138)
         Me.Server.TabIndex = 16
@@ -620,7 +624,7 @@ Partial Class Settings
         'RemoteConnectionLabel
         '
         Me.RemoteConnectionLabel.AutoSize = True
-        Me.RemoteConnectionLabel.Location = New System.Drawing.Point(303, 43)
+        Me.RemoteConnectionLabel.Location = New System.Drawing.Point(293, 44)
         Me.RemoteConnectionLabel.Name = "RemoteConnectionLabel"
         Me.RemoteConnectionLabel.Size = New System.Drawing.Size(59, 13)
         Me.RemoteConnectionLabel.TabIndex = 23
@@ -755,13 +759,32 @@ Partial Class Settings
         Me.MaximumTickTimeLabel.TabIndex = 6
         Me.MaximumTickTimeLabel.Text = "Maximum Tick Time"
         '
+        'Difficulty
+        '
+        Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Difficulty.FormattingEnabled = True
+        Me.Difficulty.Items.AddRange(New Object() {"0. Peaceful", "1. Easy", "2. Normal", "3. Hard"})
+        Me.Difficulty.Location = New System.Drawing.Point(51, 37)
+        Me.Difficulty.Name = "Difficulty"
+        Me.Difficulty.Size = New System.Drawing.Size(121, 21)
+        Me.Difficulty.TabIndex = 27
+        '
+        'DifficultyLabel
+        '
+        Me.DifficultyLabel.AutoSize = True
+        Me.DifficultyLabel.Location = New System.Drawing.Point(4, 40)
+        Me.DifficultyLabel.Name = "DifficultyLabel"
+        Me.DifficultyLabel.Size = New System.Drawing.Size(47, 13)
+        Me.DifficultyLabel.TabIndex = 26
+        Me.DifficultyLabel.Text = "Difficulty"
+        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Apply_Button
-        Me.ClientSize = New System.Drawing.Size(435, 496)
+        Me.ClientSize = New System.Drawing.Size(435, 541)
         Me.Controls.Add(Me.Server)
         Me.Controls.Add(Me.Players)
         Me.Controls.Add(Me.World)
@@ -862,5 +885,7 @@ Partial Class Settings
     Friend WithEvents RemoteConnectionLabel As System.Windows.Forms.Label
     Friend WithEvents RemoteConnectionPort As System.Windows.Forms.NumericUpDown
     Friend WithEvents QueryPort As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Difficulty As System.Windows.Forms.ComboBox
+    Friend WithEvents DifficultyLabel As System.Windows.Forms.Label
 
 End Class
