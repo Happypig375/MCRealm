@@ -37,11 +37,13 @@ Partial Class Settings
         Me.MemoryMinimum = New System.Windows.Forms.NumericUpDown()
         Me.MemoryUsage = New System.Windows.Forms.Label()
         Me.World = New System.Windows.Forms.GroupBox()
+        Me.Difficulty = New System.Windows.Forms.ComboBox()
         Me.SpawnProtection = New System.Windows.Forms.CheckBox()
+        Me.DifficultyLabel = New System.Windows.Forms.Label()
         Me.SpawnVillagers = New System.Windows.Forms.CheckBox()
         Me.SpawnMonsters = New System.Windows.Forms.CheckBox()
         Me.SpawnAnimals = New System.Windows.Forms.CheckBox()
-        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.OPPermissionLevel = New System.Windows.Forms.NumericUpDown()
         Me.OPPermissionLevelLabel = New System.Windows.Forms.Label()
         Me.MaximumWorldSize = New System.Windows.Forms.NumericUpDown()
         Me.MaximumWorldSizeLabel = New System.Windows.Forms.Label()
@@ -52,8 +54,8 @@ Partial Class Settings
         Me.EnableCommandBlocks = New System.Windows.Forms.CheckBox()
         Me.AllowNether = New System.Windows.Forms.CheckBox()
         Me.Players = New System.Windows.Forms.GroupBox()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.DefaultGamemode = New System.Windows.Forms.ComboBox()
+        Me.DefaultGamemodeLabel = New System.Windows.Forms.Label()
         Me.ForceDefaultGamemode = New System.Windows.Forms.CheckBox()
         Me.AllowFlight = New System.Windows.Forms.CheckBox()
         Me.ViewDistance = New System.Windows.Forms.NumericUpDown()
@@ -61,11 +63,11 @@ Partial Class Settings
         Me.AnnouncePlayerAchievements = New System.Windows.Forms.CheckBox()
         Me.PVP = New System.Windows.Forms.CheckBox()
         Me.PlayerIdleTimeout = New System.Windows.Forms.NumericUpDown()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.MaximumPlayersLabel = New System.Windows.Forms.Label()
         Me.PlayerIdleTimeoutLabel = New System.Windows.Forms.Label()
         Me.ViewDistanceLabel = New System.Windows.Forms.Label()
         Me.PlayerIdleTimeoutCheckBox = New System.Windows.Forms.CheckBox()
-        Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
+        Me.MaximumPlayers = New System.Windows.Forms.NumericUpDown()
         Me.Server = New System.Windows.Forms.GroupBox()
         Me.RemoteConnectionPasswordButton = New System.Windows.Forms.Button()
         Me.RemoteConnectionPassword = New System.Windows.Forms.TextBox()
@@ -73,10 +75,8 @@ Partial Class Settings
         Me.RemoteConnectionPort = New System.Windows.Forms.NumericUpDown()
         Me.QueryPort = New System.Windows.Forms.NumericUpDown()
         Me.OnlineMode = New System.Windows.Forms.CheckBox()
-        Me.NumericUpDown4 = New System.Windows.Forms.NumericUpDown()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.NetworkCompressionThreshold = New System.Windows.Forms.NumericUpDown()
+        Me.NetworkCompressionThresholdLabel = New System.Windows.Forms.Label()
         Me.MessageOfTheDay = New System.Windows.Forms.TextBox()
         Me.MessageOfTheDayLabel = New System.Windows.Forms.Label()
         Me.EnableRemoteConnection = New System.Windows.Forms.CheckBox()
@@ -84,27 +84,27 @@ Partial Class Settings
         Me.Debug = New System.Windows.Forms.CheckBox()
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
-        Me.Difficulty = New System.Windows.Forms.ComboBox()
-        Me.DifficultyLabel = New System.Windows.Forms.Label()
+        Me.ServerPortLabel = New System.Windows.Forms.Label()
+        Me.ServerPort = New System.Windows.Forms.NumericUpDown()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Environment.SuspendLayout()
         CType(Me.MemoryMaximum, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.World.SuspendLayout()
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Players.SuspendLayout()
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Server.SuspendLayout()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NetworkCompressionThreshold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumTickTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -175,7 +175,7 @@ Partial Class Settings
         'JAVASwitch
         '
         Me.JAVASwitch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAVASwitch.AutoSize = False
         Me.JAVASwitch.LargeChange = 1
         Me.JAVASwitch.Location = New System.Drawing.Point(34, 11)
@@ -205,7 +205,7 @@ Partial Class Settings
         'MemoryUsageTo
         '
         Me.MemoryUsageTo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MemoryUsageTo.AutoSize = True
         Me.MemoryUsageTo.Location = New System.Drawing.Point(108, 51)
         Me.MemoryUsageTo.Name = "MemoryUsageTo"
@@ -271,7 +271,7 @@ Partial Class Settings
         Me.World.Controls.Add(Me.SpawnVillagers)
         Me.World.Controls.Add(Me.SpawnMonsters)
         Me.World.Controls.Add(Me.SpawnAnimals)
-        Me.World.Controls.Add(Me.NumericUpDown1)
+        Me.World.Controls.Add(Me.OPPermissionLevel)
         Me.World.Controls.Add(Me.OPPermissionLevelLabel)
         Me.World.Controls.Add(Me.MaximumWorldSize)
         Me.World.Controls.Add(Me.MaximumWorldSizeLabel)
@@ -283,10 +283,20 @@ Partial Class Settings
         Me.World.Controls.Add(Me.AllowNether)
         Me.World.Location = New System.Drawing.Point(246, 12)
         Me.World.Name = "World"
-        Me.World.Size = New System.Drawing.Size(182, 339)
+        Me.World.Size = New System.Drawing.Size(182, 318)
         Me.World.TabIndex = 14
         Me.World.TabStop = False
         Me.World.Text = "World"
+        '
+        'Difficulty
+        '
+        Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Difficulty.FormattingEnabled = True
+        Me.Difficulty.Items.AddRange(New Object() {"0. Peaceful", "1. Easy", "2. Normal", "3. Hard"})
+        Me.Difficulty.Location = New System.Drawing.Point(51, 37)
+        Me.Difficulty.Name = "Difficulty"
+        Me.Difficulty.Size = New System.Drawing.Size(121, 21)
+        Me.Difficulty.TabIndex = 27
         '
         'SpawnProtection
         '
@@ -297,6 +307,15 @@ Partial Class Settings
         Me.SpawnProtection.TabIndex = 15
         Me.SpawnProtection.Text = "Spawn Protection"
         Me.SpawnProtection.UseVisualStyleBackColor = True
+        '
+        'DifficultyLabel
+        '
+        Me.DifficultyLabel.AutoSize = True
+        Me.DifficultyLabel.Location = New System.Drawing.Point(4, 40)
+        Me.DifficultyLabel.Name = "DifficultyLabel"
+        Me.DifficultyLabel.Size = New System.Drawing.Size(47, 13)
+        Me.DifficultyLabel.TabIndex = 26
+        Me.DifficultyLabel.Text = "Difficulty"
         '
         'SpawnVillagers
         '
@@ -328,15 +347,15 @@ Partial Class Settings
         Me.SpawnAnimals.Text = "Spawn Animals"
         Me.SpawnAnimals.UseVisualStyleBackColor = True
         '
-        'NumericUpDown1
+        'OPPermissionLevel
         '
-        Me.NumericUpDown1.Location = New System.Drawing.Point(120, 194)
-        Me.NumericUpDown1.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.NumericUpDown1.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown1.Name = "NumericUpDown1"
-        Me.NumericUpDown1.Size = New System.Drawing.Size(52, 20)
-        Me.NumericUpDown1.TabIndex = 11
-        Me.NumericUpDown1.Value = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.OPPermissionLevel.Location = New System.Drawing.Point(120, 194)
+        Me.OPPermissionLevel.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.OPPermissionLevel.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OPPermissionLevel.Name = "OPPermissionLevel"
+        Me.OPPermissionLevel.Size = New System.Drawing.Size(52, 20)
+        Me.OPPermissionLevel.TabIndex = 11
+        Me.OPPermissionLevel.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'OPPermissionLevelLabel
         '
@@ -423,8 +442,8 @@ Partial Class Settings
         '
         'Players
         '
-        Me.Players.Controls.Add(Me.ComboBox1)
-        Me.Players.Controls.Add(Me.Label3)
+        Me.Players.Controls.Add(Me.DefaultGamemode)
+        Me.Players.Controls.Add(Me.DefaultGamemodeLabel)
         Me.Players.Controls.Add(Me.ForceDefaultGamemode)
         Me.Players.Controls.Add(Me.AllowFlight)
         Me.Players.Controls.Add(Me.ViewDistance)
@@ -432,36 +451,36 @@ Partial Class Settings
         Me.Players.Controls.Add(Me.AnnouncePlayerAchievements)
         Me.Players.Controls.Add(Me.PVP)
         Me.Players.Controls.Add(Me.PlayerIdleTimeout)
-        Me.Players.Controls.Add(Me.Label1)
+        Me.Players.Controls.Add(Me.MaximumPlayersLabel)
         Me.Players.Controls.Add(Me.PlayerIdleTimeoutLabel)
         Me.Players.Controls.Add(Me.ViewDistanceLabel)
         Me.Players.Controls.Add(Me.PlayerIdleTimeoutCheckBox)
-        Me.Players.Controls.Add(Me.NumericUpDown2)
+        Me.Players.Controls.Add(Me.MaximumPlayers)
         Me.Players.Location = New System.Drawing.Point(12, 102)
         Me.Players.Name = "Players"
-        Me.Players.Size = New System.Drawing.Size(228, 249)
+        Me.Players.Size = New System.Drawing.Size(228, 228)
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
         '
-        'ComboBox1
+        'DefaultGamemode
         '
-        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"0. Survival", "1. Creative", "2. Adventure", "3. Spectator"})
-        Me.ComboBox1.Location = New System.Drawing.Point(101, 80)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(121, 21)
-        Me.ComboBox1.TabIndex = 25
+        Me.DefaultGamemode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.DefaultGamemode.FormattingEnabled = True
+        Me.DefaultGamemode.Items.AddRange(New Object() {"0. Survival", "1. Creative", "2. Adventure", "3. Spectator"})
+        Me.DefaultGamemode.Location = New System.Drawing.Point(101, 80)
+        Me.DefaultGamemode.Name = "DefaultGamemode"
+        Me.DefaultGamemode.Size = New System.Drawing.Size(121, 21)
+        Me.DefaultGamemode.TabIndex = 25
         '
-        'Label3
+        'DefaultGamemodeLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(3, 83)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(98, 13)
-        Me.Label3.TabIndex = 24
-        Me.Label3.Text = "Default Gamemode"
+        Me.DefaultGamemodeLabel.AutoSize = True
+        Me.DefaultGamemodeLabel.Location = New System.Drawing.Point(3, 83)
+        Me.DefaultGamemodeLabel.Name = "DefaultGamemodeLabel"
+        Me.DefaultGamemodeLabel.Size = New System.Drawing.Size(98, 13)
+        Me.DefaultGamemodeLabel.TabIndex = 24
+        Me.DefaultGamemodeLabel.Text = "Default Gamemode"
         '
         'ForceDefaultGamemode
         '
@@ -527,18 +546,20 @@ Partial Class Settings
         '
         Me.PlayerIdleTimeout.Location = New System.Drawing.Point(118, 128)
         Me.PlayerIdleTimeout.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.PlayerIdleTimeout.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.PlayerIdleTimeout.Name = "PlayerIdleTimeout"
         Me.PlayerIdleTimeout.Size = New System.Drawing.Size(52, 20)
         Me.PlayerIdleTimeout.TabIndex = 19
+        Me.PlayerIdleTimeout.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
-        'Label1
+        'MaximumPlayersLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(0, 110)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(88, 13)
-        Me.Label1.TabIndex = 16
-        Me.Label1.Text = "Maximum Players"
+        Me.MaximumPlayersLabel.AutoSize = True
+        Me.MaximumPlayersLabel.Location = New System.Drawing.Point(0, 110)
+        Me.MaximumPlayersLabel.Name = "MaximumPlayersLabel"
+        Me.MaximumPlayersLabel.Size = New System.Drawing.Size(88, 13)
+        Me.MaximumPlayersLabel.TabIndex = 16
+        Me.MaximumPlayersLabel.Text = "Maximum Players"
         '
         'PlayerIdleTimeoutLabel
         '
@@ -568,28 +589,28 @@ Partial Class Settings
         Me.PlayerIdleTimeoutCheckBox.Text = "Player Idle Timeout"
         Me.PlayerIdleTimeoutCheckBox.UseVisualStyleBackColor = True
         '
-        'NumericUpDown2
+        'MaximumPlayers
         '
-        Me.NumericUpDown2.Location = New System.Drawing.Point(94, 108)
-        Me.NumericUpDown2.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
-        Me.NumericUpDown2.Name = "NumericUpDown2"
-        Me.NumericUpDown2.Size = New System.Drawing.Size(52, 20)
-        Me.NumericUpDown2.TabIndex = 17
+        Me.MaximumPlayers.Location = New System.Drawing.Point(94, 108)
+        Me.MaximumPlayers.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.MaximumPlayers.Name = "MaximumPlayers"
+        Me.MaximumPlayers.Size = New System.Drawing.Size(52, 20)
+        Me.MaximumPlayers.TabIndex = 17
         '
         'Server
         '
         Me.Server.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Server.Controls.Add(Me.ServerPort)
+        Me.Server.Controls.Add(Me.ServerPortLabel)
         Me.Server.Controls.Add(Me.RemoteConnectionPasswordButton)
         Me.Server.Controls.Add(Me.RemoteConnectionPassword)
         Me.Server.Controls.Add(Me.RemoteConnectionLabel)
         Me.Server.Controls.Add(Me.RemoteConnectionPort)
         Me.Server.Controls.Add(Me.QueryPort)
         Me.Server.Controls.Add(Me.OnlineMode)
-        Me.Server.Controls.Add(Me.NumericUpDown4)
-        Me.Server.Controls.Add(Me.Label4)
-        Me.Server.Controls.Add(Me.NumericUpDown3)
-        Me.Server.Controls.Add(Me.Label2)
+        Me.Server.Controls.Add(Me.NetworkCompressionThreshold)
+        Me.Server.Controls.Add(Me.NetworkCompressionThresholdLabel)
         Me.Server.Controls.Add(Me.MessageOfTheDay)
         Me.Server.Controls.Add(Me.MessageOfTheDayLabel)
         Me.Server.Controls.Add(Me.EnableRemoteConnection)
@@ -597,16 +618,16 @@ Partial Class Settings
         Me.Server.Controls.Add(Me.Debug)
         Me.Server.Controls.Add(Me.MaximumTickTime)
         Me.Server.Controls.Add(Me.MaximumTickTimeLabel)
-        Me.Server.Location = New System.Drawing.Point(12, 357)
+        Me.Server.Location = New System.Drawing.Point(12, 336)
         Me.Server.Name = "Server"
-        Me.Server.Size = New System.Drawing.Size(416, 138)
+        Me.Server.Size = New System.Drawing.Size(416, 159)
         Me.Server.TabIndex = 16
         Me.Server.TabStop = False
         Me.Server.Text = "Server"
         '
         'RemoteConnectionPasswordButton
         '
-        Me.RemoteConnectionPasswordButton.Location = New System.Drawing.Point(391, 58)
+        Me.RemoteConnectionPasswordButton.Location = New System.Drawing.Point(390, 38)
         Me.RemoteConnectionPasswordButton.Name = "RemoteConnectionPasswordButton"
         Me.RemoteConnectionPasswordButton.Size = New System.Drawing.Size(23, 23)
         Me.RemoteConnectionPasswordButton.TabIndex = 25
@@ -615,16 +636,16 @@ Partial Class Settings
         '
         'RemoteConnectionPassword
         '
-        Me.RemoteConnectionPassword.Location = New System.Drawing.Point(285, 60)
+        Me.RemoteConnectionPassword.Location = New System.Drawing.Point(305, 41)
         Me.RemoteConnectionPassword.Name = "RemoteConnectionPassword"
         Me.RemoteConnectionPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.RemoteConnectionPassword.Size = New System.Drawing.Size(100, 20)
+        Me.RemoteConnectionPassword.Size = New System.Drawing.Size(79, 20)
         Me.RemoteConnectionPassword.TabIndex = 24
         '
         'RemoteConnectionLabel
         '
         Me.RemoteConnectionLabel.AutoSize = True
-        Me.RemoteConnectionLabel.Location = New System.Drawing.Point(293, 44)
+        Me.RemoteConnectionLabel.Location = New System.Drawing.Point(245, 44)
         Me.RemoteConnectionLabel.Name = "RemoteConnectionLabel"
         Me.RemoteConnectionLabel.Size = New System.Drawing.Size(59, 13)
         Me.RemoteConnectionLabel.TabIndex = 23
@@ -632,69 +653,52 @@ Partial Class Settings
         '
         'RemoteConnectionPort
         '
-        Me.RemoteConnectionPort.Location = New System.Drawing.Point(192, 42)
+        Me.RemoteConnectionPort.Location = New System.Drawing.Point(195, 42)
         Me.RemoteConnectionPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.RemoteConnectionPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.RemoteConnectionPort.Name = "RemoteConnectionPort"
-        Me.RemoteConnectionPort.Size = New System.Drawing.Size(104, 20)
+        Me.RemoteConnectionPort.Size = New System.Drawing.Size(50, 20)
         Me.RemoteConnectionPort.TabIndex = 22
         Me.RemoteConnectionPort.Value = New Decimal(New Integer() {25575, 0, 0, 0})
         '
         'QueryPort
         '
-        Me.QueryPort.Location = New System.Drawing.Point(307, 104)
+        Me.QueryPort.Location = New System.Drawing.Point(195, 16)
         Me.QueryPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.QueryPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.QueryPort.Name = "QueryPort"
-        Me.QueryPort.Size = New System.Drawing.Size(104, 20)
+        Me.QueryPort.Size = New System.Drawing.Size(50, 20)
         Me.QueryPort.TabIndex = 21
         Me.QueryPort.Value = New Decimal(New Integer() {25565, 0, 0, 0})
         '
         'OnlineMode
         '
         Me.OnlineMode.AutoSize = True
-        Me.OnlineMode.Location = New System.Drawing.Point(241, 18)
+        Me.OnlineMode.Location = New System.Drawing.Point(320, 19)
         Me.OnlineMode.Name = "OnlineMode"
         Me.OnlineMode.Size = New System.Drawing.Size(86, 17)
         Me.OnlineMode.TabIndex = 19
         Me.OnlineMode.Text = "Online Mode"
         Me.OnlineMode.UseVisualStyleBackColor = True
         '
-        'NumericUpDown4
+        'NetworkCompressionThreshold
         '
-        Me.NumericUpDown4.Location = New System.Drawing.Point(176, 17)
-        Me.NumericUpDown4.Maximum = New Decimal(New Integer() {-1, 2147483647, 0, 0})
-        Me.NumericUpDown4.Name = "NumericUpDown4"
-        Me.NumericUpDown4.Size = New System.Drawing.Size(52, 20)
-        Me.NumericUpDown4.TabIndex = 18
+        Me.NetworkCompressionThreshold.Location = New System.Drawing.Point(172, 109)
+        Me.NetworkCompressionThreshold.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.NetworkCompressionThreshold.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NetworkCompressionThreshold.Name = "NetworkCompressionThreshold"
+        Me.NetworkCompressionThreshold.Size = New System.Drawing.Size(52, 20)
+        Me.NetworkCompressionThreshold.TabIndex = 16
+        Me.NetworkCompressionThreshold.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
-        'Label4
+        'NetworkCompressionThresholdLabel
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(69, 21)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(101, 13)
-        Me.Label4.TabIndex = 17
-        Me.Label4.Text = "Maximum Tick Time"
-        '
-        'NumericUpDown3
-        '
-        Me.NumericUpDown3.Location = New System.Drawing.Point(172, 109)
-        Me.NumericUpDown3.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.NumericUpDown3.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown3.Name = "NumericUpDown3"
-        Me.NumericUpDown3.Size = New System.Drawing.Size(52, 20)
-        Me.NumericUpDown3.TabIndex = 16
-        Me.NumericUpDown3.Value = New Decimal(New Integer() {4, 0, 0, 0})
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 111)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(160, 13)
-        Me.Label2.TabIndex = 10
-        Me.Label2.Text = "Network Compression Threshold"
+        Me.NetworkCompressionThresholdLabel.AutoSize = True
+        Me.NetworkCompressionThresholdLabel.Location = New System.Drawing.Point(6, 111)
+        Me.NetworkCompressionThresholdLabel.Name = "NetworkCompressionThresholdLabel"
+        Me.NetworkCompressionThresholdLabel.Size = New System.Drawing.Size(160, 13)
+        Me.NetworkCompressionThresholdLabel.TabIndex = 10
+        Me.NetworkCompressionThresholdLabel.Text = "Network Compression Threshold"
         '
         'MessageOfTheDay
         '
@@ -725,7 +729,7 @@ Partial Class Settings
         'EnableQuery
         '
         Me.EnableQuery.AutoSize = True
-        Me.EnableQuery.Location = New System.Drawing.Point(287, 86)
+        Me.EnableQuery.Location = New System.Drawing.Point(72, 20)
         Me.EnableQuery.Name = "EnableQuery"
         Me.EnableQuery.Size = New System.Drawing.Size(124, 17)
         Me.EnableQuery.TabIndex = 1
@@ -759,24 +763,24 @@ Partial Class Settings
         Me.MaximumTickTimeLabel.TabIndex = 6
         Me.MaximumTickTimeLabel.Text = "Maximum Tick Time"
         '
-        'Difficulty
+        'ServerPortLabel
         '
-        Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Difficulty.FormattingEnabled = True
-        Me.Difficulty.Items.AddRange(New Object() {"0. Peaceful", "1. Easy", "2. Normal", "3. Hard"})
-        Me.Difficulty.Location = New System.Drawing.Point(51, 37)
-        Me.Difficulty.Name = "Difficulty"
-        Me.Difficulty.Size = New System.Drawing.Size(121, 21)
-        Me.Difficulty.TabIndex = 27
+        Me.ServerPortLabel.AutoSize = True
+        Me.ServerPortLabel.Location = New System.Drawing.Point(178, 67)
+        Me.ServerPortLabel.Name = "ServerPortLabel"
+        Me.ServerPortLabel.Size = New System.Drawing.Size(60, 13)
+        Me.ServerPortLabel.TabIndex = 26
+        Me.ServerPortLabel.Text = "Server Port"
         '
-        'DifficultyLabel
+        'ServerPort
         '
-        Me.DifficultyLabel.AutoSize = True
-        Me.DifficultyLabel.Location = New System.Drawing.Point(4, 40)
-        Me.DifficultyLabel.Name = "DifficultyLabel"
-        Me.DifficultyLabel.Size = New System.Drawing.Size(47, 13)
-        Me.DifficultyLabel.TabIndex = 26
-        Me.DifficultyLabel.Text = "Difficulty"
+        Me.ServerPort.Location = New System.Drawing.Point(244, 65)
+        Me.ServerPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
+        Me.ServerPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ServerPort.Name = "ServerPort"
+        Me.ServerPort.Size = New System.Drawing.Size(50, 20)
+        Me.ServerPort.TabIndex = 27
+        Me.ServerPort.Value = New Decimal(New Integer() {25565, 0, 0, 0})
         '
         'Settings
         '
@@ -805,21 +809,21 @@ Partial Class Settings
         CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).EndInit()
         Me.World.ResumeLayout(False)
         Me.World.PerformLayout()
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Players.ResumeLayout(False)
         Me.Players.PerformLayout()
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Server.ResumeLayout(False)
         Me.Server.PerformLayout()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NetworkCompressionThreshold, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumTickTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -846,7 +850,7 @@ Partial Class Settings
     Friend WithEvents MaximumBuildHeightLabel As System.Windows.Forms.Label
     Friend WithEvents MaximumWorldSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents MaximumWorldSizeLabel As System.Windows.Forms.Label
-    Friend WithEvents NumericUpDown1 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents OPPermissionLevel As System.Windows.Forms.NumericUpDown
     Friend WithEvents OPPermissionLevelLabel As System.Windows.Forms.Label
     Friend WithEvents SpawnProtection As System.Windows.Forms.CheckBox
     Friend WithEvents SpawnVillagers As System.Windows.Forms.CheckBox
@@ -855,8 +859,8 @@ Partial Class Settings
     Friend WithEvents Players As System.Windows.Forms.GroupBox
     Friend WithEvents AllowFlight As System.Windows.Forms.CheckBox
     Friend WithEvents ForceDefaultGamemode As System.Windows.Forms.CheckBox
-    Friend WithEvents NumericUpDown2 As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents MaximumPlayers As System.Windows.Forms.NumericUpDown
+    Friend WithEvents MaximumPlayersLabel As System.Windows.Forms.Label
     Friend WithEvents PlayerIdleTimeoutCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents PlayerIdleTimeout As System.Windows.Forms.NumericUpDown
     Friend WithEvents PlayerIdleTimeoutLabel As System.Windows.Forms.Label
@@ -873,13 +877,11 @@ Partial Class Settings
     Friend WithEvents MaximumTickTimeLabel As System.Windows.Forms.Label
     Friend WithEvents MessageOfTheDay As System.Windows.Forms.TextBox
     Friend WithEvents MessageOfTheDayLabel As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents NumericUpDown3 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents NetworkCompressionThresholdLabel As System.Windows.Forms.Label
+    Friend WithEvents DefaultGamemode As System.Windows.Forms.ComboBox
+    Friend WithEvents DefaultGamemodeLabel As System.Windows.Forms.Label
+    Friend WithEvents NetworkCompressionThreshold As System.Windows.Forms.NumericUpDown
     Friend WithEvents OnlineMode As System.Windows.Forms.CheckBox
-    Friend WithEvents NumericUpDown4 As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents RemoteConnectionPasswordButton As System.Windows.Forms.Button
     Friend WithEvents RemoteConnectionPassword As System.Windows.Forms.TextBox
     Friend WithEvents RemoteConnectionLabel As System.Windows.Forms.Label
@@ -887,5 +889,7 @@ Partial Class Settings
     Friend WithEvents QueryPort As System.Windows.Forms.NumericUpDown
     Friend WithEvents Difficulty As System.Windows.Forms.ComboBox
     Friend WithEvents DifficultyLabel As System.Windows.Forms.Label
+    Friend WithEvents ServerPort As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ServerPortLabel As System.Windows.Forms.Label
 
 End Class

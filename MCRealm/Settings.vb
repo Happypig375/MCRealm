@@ -1,4 +1,4 @@
-Imports System.Windows.Forms
+﻿Imports System.Windows.Forms
 Imports System.IO
 
 Public Class Settings
@@ -39,7 +39,7 @@ Public Class Settings
         Reader = New System.IO.StreamReader(PropertiesPath)
         Try
             Do While Reader.Peek() >= 0
-                Dim Line() As String
+                Dim Line(1) As String
                 Line(0) = Reader.ReadLine
                 If Not Line(0).Contains("="c) Then Continue Do
                 'Line = Line(0).Split("="c)
@@ -59,30 +59,57 @@ Public Class Settings
                     Case "debug"
                         Debug.Checked = Convert.ToBoolean(Line(1))
                     Case "difficulty"
+                        Difficulty.SelectedIndex = CInt(Line(1))
                     Case "enable-command-block"
+                        EnableCommandBlocks.Checked = Convert.ToBoolean(Line(1))
                     Case "enable-query"
+                        EnableQuery.Checked = Convert.ToBoolean(Line(1))
                     Case "enable-rcon"
+                        EnableRemoteConnection.Checked = Convert.ToBoolean(Line(1))
                     Case "force-gamemode"
+                        ForceDefaultGamemode.Checked = Convert.ToBoolean(Line(1))
                     Case "gamemode"
+                        DefaultGamemode.SelectedIndex = CInt(Line(1))
                     Case "generate-structures"
+                        GenerateStructures.Checked = Convert.ToBoolean(Line(1))
                     Case "generator-settings"
                     Case "hardcore"
+                        Hardcore.Checked = Convert.ToBoolean(Line(1))
                     Case "level-name"
                     Case "level-seed"
                     Case "level-type"
                     Case "max-build-height"
+                        MaximumBuildHeight.Value = CDec(Line(1))
                     Case "max-players"
+                        MaximumPlayers.Value = CDec(Line(1))
                     Case "max-tick-time"
+                        MaximumTickTime.Value = CDec(Line(1))
                     Case "max-world-size"
+                        MaximumWorldSize.Value = CDec(Line(1))
                     Case "motd"
+                        MessageOfTheDay.Text = Line(1)
                     Case "network-compression-threshold"
+                        NetworkCompressionThreshold.Value = CDec(Line(1))
                     Case "online-mode"
+                        OnlineMode.Checked = Convert.ToBoolean(Line(1))
                     Case "op-permission-level"
+                        OPPermissionLevel.Value = CDec(Line(1))
                     Case "player-idle-timeout"
+                        If Val(Line(1)) = 0 Then
+                            PlayerIdleTimeoutCheckBox.Checked = False
+                            PlayerIdleTimeout.Enabled = False
+                        Else
+                            PlayerIdleTimeoutCheckBox.Checked = True
+                            PlayerIdleTimeout.Value = CDec(Line(1))
+                        End If
                     Case "pvp"
+                        PVP.Checked = Convert.ToBoolean(Line(1))
                     Case "query.port"
+                        QueryPort.Value = CDec(Line(1))
                     Case "rcon.port"
+                        RemoteConnectionPort.Value = CDec(Line(1))
                     Case "rcon.password"
+                        RemoteConnectionPassword.Text = Line(1)
                     Case "resource-pack"
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
