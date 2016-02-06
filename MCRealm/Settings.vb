@@ -1,4 +1,4 @@
-﻿Imports System.Windows.Forms
+Imports System.Windows.Forms
 Imports System.IO
 
 Public Class Settings
@@ -14,15 +14,15 @@ Public Class Settings
         Me.Close()
     End Sub
 
-    Private Sub Apply_Button_Click(sender As Object, e As EventArgs) Handles Apply_Button.Click
+    Private Sub Apply_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Apply_Button.Click
 
     End Sub
 
-    Private Sub Settings_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+    Private Sub Settings_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs) Handles Me.FormClosed
 
     End Sub
 
-    Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Settings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Dim PropertiesPath As String
         Try
             PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
@@ -37,15 +37,19 @@ Public Class Settings
             Exit Sub
         End If
         Reader = New System.IO.StreamReader(PropertiesPath)
-        Reader.ReadLine()
         Try
             Do While Reader.Peek() >= 0
-                Dim Line As String = Reader.ReadLine
-                If Not Line.Contains("="c) Then Continue Do
-                Select Case Line.Take(Line.IndexOf("="c)).ToString.ToLower
+                Dim Line() As String
+                Line(0) = Reader.ReadLine
+                If Not Line(0).Contains("="c) Then Continue Do
+                'Line = Line(0).Split("="c)
+                Line(1) = Line(0).Skip(Line(0).IndexOf("="c) + 1).ToString
+                Line(0) = Line(0).Take(Line(0).IndexOf("="c) + 1).ToString.ToLower
+                Select Case Line(0).ToLower
                     Case "#"
                         Continue Do
                     Case "allow-flight"
+                        AllowFlight.Checked = 
                     Case "allow-nether"
                     Case "announce-player-achievements"
                     Case "broadcast-console-to-ops"
@@ -96,17 +100,17 @@ Public Class Settings
     End Sub
     'Writer = New System.IO.StreamWriter(PropertiesPath)
 
-    Private Sub RemoteConnectionPasswordButton_MouseDown(sender As Object, e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseDown
+    Private Sub RemoteConnectionPasswordButton_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseDown
         RemoteConnectionPassword.PasswordChar = Nothing
     End Sub
 
-    Private Sub RemoteConnectionPasswordButton_MouseMove(sender As Object, e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseMove
+    Private Sub RemoteConnectionPasswordButton_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseMove
         If e.X < RemoteConnectionPasswordButton.Location.X OrElse e.X > RemoteConnectionPasswordButton.Location.X +
             RemoteConnectionPasswordButton.Size.Width OrElse e.Y < RemoteConnectionPasswordButton.Location.Y OrElse e.Y >
             RemoteConnectionPasswordButton.Location.Y + RemoteConnectionPasswordButton.Size.Height Then RemoteConnectionPassword.PasswordChar = "*"c
     End Sub
 
-    Private Sub RemoteConnectionPasswordButton_MouseUp(sender As Object, e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
+    Private Sub RemoteConnectionPasswordButton_MouseUp(ByVal sender As Object, ByVal e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
         RemoteConnectionPassword.PasswordChar = "*"c
     End Sub
 
