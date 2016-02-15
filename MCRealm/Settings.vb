@@ -31,6 +31,9 @@ Public Class Settings
             '#Thu Feb 04 18:24:36 CST 2016
             Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
             Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
+            Writer.WriteLine("announce-player-achievements={0}", AnnouncePlayerAchievements.Checked.ToString.ToLower)
+            Writer.WriteLine("broadcast-console-to-ops={0}", BroadcastConsoleToOPs.Checked.ToString.ToLower)
+            Writer.WriteLine("debug={0}", Debug.Checked.ToString.ToLower)
         End If
     End Sub
 
