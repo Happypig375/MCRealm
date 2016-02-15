@@ -4,6 +4,9 @@ Imports System.IO
 Public Class Settings
     Friend Reader As System.IO.StreamReader
     Friend Writer As System.IO.StreamWriter
+    Friend Changed As Boolean
+    Friend ErrorOccurred As Boolean
+    Friend PropertiesPath As String
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -18,20 +21,30 @@ Public Class Settings
 
     End Sub
 
-    Private Sub Settings_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs) Handles Me.FormClosed
-
+    Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+        If Not (Me.DialogResult = Windows.Forms.DialogResult.None Or Me.DialogResult = Windows.Forms.DialogResult.Cancel Or ErrorOccurred) Then
+            Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
+            Writer.WriteLine("#Minecraft server properties")
+            Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now)), MonthName(Month(Now)), Now.Day, Now.TimeOfDay.ToString,
+                             If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now), TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) _
+                         Char.IsUpper(Character)), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
+            '#Thu Feb 04 18:24:36 CST 2016
+            Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
+            Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
+        End If
     End Sub
 
     Private Sub Settings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-        Dim PropertiesPath As String
         Try
             PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
         Catch ex As ArgumentException
+            ErrorOccurred = True
             Main.DisplayError(ex)
             Me.Close()
             Exit Sub
         End Try
         If Not File.Exists(PropertiesPath) Then
+            ErrorOccurred = True
             Main.DisplayError(New FileNotFoundException("server.properties not found!", PropertiesPath))
             Me.Close()
             Exit Sub
@@ -43,8 +56,8 @@ Public Class Settings
                 Line(0) = Reader.ReadLine
                 If Not Line(0).Contains("="c) Then Continue Do
                 'Line = Line(0).Split("="c)
-                Line(1) = Line(0).Skip(Line(0).IndexOf("="c) + 1).ToString
-                Line(0) = Line(0).Take(Line(0).IndexOf("="c) + 1).ToString.ToLower
+                Line(1) = New String(Line(0).Skip(Line(0).IndexOf("="c) + 1).ToArray)
+                Line(0) = New String(Line(0).Take(Line(0).IndexOf("="c)).ToArray).ToLower
                 Select Case Line(0)
                     Case "#"
                         Continue Do
@@ -114,19 +127,30 @@ Public Class Settings
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
                     Case "server-ip"
+                        IP.Text = Line(1)
                     Case "server-port"
+                        ServerPort.Value = CDec(Line(1))
                     Case "snooper-enabled"
+                        EnableSnooper.Checked = Convert.ToBoolean(Line(1))
                     Case "spawn-animals"
+                        SpawnAnimals.Checked = Convert.ToBoolean(Line(1))
                     Case "spawn-monsters"
+                        SpawnMonsters.Checked = Convert.ToBoolean(Line(1))
                     Case "spawn-npcs"
+                        SpawnVillagers.Checked = Convert.ToBoolean(Line(1))
                     Case "spawn-protection"
+                        SpawnProtection.Value = Convert.ToDecimal(Line(1))
                     Case "view-distance"
+                        ViewDistance.Value = CDec(Line(1))
                     Case "white-list"
+                        UseWhiteList.Checked = Convert.ToBoolean(Line(1))
                 End Select
             Loop
-            Reader.Close()
         Catch ex As Exception
             Main.DisplayError(ex)
+        Finally
+            Reader.Close()
+            Changed = False
         End Try
     End Sub
     'Writer = New System.IO.StreamWriter(PropertiesPath)
@@ -162,5 +186,21 @@ Public Class Settings
             Case Else
                 NetworkCompressionThresholdValue = CInt(NetworkCompressionThreshold.Value)
         End Select
+    End Sub
+    Private Sub Settings_Changed(sender As Object, e As EventArgs) Handles AllowFlight.CheckedChanged, AllowNether.CheckedChanged,
+         AnnouncePlayerAchievements.CheckedChanged, BroadcastConsoleToOPs.CheckedChanged, Debug.CheckedChanged, DefaultGamemode.SelectedIndexChanged,
+         Difficulty.SelectedIndexChanged, EnableCommandBlocks.CheckedChanged, EnableQuery.CheckedChanged, EnableRemoteConnection.CheckedChanged,
+         EnableSnooper.CheckedChanged, ForceDefaultGamemode.CheckedChanged, GenerateStructures.CheckedChanged, Hardcore.CheckedChanged, IP.TextChanged,
+         JAVASwitch.ValueChanged, MaximumBuildHeight.ValueChanged, MaximumPlayers.ValueChanged, MaximumTickTime.ValueChanged, MaximumWorldSize.ValueChanged,
+         MemoryMaximum.ValueChanged, MemoryMaximumUnit.SelectedIndexChanged, MemoryMinimum.ValueChanged, MemoryMinimumUnit.SelectedIndexChanged,
+        MessageOfTheDay.TextChanged, NetworkCompressionThreshold.ValueChanged, OnlineMode.CheckedChanged, OPPermissionLevel.ValueChanged, PlayerIdleTimeout.ValueChanged,
+        PlayerIdleTimeoutCheckBox.CheckedChanged, PVP.CheckedChanged, QueryPort.ValueChanged, RemoteConnectionPassword.TextChanged, RemoteConnectionPort.ValueChanged,
+        ServerPort.ValueChanged, SpawnAnimals.CheckedChanged, SpawnMonsters.CheckedChanged, SpawnVillagers.CheckedChanged, SpawnProtection.ValueChanged,
+        UseWhiteList.CheckedChanged, ViewDistance.ValueChanged
+        Changed = True
+    End Sub
+
+    Private Sub SpawnProtection_ValueChanged(sender As Object, e As EventArgs) Handles SpawnProtection.ValueChanged, SpawnProtection.KeyUp, SpawnProtection.Scroll
+        SpawnProtectionCalculation.Text = String.Format("{0}×{0}", 2 * SpawnProtection.Value + 1)
     End Sub
 End Class

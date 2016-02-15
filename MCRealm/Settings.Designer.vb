@@ -22,7 +22,7 @@ Partial Class Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.ButtonLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Apply_Button = New System.Windows.Forms.Button()
@@ -37,8 +37,10 @@ Partial Class Settings
         Me.MemoryMinimum = New System.Windows.Forms.NumericUpDown()
         Me.MemoryUsage = New System.Windows.Forms.Label()
         Me.World = New System.Windows.Forms.GroupBox()
+        Me.SpawnProtectionCalculation = New System.Windows.Forms.Label()
+        Me.SpawnProtection = New System.Windows.Forms.NumericUpDown()
+        Me.SpawnProtectionLabel = New System.Windows.Forms.Label()
         Me.Difficulty = New System.Windows.Forms.ComboBox()
-        Me.SpawnProtection = New System.Windows.Forms.CheckBox()
         Me.DifficultyLabel = New System.Windows.Forms.Label()
         Me.SpawnVillagers = New System.Windows.Forms.CheckBox()
         Me.SpawnMonsters = New System.Windows.Forms.CheckBox()
@@ -54,6 +56,7 @@ Partial Class Settings
         Me.EnableCommandBlocks = New System.Windows.Forms.CheckBox()
         Me.AllowNether = New System.Windows.Forms.CheckBox()
         Me.Players = New System.Windows.Forms.GroupBox()
+        Me.UseWhiteList = New System.Windows.Forms.CheckBox()
         Me.DefaultGamemode = New System.Windows.Forms.ComboBox()
         Me.DefaultGamemodeLabel = New System.Windows.Forms.Label()
         Me.ForceDefaultGamemode = New System.Windows.Forms.CheckBox()
@@ -69,6 +72,12 @@ Partial Class Settings
         Me.PlayerIdleTimeoutCheckBox = New System.Windows.Forms.CheckBox()
         Me.MaximumPlayers = New System.Windows.Forms.NumericUpDown()
         Me.Server = New System.Windows.Forms.GroupBox()
+        Me.EnableSnooper = New System.Windows.Forms.CheckBox()
+        Me.IP = New System.Windows.Forms.TextBox()
+        Me.IPLabel = New System.Windows.Forms.Label()
+        Me.NetworkCompressionThresholdUnit = New System.Windows.Forms.Label()
+        Me.ServerPort = New System.Windows.Forms.NumericUpDown()
+        Me.ServerPortLabel = New System.Windows.Forms.Label()
         Me.RemoteConnectionPasswordButton = New System.Windows.Forms.Button()
         Me.RemoteConnectionPassword = New System.Windows.Forms.TextBox()
         Me.RemoteConnectionLabel = New System.Windows.Forms.Label()
@@ -84,15 +93,13 @@ Partial Class Settings
         Me.Debug = New System.Windows.Forms.CheckBox()
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
-        Me.ServerPortLabel = New System.Windows.Forms.Label()
-        Me.ServerPort = New System.Windows.Forms.NumericUpDown()
-        Me.NetworkCompressionThresholdUnit = New System.Windows.Forms.Label()
-        Me.TableLayoutPanel1.SuspendLayout()
+        Me.ButtonLayoutPanel.SuspendLayout()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Environment.SuspendLayout()
         CType(Me.MemoryMaximum, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.World.SuspendLayout()
+        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,29 +108,29 @@ Partial Class Settings
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Server.SuspendLayout()
+        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NetworkCompressionThreshold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumTickTime, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'TableLayoutPanel1
+        'ButtonLayoutPanel
         '
-        Me.TableLayoutPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TableLayoutPanel1.ColumnCount = 3
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33353!))
-        Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.Apply_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(204, 500)
-        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(219, 29)
-        Me.TableLayoutPanel1.TabIndex = 0
+        Me.ButtonLayoutPanel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonLayoutPanel.ColumnCount = 3
+        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
+        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
+        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33353!))
+        Me.ButtonLayoutPanel.Controls.Add(Me.Cancel_Button, 0, 0)
+        Me.ButtonLayoutPanel.Controls.Add(Me.OK_Button, 0, 0)
+        Me.ButtonLayoutPanel.Controls.Add(Me.Apply_Button, 1, 0)
+        Me.ButtonLayoutPanel.Location = New System.Drawing.Point(204, 500)
+        Me.ButtonLayoutPanel.Name = "ButtonLayoutPanel"
+        Me.ButtonLayoutPanel.RowCount = 1
+        Me.ButtonLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.ButtonLayoutPanel.Size = New System.Drawing.Size(219, 29)
+        Me.ButtonLayoutPanel.TabIndex = 0
         '
         'Cancel_Button
         '
@@ -266,8 +273,10 @@ Partial Class Settings
         'World
         '
         Me.World.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.World.Controls.Add(Me.Difficulty)
+        Me.World.Controls.Add(Me.SpawnProtectionCalculation)
         Me.World.Controls.Add(Me.SpawnProtection)
+        Me.World.Controls.Add(Me.SpawnProtectionLabel)
+        Me.World.Controls.Add(Me.Difficulty)
         Me.World.Controls.Add(Me.DifficultyLabel)
         Me.World.Controls.Add(Me.SpawnVillagers)
         Me.World.Controls.Add(Me.SpawnMonsters)
@@ -289,6 +298,33 @@ Partial Class Settings
         Me.World.TabStop = False
         Me.World.Text = "World"
         '
+        'SpawnProtectionCalculation
+        '
+        Me.SpawnProtectionCalculation.AutoSize = True
+        Me.SpawnProtectionCalculation.Location = New System.Drawing.Point(103, 269)
+        Me.SpawnProtectionCalculation.Name = "SpawnProtectionCalculation"
+        Me.SpawnProtectionCalculation.Size = New System.Drawing.Size(73, 13)
+        Me.SpawnProtectionCalculation.TabIndex = 30
+        Me.SpawnProtectionCalculation.Text = "(2n+1)×(2n+1)"
+        '
+        'SpawnProtection
+        '
+        Me.SpawnProtection.Location = New System.Drawing.Point(122, 285)
+        Me.SpawnProtection.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.SpawnProtection.Name = "SpawnProtection"
+        Me.SpawnProtection.Size = New System.Drawing.Size(52, 20)
+        Me.SpawnProtection.TabIndex = 29
+        Me.SpawnProtection.Value = New Decimal(New Integer() {16, 0, 0, 0})
+        '
+        'SpawnProtectionLabel
+        '
+        Me.SpawnProtectionLabel.AutoSize = True
+        Me.SpawnProtectionLabel.Location = New System.Drawing.Point(8, 287)
+        Me.SpawnProtectionLabel.Name = "SpawnProtectionLabel"
+        Me.SpawnProtectionLabel.Size = New System.Drawing.Size(91, 13)
+        Me.SpawnProtectionLabel.TabIndex = 28
+        Me.SpawnProtectionLabel.Text = "Spawn Protection"
+        '
         'Difficulty
         '
         Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -298,16 +334,6 @@ Partial Class Settings
         Me.Difficulty.Name = "Difficulty"
         Me.Difficulty.Size = New System.Drawing.Size(121, 21)
         Me.Difficulty.TabIndex = 27
-        '
-        'SpawnProtection
-        '
-        Me.SpawnProtection.AutoSize = True
-        Me.SpawnProtection.Location = New System.Drawing.Point(7, 291)
-        Me.SpawnProtection.Name = "SpawnProtection"
-        Me.SpawnProtection.Size = New System.Drawing.Size(110, 17)
-        Me.SpawnProtection.TabIndex = 15
-        Me.SpawnProtection.Text = "Spawn Protection"
-        Me.SpawnProtection.UseVisualStyleBackColor = True
         '
         'DifficultyLabel
         '
@@ -443,6 +469,7 @@ Partial Class Settings
         '
         'Players
         '
+        Me.Players.Controls.Add(Me.UseWhiteList)
         Me.Players.Controls.Add(Me.DefaultGamemode)
         Me.Players.Controls.Add(Me.DefaultGamemodeLabel)
         Me.Players.Controls.Add(Me.ForceDefaultGamemode)
@@ -463,6 +490,16 @@ Partial Class Settings
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
+        '
+        'UseWhiteList
+        '
+        Me.UseWhiteList.AutoSize = True
+        Me.UseWhiteList.Location = New System.Drawing.Point(3, 177)
+        Me.UseWhiteList.Name = "UseWhiteList"
+        Me.UseWhiteList.Size = New System.Drawing.Size(95, 17)
+        Me.UseWhiteList.TabIndex = 26
+        Me.UseWhiteList.Text = "Use White List"
+        Me.UseWhiteList.UseVisualStyleBackColor = True
         '
         'DefaultGamemode
         '
@@ -602,6 +639,9 @@ Partial Class Settings
         '
         Me.Server.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Server.Controls.Add(Me.EnableSnooper)
+        Me.Server.Controls.Add(Me.IP)
+        Me.Server.Controls.Add(Me.IPLabel)
         Me.Server.Controls.Add(Me.NetworkCompressionThresholdUnit)
         Me.Server.Controls.Add(Me.ServerPort)
         Me.Server.Controls.Add(Me.ServerPortLabel)
@@ -626,6 +666,60 @@ Partial Class Settings
         Me.Server.TabIndex = 16
         Me.Server.TabStop = False
         Me.Server.Text = "Server"
+        '
+        'EnableSnooper
+        '
+        Me.EnableSnooper.AutoSize = True
+        Me.EnableSnooper.Location = New System.Drawing.Point(9, 128)
+        Me.EnableSnooper.Name = "EnableSnooper"
+        Me.EnableSnooper.Size = New System.Drawing.Size(102, 17)
+        Me.EnableSnooper.TabIndex = 31
+        Me.EnableSnooper.Text = "Enable Snooper"
+        Me.EnableSnooper.UseVisualStyleBackColor = True
+        '
+        'IP
+        '
+        Me.IP.Location = New System.Drawing.Point(252, 88)
+        Me.IP.Name = "IP"
+        Me.IP.Size = New System.Drawing.Size(100, 20)
+        Me.IP.TabIndex = 30
+        '
+        'IPLabel
+        '
+        Me.IPLabel.AutoSize = True
+        Me.IPLabel.Location = New System.Drawing.Point(228, 88)
+        Me.IPLabel.Name = "IPLabel"
+        Me.IPLabel.Size = New System.Drawing.Size(17, 13)
+        Me.IPLabel.TabIndex = 29
+        Me.IPLabel.Text = "IP"
+        '
+        'NetworkCompressionThresholdUnit
+        '
+        Me.NetworkCompressionThresholdUnit.AutoSize = True
+        Me.NetworkCompressionThresholdUnit.Location = New System.Drawing.Point(230, 111)
+        Me.NetworkCompressionThresholdUnit.Name = "NetworkCompressionThresholdUnit"
+        Me.NetworkCompressionThresholdUnit.Size = New System.Drawing.Size(33, 13)
+        Me.NetworkCompressionThresholdUnit.TabIndex = 28
+        Me.NetworkCompressionThresholdUnit.Text = "Bytes"
+        '
+        'ServerPort
+        '
+        Me.ServerPort.Location = New System.Drawing.Point(244, 65)
+        Me.ServerPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
+        Me.ServerPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ServerPort.Name = "ServerPort"
+        Me.ServerPort.Size = New System.Drawing.Size(50, 20)
+        Me.ServerPort.TabIndex = 27
+        Me.ServerPort.Value = New Decimal(New Integer() {25565, 0, 0, 0})
+        '
+        'ServerPortLabel
+        '
+        Me.ServerPortLabel.AutoSize = True
+        Me.ServerPortLabel.Location = New System.Drawing.Point(178, 67)
+        Me.ServerPortLabel.Name = "ServerPortLabel"
+        Me.ServerPortLabel.Size = New System.Drawing.Size(60, 13)
+        Me.ServerPortLabel.TabIndex = 26
+        Me.ServerPortLabel.Text = "Server Port"
         '
         'RemoteConnectionPasswordButton
         '
@@ -765,34 +859,6 @@ Partial Class Settings
         Me.MaximumTickTimeLabel.TabIndex = 6
         Me.MaximumTickTimeLabel.Text = "Maximum Tick Time"
         '
-        'ServerPortLabel
-        '
-        Me.ServerPortLabel.AutoSize = True
-        Me.ServerPortLabel.Location = New System.Drawing.Point(178, 67)
-        Me.ServerPortLabel.Name = "ServerPortLabel"
-        Me.ServerPortLabel.Size = New System.Drawing.Size(60, 13)
-        Me.ServerPortLabel.TabIndex = 26
-        Me.ServerPortLabel.Text = "Server Port"
-        '
-        'ServerPort
-        '
-        Me.ServerPort.Location = New System.Drawing.Point(244, 65)
-        Me.ServerPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
-        Me.ServerPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.ServerPort.Name = "ServerPort"
-        Me.ServerPort.Size = New System.Drawing.Size(50, 20)
-        Me.ServerPort.TabIndex = 27
-        Me.ServerPort.Value = New Decimal(New Integer() {25565, 0, 0, 0})
-        '
-        'NetworkCompressionThresholdUnit
-        '
-        Me.NetworkCompressionThresholdUnit.AutoSize = True
-        Me.NetworkCompressionThresholdUnit.Location = New System.Drawing.Point(230, 111)
-        Me.NetworkCompressionThresholdUnit.Name = "NetworkCompressionThresholdUnit"
-        Me.NetworkCompressionThresholdUnit.Size = New System.Drawing.Size(33, 13)
-        Me.NetworkCompressionThresholdUnit.TabIndex = 28
-        Me.NetworkCompressionThresholdUnit.Text = "Bytes"
-        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
@@ -804,7 +870,7 @@ Partial Class Settings
         Me.Controls.Add(Me.Players)
         Me.Controls.Add(Me.World)
         Me.Controls.Add(Me.Environment)
-        Me.Controls.Add(Me.TableLayoutPanel1)
+        Me.Controls.Add(Me.ButtonLayoutPanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -812,7 +878,7 @@ Partial Class Settings
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Settings"
-        Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.ButtonLayoutPanel.ResumeLayout(False)
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Environment.ResumeLayout(False)
         Me.Environment.PerformLayout()
@@ -820,6 +886,7 @@ Partial Class Settings
         CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).EndInit()
         Me.World.ResumeLayout(False)
         Me.World.PerformLayout()
+        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).EndInit()
@@ -830,15 +897,15 @@ Partial Class Settings
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Server.ResumeLayout(False)
         Me.Server.PerformLayout()
+        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NetworkCompressionThreshold, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumTickTime, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents ButtonLayoutPanel As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Apply_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
@@ -863,7 +930,6 @@ Partial Class Settings
     Friend WithEvents MaximumWorldSizeLabel As System.Windows.Forms.Label
     Friend WithEvents OPPermissionLevel As System.Windows.Forms.NumericUpDown
     Friend WithEvents OPPermissionLevelLabel As System.Windows.Forms.Label
-    Friend WithEvents SpawnProtection As System.Windows.Forms.CheckBox
     Friend WithEvents SpawnVillagers As System.Windows.Forms.CheckBox
     Friend WithEvents SpawnMonsters As System.Windows.Forms.CheckBox
     Friend WithEvents SpawnAnimals As System.Windows.Forms.CheckBox
@@ -903,5 +969,12 @@ Partial Class Settings
     Friend WithEvents ServerPort As System.Windows.Forms.NumericUpDown
     Friend WithEvents ServerPortLabel As System.Windows.Forms.Label
     Friend WithEvents NetworkCompressionThresholdUnit As System.Windows.Forms.Label
+    Friend WithEvents IP As System.Windows.Forms.TextBox
+    Friend WithEvents IPLabel As System.Windows.Forms.Label
+    Friend WithEvents EnableSnooper As System.Windows.Forms.CheckBox
+    Friend WithEvents UseWhiteList As System.Windows.Forms.CheckBox
+    Friend WithEvents SpawnProtectionCalculation As System.Windows.Forms.Label
+    Friend WithEvents SpawnProtection As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SpawnProtectionLabel As System.Windows.Forms.Label
 
 End Class
