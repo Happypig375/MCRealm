@@ -93,6 +93,8 @@ Partial Class Settings
         Me.Debug = New System.Windows.Forms.CheckBox()
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
+        Me.ResetToDefault = New System.Windows.Forms.Button()
+        Me.MaximumWorldSizeCalculation = New System.Windows.Forms.Label()
         Me.ButtonLayoutPanel.SuspendLayout()
         CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Environment.SuspendLayout()
@@ -273,6 +275,7 @@ Partial Class Settings
         'World
         '
         Me.World.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.World.Controls.Add(Me.MaximumWorldSizeCalculation)
         Me.World.Controls.Add(Me.SpawnProtectionCalculation)
         Me.World.Controls.Add(Me.SpawnProtection)
         Me.World.Controls.Add(Me.SpawnProtectionLabel)
@@ -460,6 +463,8 @@ Partial Class Settings
         'AllowNether
         '
         Me.AllowNether.AutoSize = True
+        Me.AllowNether.Checked = True
+        Me.AllowNether.CheckState = System.Windows.Forms.CheckState.Checked
         Me.AllowNether.Location = New System.Drawing.Point(7, 20)
         Me.AllowNether.Name = "AllowNether"
         Me.AllowNether.Size = New System.Drawing.Size(86, 17)
@@ -553,6 +558,8 @@ Partial Class Settings
         'BroadcastConsoleToOPs
         '
         Me.BroadcastConsoleToOPs.AutoSize = True
+        Me.BroadcastConsoleToOPs.Checked = True
+        Me.BroadcastConsoleToOPs.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BroadcastConsoleToOPs.Location = New System.Drawing.Point(6, 42)
         Me.BroadcastConsoleToOPs.Name = "BroadcastConsoleToOPs"
         Me.BroadcastConsoleToOPs.Size = New System.Drawing.Size(154, 17)
@@ -563,6 +570,8 @@ Partial Class Settings
         'AnnouncePlayerAchievements
         '
         Me.AnnouncePlayerAchievements.AutoSize = True
+        Me.AnnouncePlayerAchievements.Checked = True
+        Me.AnnouncePlayerAchievements.CheckState = System.Windows.Forms.CheckState.Checked
         Me.AnnouncePlayerAchievements.Location = New System.Drawing.Point(6, 19)
         Me.AnnouncePlayerAchievements.Name = "AnnouncePlayerAchievements"
         Me.AnnouncePlayerAchievements.Size = New System.Drawing.Size(177, 17)
@@ -859,6 +868,24 @@ Partial Class Settings
         Me.MaximumTickTimeLabel.TabIndex = 6
         Me.MaximumTickTimeLabel.Text = "Maximum Tick Time"
         '
+        'ResetToDefault
+        '
+        Me.ResetToDefault.Location = New System.Drawing.Point(12, 503)
+        Me.ResetToDefault.Name = "ResetToDefault"
+        Me.ResetToDefault.Size = New System.Drawing.Size(98, 23)
+        Me.ResetToDefault.TabIndex = 17
+        Me.ResetToDefault.Text = "Reset To Default"
+        Me.ResetToDefault.UseVisualStyleBackColor = True
+        '
+        'MaximumWorldSizeCalculation
+        '
+        Me.MaximumWorldSizeCalculation.AutoSize = True
+        Me.MaximumWorldSizeCalculation.Location = New System.Drawing.Point(15, 183)
+        Me.MaximumWorldSizeCalculation.Name = "MaximumWorldSizeCalculation"
+        Me.MaximumWorldSizeCalculation.Size = New System.Drawing.Size(37, 13)
+        Me.MaximumWorldSizeCalculation.TabIndex = 31
+        Me.MaximumWorldSizeCalculation.Text = "2n×2n"
+        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
@@ -866,6 +893,7 @@ Partial Class Settings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Apply_Button
         Me.ClientSize = New System.Drawing.Size(435, 541)
+        Me.Controls.Add(Me.ResetToDefault)
         Me.Controls.Add(Me.Server)
         Me.Controls.Add(Me.Players)
         Me.Controls.Add(Me.World)
@@ -976,5 +1004,7 @@ Partial Class Settings
     Friend WithEvents SpawnProtectionCalculation As System.Windows.Forms.Label
     Friend WithEvents SpawnProtection As System.Windows.Forms.NumericUpDown
     Friend WithEvents SpawnProtectionLabel As System.Windows.Forms.Label
+    Friend WithEvents ResetToDefault As System.Windows.Forms.Button
+    Friend WithEvents MaximumWorldSizeCalculation As System.Windows.Forms.Label
 
 End Class

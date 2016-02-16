@@ -22,18 +22,56 @@ Public Class Settings
     End Sub
 
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
-        If Not (Me.DialogResult = Windows.Forms.DialogResult.None Or Me.DialogResult = Windows.Forms.DialogResult.Cancel Or ErrorOccurred) Then
-            Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
-            Writer.WriteLine("#Minecraft server properties")
-            Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now)), MonthName(Month(Now)), Now.Day, Now.TimeOfDay.ToString,
-                             If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now), TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) _
-                         Char.IsUpper(Character)), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
-            '#Thu Feb 04 18:24:36 CST 2016
-            Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
-            Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
-            Writer.WriteLine("announce-player-achievements={0}", AnnouncePlayerAchievements.Checked.ToString.ToLower)
-            Writer.WriteLine("broadcast-console-to-ops={0}", BroadcastConsoleToOPs.Checked.ToString.ToLower)
-            Writer.WriteLine("debug={0}", Debug.Checked.ToString.ToLower)
+        If Me.DialogResult = Windows.Forms.DialogResult.None OrElse Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
+        Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
+        Writer.WriteLine("#Minecraft server properties")
+        Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day, Now.TimeOfDay.ToString,
+                         If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now), TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) _
+                     Char.IsUpper(Character)), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
+        '#Thu Feb 04 18:24:36 CST 2016
+        Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
+        Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
+        Writer.WriteLine("announce-player-achievements={0}", AnnouncePlayerAchievements.Checked.ToString.ToLower)
+        Writer.WriteLine("broadcast-console-to-ops={0}", BroadcastConsoleToOPs.Checked.ToString.ToLower)
+        Writer.WriteLine("debug={0}", Debug.Checked.ToString.ToLower)
+        Writer.WriteLine("difficulty={0}", Difficulty.SelectedIndex)
+        Writer.WriteLine("enable-command-block={0}", EnableCommandBlocks.Checked.ToString.ToLower)
+        Writer.WriteLine("enable-query={0}", EnableQuery.Checked.ToString.ToLower)
+        Writer.WriteLine("enable-rcon={0}", EnableRemoteConnection.Checked.ToString.ToLower)
+        Writer.WriteLine("force-gamemode={0}", ForceDefaultGamemode.Checked.ToString.ToLower)
+        Writer.WriteLine("gamemode={0}", DefaultGamemode.SelectedIndex)
+        Writer.WriteLine("generate-structures={0}", GenerateStructures.Checked.ToString.ToLower)
+        Writer.WriteLine("hardcore={0}", Hardcore.Checked.ToString.ToLower)
+        Writer.WriteLine("max-build-height={0}", MaximumBuildHeight.Value)
+        Writer.WriteLine("max-players={0}", MaximumPlayers.Value)
+        Writer.WriteLine("max-tick-time={0}", MaximumTickTime.Value)
+        Writer.WriteLine("max-world-size={0}", MaximumWorldSize.Value)
+        Writer.WriteLine("motd={0}", MessageOfTheDay.Text)
+        Writer.WriteLine("network-compression-threshold={0}", NetworkCompressionThreshold.Value)
+        Writer.WriteLine("online-mode={0}", OnlineMode.Checked.ToString.ToLower)
+        Writer.WriteLine("op-permission-level={0}", OPPermissionLevel.Value)
+        Writer.WriteLine("player-idle-timeout={0}", If(PlayerIdleTimeoutCheckBox.Checked, PlayerIdleTimeout.Value, 0))
+        Writer.WriteLine("pvp={0}", PVP.Checked.ToString.ToLower)
+        Writer.WriteLine("query.port={0}", QueryPort.Value)
+        Writer.WriteLine("rcon.port={0}", RemoteConnectionPort.Value)
+        Writer.WriteLine("rcon.password={0}", RemoteConnectionPassword.Text)
+        Writer.WriteLine("server-ip={0}", IP.Text)
+        Writer.WriteLine("server-port={0}", ServerPort.Value)
+        Writer.WriteLine("snooper-enabled={0}", EnableSnooper.Checked)
+        Writer.WriteLine("spawn-animals={0}", SpawnAnimals.Checked)
+        Writer.WriteLine("spawn-monsters={0}", SpawnMonsters.Checked)
+        Writer.WriteLine("spawn-npcs={0}", SpawnVillagers.Checked)
+        Writer.WriteLine("spawn-protection={0}", SpawnProtection.Value)
+        Writer.WriteLine("view-distance={0}", ViewDistance.Value)
+        Writer.WriteLine("white-list={0}", UseWhiteList.Checked)
+        Writer.Flush()
+        Writer.Close()
+        If Changed Then
+            Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
+                Case MsgBoxResult.Yes
+                Case MsgBoxResult.Cancel
+                    e.Cancel = True
+            End Select
         End If
     End Sub
 
@@ -203,7 +241,54 @@ Public Class Settings
         Changed = True
     End Sub
 
-    Private Sub SpawnProtection_ValueChanged(sender As Object, e As EventArgs) Handles SpawnProtection.ValueChanged, SpawnProtection.KeyUp, SpawnProtection.Scroll
+    Private Sub SpawnProtection_ValueChanged(sender As Object, e As EventArgs) Handles SpawnProtection.ValueChanged, SpawnProtection.KeyUp, SpawnProtection.Scroll,
+                                                                                       MaximumWorldSize.ValueChanged, MaximumWorldSize.KeyUp, MaximumWorldSize.Scroll
         SpawnProtectionCalculation.Text = String.Format("{0}×{0}", 2 * SpawnProtection.Value + 1)
+        MaximumWorldSizeCalculation.Text = String.Format("{0}×{0}", 2 * MaximumWorldSize.Value)
+    End Sub
+
+    Private Sub ResetToDefault_Click(sender As Object, e As EventArgs) Handles ResetToDefault.Click
+        JAVASwitch.Value = 1
+        MemoryMinimum.Value = 512
+        MemoryMinimumUnit.SelectedIndex = 1
+        MemoryMaximum.Value = 2048
+        MemoryMaximumUnit.SelectedIndex = 1
+        AllowFlight.Checked = False
+        AllowNether.Checked = True
+        AnnouncePlayerAchievements.Checked = True
+        BroadcastConsoleToOPs.Checked = True
+        Debug.Checked = False
+        DefaultGamemode.SelectedIndex = 0
+        Difficulty.SelectedIndex = 1
+        EnableCommandBlocks.Checked = False
+        EnableQuery.Checked = False
+        EnableRemoteConnection.Checked = False
+        EnableSnooper.Checked = True
+        ForceDefaultGamemode.Checked = False
+        GenerateStructures.Checked = True
+        Hardcore.Checked = False
+        IP.Text = Nothing
+        MaximumBuildHeight.Value = 256
+        MaximumPlayers.Value = 20
+        MaximumTickTime.Value = 60000
+        MaximumWorldSize.Value = 29999984
+        MessageOfTheDay.Text = "A Minecraft Server"
+        NetworkCompressionThresholdValue = 256
+        NetworkCompressionThreshold.Value = 256
+        OnlineMode.Checked = True
+        OPPermissionLevel.Value = 4
+        PlayerIdleTimeout.Value = 30
+        PlayerIdleTimeoutCheckBox.Checked = False
+        PVP.Checked = True
+        QueryPort.Value = 25565
+        RemoteConnectionPassword.Text = Nothing
+        RemoteConnectionPort.Value = 25575
+        ServerPort.Value = 25565
+        SpawnAnimals.Checked = True
+        SpawnMonsters.Checked = True
+        SpawnProtection.Value = 16
+        SpawnVillagers.Checked = True
+        UseWhiteList.Checked = False
+        ViewDistance.Value = 10
     End Sub
 End Class
