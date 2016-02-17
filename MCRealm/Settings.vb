@@ -23,6 +23,16 @@ Public Class Settings
 
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
+        Dim RestartServer As Boolean = False
+        If Changed OrElse Main.ServerRunning Then
+            Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
+                Case MsgBoxResult.Yes
+                    RestartServer = True
+                Case MsgBoxResult.Cancel
+                    e.Cancel = True
+                    Exit Sub
+            End Select
+        End If
         Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
         Writer.WriteLine("#Minecraft server properties")
         Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day, Now.TimeOfDay.ToString,
@@ -66,12 +76,9 @@ Public Class Settings
         Writer.WriteLine("white-list={0}", UseWhiteList.Checked)
         Writer.Flush()
         Writer.Close()
-        If Changed Then
-            Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
-                Case MsgBoxResult.Yes
-                Case MsgBoxResult.Cancel
-                    e.Cancel = True
-            End Select
+        If RestartServer Then
+            Main.RunServer_Click(sender, e)
+            Main.RunServer_Click(sender, e)
         End If
     End Sub
 

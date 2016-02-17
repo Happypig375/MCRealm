@@ -28,7 +28,7 @@
         AboutBox.Show()
     End Sub
     'Dim ProcID As Integer
-    Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
+    Friend Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
                 Settings.JAVASwitch.Enabled = True
