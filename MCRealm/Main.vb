@@ -1,4 +1,5 @@
 ﻿Public Class Main
+    Friend ReadOnly MinSize As System.Drawing.Size = Me.Size
     Friend WithEvents Server As New Process()
     Friend ReadOnly Property ServerRunning As Boolean
         Get
@@ -19,7 +20,7 @@
     End Sub
 
     Private Sub LoadJAR_Click(sender As Object, e As EventArgs) Handles LoadJAR.Click
-        If Load_From.ShowDialog = System.Windows.Forms.DialogResult.Cancel Then Exit Sub
+        If Load_From.Display(False, "JAR files|*.jar") = System.Windows.Forms.DialogResult.Cancel Then Exit Sub
         JAR.Text = Load_From.Path
     End Sub
 
@@ -27,10 +28,10 @@
         AboutBox.Show()
     End Sub
     'Dim ProcID As Integer
-    Private Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
+    Friend Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
-                JAVASwitch.Enabled = True
+                Settings.JAVASwitch.Enabled = True
                 Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
                 Server.StandardInput.Flush()
                 Server.CancelErrorRead()
@@ -72,7 +73,9 @@
                 With Server.StartInfo
                     .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                     .FileName = Determine()
-                    .Arguments = String.Format("-Xms1024M -Xmx2048M -jar ""{0}"" nogui -o true", JAR.Text)
+                    .Arguments = String.Format("-Xms{0}{1} -Xmx{2}{3} -jar ""{4}"" nogui -o true", Settings.MemoryMinimum.Value,
+                                               Settings.MemoryMinimumUnit.SelectedText, Settings.MemoryMaximum.Value,
+                                               Settings.MemoryMaximumUnit.SelectedText, JAR.Text)
                     .UseShellExecute = False
                     .CreateNoWindow = True
                     .RedirectStandardInput = True
@@ -80,14 +83,14 @@
                     .RedirectStandardError = True
                 End With
                 ' You can start any process, HelloWorld is a do-nothing example.
-                JAVASwitch.Enabled = False
+                Settings.JAVASwitch.Enabled = False
                 ServerSwitch.Text = "Stop Server"
-                    With Server
-                        .EnableRaisingEvents = True
-                        .Start()
-                        .BeginErrorReadLine()
-                        .BeginOutputReadLine()
-                    End With
+                With Server
+                    .EnableRaisingEvents = True
+                    .Start()
+                    .BeginErrorReadLine()
+                    .BeginOutputReadLine()
+                End With
 #End If
                 ' This code assumes the process you are starting will terminate itself. 
                 ' Given that is is started without a window so you cannot terminate it 
@@ -95,14 +98,15 @@
                 ' from this application using the Kill method.
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString, MsgBoxStyle.Critical)
+            DisplayError(ex)
         End Try
     End Sub
     Friend Function Determine() As String
-        Return If(JAVASwitch.Value = 0, "java.exe", "javaw.exe")
+        Return If(Settings.JAVASwitch.Value = 0, "java.exe", "javaw.exe")
     End Function
     Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
+        Settings.JAVASwitch.Enabled = True
         If ServerSwitch.InvokeRequired Then
             Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
@@ -1966,5 +1970,21 @@
         Else
             Input.Text &= Text
         End If
+    End Sub
+
+    Private Sub Main_Layout(sender As Object, e As EventArgs) Handles Me.Layout
+        If Me.Size.Width < MinSize.Width OrElse Me.Size.Height < MinSize.Height Then Me.Size = MinSize
+    End Sub
+
+    Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles SettingsButton.Click
+        Settings.Show()
+    End Sub
+    Public Sub DisplayError(ByVal Exception As Exception)
+        MsgBox(Exception.ToString, MsgBoxStyle.Critical)
+    End Sub
+
+    Private Sub Main_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Settings.MemoryMaximumUnit.SelectedItem = "M"
+        Settings.MemoryMinimumUnit.SelectedItem = "M"
     End Sub
 End Class
