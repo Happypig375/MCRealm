@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Scratch", "Scratch\Scratch.vbproj", "{25D291B0-EA89-4609-8BEE-56C7CF7DC11E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Test Application", "Test Application\Test Application.vbproj", "{7BB97CE8-A9C2-4EFB-B181-A2C6167AAC82}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25D291B0-EA89-4609-8BEE-56C7CF7DC11E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25D291B0-EA89-4609-8BEE-56C7CF7DC11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25D291B0-EA89-4609-8BEE-56C7CF7DC11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25D291B0-EA89-4609-8BEE-56C7CF7DC11E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB97CE8-A9C2-4EFB-B181-A2C6167AAC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB97CE8-A9C2-4EFB-B181-A2C6167AAC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB97CE8-A9C2-4EFB-B181-A2C6167AAC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB97CE8-A9C2-4EFB-B181-A2C6167AAC82}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

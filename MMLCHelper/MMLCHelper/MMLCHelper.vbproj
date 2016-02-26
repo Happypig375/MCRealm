@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="BuildTasks.IncrementBuildNumber" AssemblyFile="BuildTask.dll" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C658F7A-5BE2-42DE-A989-11182A75B178}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>MMLCHelper.My.MyApplication</StartupObject>
+    <RootNamespace>MMLCHelper</RootNamespace>
+    <AssemblyName>MMLCHelper</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>MMLCHelper.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>Globalsecurity managed.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>MMLCHelper.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>9C4389949CBA73A7ABE6384DB16986BF58C56FD9</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>MMLCHelper_1_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MMLCHelper_1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Sun-Tech\XCLASS EVO\student\XPlayer\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=271fefddee7e9d9e, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Sun-Tech\XCLASS EVO\student\EQuizClient\Interop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="CMD.vb" />
+    <Compile Include="MMLCHelper2.Designer.vb">
+      <DependentUpon>MMLCHelper2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MMLCHelper2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IniFile.vb" />
+    <Compile Include="kbMonitorNet\Constants.vb" />
+    <Compile Include="kbMonitorNet\Global.vb" />
+    <Compile Include="kbMonitorNet\kbMessage.vb" />
+    <Compile Include="kbMonitorNet\kbMsgEventHandler.vb" />
+    <Compile Include="kbMonitorNet\kbMsgEvt.vb" />
+    <Compile Include="kbMonitorNet\kbUdp.vb" />
+    <Compile Include="kbMonitorNet\MSG_TYPE.vb" />
+    <Compile Include="kbMonitorNet\StateObject.vb" />
+    <Compile Include="kbmon\AssemblyInfo.vb" />
+    <Compile Include="DOGE.Designer.vb">
+      <DependentUpon>DOGE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DOGE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="kbmon\Global.vb" />
+    <Compile Include="Icon.Designer.vb">
+      <DependentUpon>Icon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Icon.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyboardJammer.vb" />
+    <Compile Include="Login\Login.Designer.vb">
+      <DependentUpon>Login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Login.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\LoginIIdentity.vb" />
+    <Compile Include="Login\LoginIPrincipal.vb" />
+    <Compile Include="Modes\Batch.vb" />
+    <Compile Include="Modes\Modes.vb" />
+    <Compile Include="Modes\Sample.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="MMLCHelper.Designer.vb">
+      <DependentUpon>MMLCHelper.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MMLCHelper.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VolumeControl.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DOGE.resx">
+      <DependentUpon>DOGE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icon.resx">
+      <DependentUpon>Icon.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Login.resx">
+      <DependentUpon>Login.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MMLCHelper.resx">
+      <DependentUpon>MMLCHelper.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <DesignData Include="app.config" />
+    <Resource Include="VisualStudioKey.pfx" />
+    <None Include="MMLCHelper_1_TemporaryKey.pfx" />
+    <None Include="VisualStudioKey_SchoolClient.pfx" />
+    <None Include="MMLCHelper_TemporaryKey.pfx" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\09-334 別雲間.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\21-434敬酒歌 - 何達.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\09-334 別雲間.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\21-434敬酒歌 - 何達.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Happy music - Daydreaming %28Low%29.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Main Reaktor - Awakening [NCS Release] %28[Full HD]%29.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Nyan Cat [original] %28Low%29.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Sad music.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Snoop dogg Smoke weed everyday HD %28dubstep remix%29 [Antoine Daniel].mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Troll Song.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deez Musik\Awesome Face Song %28Low%29.mp4" />
+    <None Include="Deez Musik\The Official Illuminati Theme Song %28HD%29.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Awesome Face Song %28Low%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Happy music - Daydreaming %28Low%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Main Reaktor - Awakening [NCS Release] %28[Full HD]%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Nyan Cat [original] %28Low%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Snoop dogg Smoke weed everyday HD %28dubstep remix%29 [Antoine Daniel].wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\The Official Illuminati Theme Song %28HD%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Troll Song %28Low%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Doge Adventure  animated music video  MrWeebl [Full HD].wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Yee [Low, 360p].wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Ultimate MLG - Most annoying video ever [Low, 360p].wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  <Target Name="BeforeBuild">
+    <IncrementBuildNumber AssemblyFileLocation="$(MSBuildProjectDirectory)\My Project\AssemblyInfo.vb">
+    </IncrementBuildNumber>
+  </Target>
+  <!--
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>2f8ed2a6-bed0-44bf-8ecc-5750ff186a6a</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>ApplicationMon_Student</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="Global.vb" />
+    <Compile Include="ApplicationMon_Student\My\MyApplication.vb" />
+    <Compile Include="ApplicationMon_Student\My\MyComputer.vb" />
+    <Compile Include="ApplicationMon_Student\My\MyProject.vb" />
+    <Compile Include="ApplicationMon_Student\command.vb" />
+    <Compile Include="ApplicationMon_Student\Form1.vb" />
+    <Compile Include="ApplicationMon_Student\IniFile.vb" />
+    <Compile Include="ApplicationMon_Student\My\Resources\Resources.vb" />
+    <Compile Include="ApplicationMon_Student\My\MySettings.vb" />
+    <Compile Include="ApplicationMon_Student\sMessager.vb" />
+    <Compile Include="ApplicationMon_Student\vPacket.vb" />
+    <Compile Include="ApplicationMon_Student\vStudProcess.vb" />
+    <EmbeddedResource Include="ApplicationMon_Student.Resources.resources" />
+    <EmbeddedResource Include="ApplicationMon_Student.Form1.resources" />
+  </ItemGroup>
+</Project>
