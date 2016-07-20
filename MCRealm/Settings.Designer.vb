@@ -26,17 +26,8 @@ Partial Class Settings
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Apply_Button = New System.Windows.Forms.Button()
-        Me.JAVAWLabel = New System.Windows.Forms.Label()
-        Me.JAVALabel = New System.Windows.Forms.Label()
-        Me.JAVASwitch = New System.Windows.Forms.TrackBar()
-        Me.Environment = New System.Windows.Forms.GroupBox()
-        Me.MemoryUsageTo = New System.Windows.Forms.Label()
-        Me.MemoryMaximumUnit = New System.Windows.Forms.ComboBox()
-        Me.MemoryMaximum = New System.Windows.Forms.NumericUpDown()
-        Me.MemoryMinimumUnit = New System.Windows.Forms.ComboBox()
-        Me.MemoryMinimum = New System.Windows.Forms.NumericUpDown()
-        Me.MemoryUsage = New System.Windows.Forms.Label()
         Me.World = New System.Windows.Forms.GroupBox()
+        Me.MaximumWorldSizeCalculation = New System.Windows.Forms.Label()
         Me.SpawnProtectionCalculation = New System.Windows.Forms.Label()
         Me.SpawnProtection = New System.Windows.Forms.NumericUpDown()
         Me.SpawnProtectionLabel = New System.Windows.Forms.Label()
@@ -71,7 +62,9 @@ Partial Class Settings
         Me.ViewDistanceLabel = New System.Windows.Forms.Label()
         Me.PlayerIdleTimeoutCheckBox = New System.Windows.Forms.CheckBox()
         Me.MaximumPlayers = New System.Windows.Forms.NumericUpDown()
-        Me.Server = New System.Windows.Forms.GroupBox()
+        Me.Connection = New System.Windows.Forms.GroupBox()
+        Me.LoadWorldLabel = New System.Windows.Forms.Label()
+        Me.LoadWorld = New System.Windows.Forms.DomainUpDown()
         Me.EnableSnooper = New System.Windows.Forms.CheckBox()
         Me.IP = New System.Windows.Forms.TextBox()
         Me.IPLabel = New System.Windows.Forms.Label()
@@ -94,12 +87,8 @@ Partial Class Settings
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
         Me.ResetToDefault = New System.Windows.Forms.Button()
-        Me.MaximumWorldSizeCalculation = New System.Windows.Forms.Label()
+        Me.SnooperHelp = New System.Windows.Forms.Button()
         Me.ButtonLayoutPanel.SuspendLayout()
-        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Environment.SuspendLayout()
-        CType(Me.MemoryMaximum, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.World.SuspendLayout()
         CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,7 +98,7 @@ Partial Class Settings
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Server.SuspendLayout()
+        Me.Connection.SuspendLayout()
         CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -163,120 +152,14 @@ Partial Class Settings
         Me.Apply_Button.TabIndex = 1
         Me.Apply_Button.Text = "Apply"
         '
-        'JAVAWLabel
-        '
-        Me.JAVAWLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.JAVAWLabel.AutoSize = True
-        Me.JAVAWLabel.Location = New System.Drawing.Point(187, 16)
-        Me.JAVAWLabel.Name = "JAVAWLabel"
-        Me.JAVAWLabel.Size = New System.Drawing.Size(35, 13)
-        Me.JAVAWLabel.TabIndex = 12
-        Me.JAVAWLabel.Text = "javaw"
-        '
-        'JAVALabel
-        '
-        Me.JAVALabel.AutoSize = True
-        Me.JAVALabel.Location = New System.Drawing.Point(11, 16)
-        Me.JAVALabel.Name = "JAVALabel"
-        Me.JAVALabel.Size = New System.Drawing.Size(27, 13)
-        Me.JAVALabel.TabIndex = 11
-        Me.JAVALabel.Text = "java"
-        '
-        'JAVASwitch
-        '
-        Me.JAVASwitch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.JAVASwitch.AutoSize = False
-        Me.JAVASwitch.LargeChange = 1
-        Me.JAVASwitch.Location = New System.Drawing.Point(34, 11)
-        Me.JAVASwitch.Maximum = 1
-        Me.JAVASwitch.Name = "JAVASwitch"
-        Me.JAVASwitch.Size = New System.Drawing.Size(147, 23)
-        Me.JAVASwitch.TabIndex = 10
-        '
-        'Environment
-        '
-        Me.Environment.Controls.Add(Me.MemoryUsageTo)
-        Me.Environment.Controls.Add(Me.MemoryMaximumUnit)
-        Me.Environment.Controls.Add(Me.MemoryMaximum)
-        Me.Environment.Controls.Add(Me.MemoryMinimumUnit)
-        Me.Environment.Controls.Add(Me.MemoryMinimum)
-        Me.Environment.Controls.Add(Me.MemoryUsage)
-        Me.Environment.Controls.Add(Me.JAVAWLabel)
-        Me.Environment.Controls.Add(Me.JAVASwitch)
-        Me.Environment.Controls.Add(Me.JAVALabel)
-        Me.Environment.Location = New System.Drawing.Point(12, 12)
-        Me.Environment.Name = "Environment"
-        Me.Environment.Size = New System.Drawing.Size(228, 84)
-        Me.Environment.TabIndex = 13
-        Me.Environment.TabStop = False
-        Me.Environment.Text = "Environment"
-        '
-        'MemoryUsageTo
-        '
-        Me.MemoryUsageTo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MemoryUsageTo.AutoSize = True
-        Me.MemoryUsageTo.Location = New System.Drawing.Point(108, 51)
-        Me.MemoryUsageTo.Name = "MemoryUsageTo"
-        Me.MemoryUsageTo.Size = New System.Drawing.Size(20, 13)
-        Me.MemoryUsageTo.TabIndex = 18
-        Me.MemoryUsageTo.Text = "To"
-        '
-        'MemoryMaximumUnit
-        '
-        Me.MemoryMaximumUnit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MemoryMaximumUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.MemoryMaximumUnit.FormattingEnabled = True
-        Me.MemoryMaximumUnit.Items.AddRange(New Object() {"K", "M", "G", "T"})
-        Me.MemoryMaximumUnit.Location = New System.Drawing.Point(183, 49)
-        Me.MemoryMaximumUnit.Name = "MemoryMaximumUnit"
-        Me.MemoryMaximumUnit.Size = New System.Drawing.Size(34, 21)
-        Me.MemoryMaximumUnit.TabIndex = 17
-        '
-        'MemoryMaximum
-        '
-        Me.MemoryMaximum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MemoryMaximum.Location = New System.Drawing.Point(131, 49)
-        Me.MemoryMaximum.Maximum = New Decimal(New Integer() {-1, -1, -1, 0})
-        Me.MemoryMaximum.Name = "MemoryMaximum"
-        Me.MemoryMaximum.Size = New System.Drawing.Size(45, 20)
-        Me.MemoryMaximum.TabIndex = 16
-        Me.MemoryMaximum.Value = New Decimal(New Integer() {2048, 0, 0, 0})
-        '
-        'MemoryMinimumUnit
-        '
-        Me.MemoryMinimumUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.MemoryMinimumUnit.FormattingEnabled = True
-        Me.MemoryMinimumUnit.Items.AddRange(New Object() {"K", "M", "G", "T"})
-        Me.MemoryMinimumUnit.Location = New System.Drawing.Point(66, 49)
-        Me.MemoryMinimumUnit.Name = "MemoryMinimumUnit"
-        Me.MemoryMinimumUnit.Size = New System.Drawing.Size(36, 21)
-        Me.MemoryMinimumUnit.TabIndex = 15
-        '
-        'MemoryMinimum
-        '
-        Me.MemoryMinimum.Location = New System.Drawing.Point(15, 49)
-        Me.MemoryMinimum.Maximum = New Decimal(New Integer() {-1, -1, -1, 0})
-        Me.MemoryMinimum.Name = "MemoryMinimum"
-        Me.MemoryMinimum.Size = New System.Drawing.Size(45, 20)
-        Me.MemoryMinimum.TabIndex = 14
-        Me.MemoryMinimum.Value = New Decimal(New Integer() {512, 0, 0, 0})
-        '
-        'MemoryUsage
-        '
-        Me.MemoryUsage.AutoSize = True
-        Me.MemoryUsage.Location = New System.Drawing.Point(14, 33)
-        Me.MemoryUsage.Name = "MemoryUsage"
-        Me.MemoryUsage.Size = New System.Drawing.Size(78, 13)
-        Me.MemoryUsage.TabIndex = 13
-        Me.MemoryUsage.Text = "Memory Usage"
-        '
         'World
         '
         Me.World.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.World.Controls.Add(Me.LoadWorldLabel)
+        Me.World.Controls.Add(Me.LoadWorld)
         Me.World.Controls.Add(Me.MaximumWorldSizeCalculation)
         Me.World.Controls.Add(Me.SpawnProtectionCalculation)
+        Me.World.Controls.Add(Me.Players)
         Me.World.Controls.Add(Me.SpawnProtection)
         Me.World.Controls.Add(Me.SpawnProtectionLabel)
         Me.World.Controls.Add(Me.Difficulty)
@@ -290,16 +173,26 @@ Partial Class Settings
         Me.World.Controls.Add(Me.MaximumWorldSizeLabel)
         Me.World.Controls.Add(Me.MaximumBuildHeight)
         Me.World.Controls.Add(Me.MaximumBuildHeightLabel)
+        Me.World.Controls.Add(Me.Debug)
         Me.World.Controls.Add(Me.Hardcore)
         Me.World.Controls.Add(Me.GenerateStructures)
         Me.World.Controls.Add(Me.EnableCommandBlocks)
         Me.World.Controls.Add(Me.AllowNether)
-        Me.World.Location = New System.Drawing.Point(246, 12)
+        Me.World.Location = New System.Drawing.Point(16, 12)
         Me.World.Name = "World"
-        Me.World.Size = New System.Drawing.Size(182, 318)
+        Me.World.Size = New System.Drawing.Size(412, 318)
         Me.World.TabIndex = 14
         Me.World.TabStop = False
         Me.World.Text = "World"
+        '
+        'MaximumWorldSizeCalculation
+        '
+        Me.MaximumWorldSizeCalculation.AutoSize = True
+        Me.MaximumWorldSizeCalculation.Location = New System.Drawing.Point(15, 183)
+        Me.MaximumWorldSizeCalculation.Name = "MaximumWorldSizeCalculation"
+        Me.MaximumWorldSizeCalculation.Size = New System.Drawing.Size(37, 13)
+        Me.MaximumWorldSizeCalculation.TabIndex = 31
+        Me.MaximumWorldSizeCalculation.Text = "2n×2n"
         '
         'SpawnProtectionCalculation
         '
@@ -489,9 +382,9 @@ Partial Class Settings
         Me.Players.Controls.Add(Me.ViewDistanceLabel)
         Me.Players.Controls.Add(Me.PlayerIdleTimeoutCheckBox)
         Me.Players.Controls.Add(Me.MaximumPlayers)
-        Me.Players.Location = New System.Drawing.Point(12, 102)
+        Me.Players.Location = New System.Drawing.Point(181, 19)
         Me.Players.Name = "Players"
-        Me.Players.Size = New System.Drawing.Size(228, 228)
+        Me.Players.Size = New System.Drawing.Size(228, 203)
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
@@ -644,42 +537,59 @@ Partial Class Settings
         Me.MaximumPlayers.Size = New System.Drawing.Size(52, 20)
         Me.MaximumPlayers.TabIndex = 17
         '
-        'Server
+        'Connection
         '
-        Me.Server.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Connection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Server.Controls.Add(Me.EnableSnooper)
-        Me.Server.Controls.Add(Me.IP)
-        Me.Server.Controls.Add(Me.IPLabel)
-        Me.Server.Controls.Add(Me.NetworkCompressionThresholdUnit)
-        Me.Server.Controls.Add(Me.ServerPort)
-        Me.Server.Controls.Add(Me.ServerPortLabel)
-        Me.Server.Controls.Add(Me.RemoteConnectionPasswordButton)
-        Me.Server.Controls.Add(Me.RemoteConnectionPassword)
-        Me.Server.Controls.Add(Me.RemoteConnectionLabel)
-        Me.Server.Controls.Add(Me.RemoteConnectionPort)
-        Me.Server.Controls.Add(Me.QueryPort)
-        Me.Server.Controls.Add(Me.OnlineMode)
-        Me.Server.Controls.Add(Me.NetworkCompressionThreshold)
-        Me.Server.Controls.Add(Me.NetworkCompressionThresholdLabel)
-        Me.Server.Controls.Add(Me.MessageOfTheDay)
-        Me.Server.Controls.Add(Me.MessageOfTheDayLabel)
-        Me.Server.Controls.Add(Me.EnableRemoteConnection)
-        Me.Server.Controls.Add(Me.EnableQuery)
-        Me.Server.Controls.Add(Me.Debug)
-        Me.Server.Controls.Add(Me.MaximumTickTime)
-        Me.Server.Controls.Add(Me.MaximumTickTimeLabel)
-        Me.Server.Location = New System.Drawing.Point(12, 336)
-        Me.Server.Name = "Server"
-        Me.Server.Size = New System.Drawing.Size(416, 159)
-        Me.Server.TabIndex = 16
-        Me.Server.TabStop = False
-        Me.Server.Text = "Server"
+        Me.Connection.Controls.Add(Me.SnooperHelp)
+        Me.Connection.Controls.Add(Me.EnableSnooper)
+        Me.Connection.Controls.Add(Me.IP)
+        Me.Connection.Controls.Add(Me.IPLabel)
+        Me.Connection.Controls.Add(Me.NetworkCompressionThresholdUnit)
+        Me.Connection.Controls.Add(Me.ServerPort)
+        Me.Connection.Controls.Add(Me.ServerPortLabel)
+        Me.Connection.Controls.Add(Me.RemoteConnectionPasswordButton)
+        Me.Connection.Controls.Add(Me.RemoteConnectionPassword)
+        Me.Connection.Controls.Add(Me.RemoteConnectionLabel)
+        Me.Connection.Controls.Add(Me.RemoteConnectionPort)
+        Me.Connection.Controls.Add(Me.QueryPort)
+        Me.Connection.Controls.Add(Me.OnlineMode)
+        Me.Connection.Controls.Add(Me.NetworkCompressionThreshold)
+        Me.Connection.Controls.Add(Me.NetworkCompressionThresholdLabel)
+        Me.Connection.Controls.Add(Me.MessageOfTheDay)
+        Me.Connection.Controls.Add(Me.MessageOfTheDayLabel)
+        Me.Connection.Controls.Add(Me.EnableRemoteConnection)
+        Me.Connection.Controls.Add(Me.EnableQuery)
+        Me.Connection.Controls.Add(Me.MaximumTickTime)
+        Me.Connection.Controls.Add(Me.MaximumTickTimeLabel)
+        Me.Connection.Location = New System.Drawing.Point(12, 336)
+        Me.Connection.Name = "Connection"
+        Me.Connection.Size = New System.Drawing.Size(416, 159)
+        Me.Connection.TabIndex = 16
+        Me.Connection.TabStop = False
+        Me.Connection.Text = " Connection"
+        '
+        'LoadWorldLabel
+        '
+        Me.LoadWorldLabel.AutoSize = True
+        Me.LoadWorldLabel.Location = New System.Drawing.Point(214, 225)
+        Me.LoadWorldLabel.Name = "LoadWorldLabel"
+        Me.LoadWorldLabel.Size = New System.Drawing.Size(65, 13)
+        Me.LoadWorldLabel.TabIndex = 33
+        Me.LoadWorldLabel.Text = "Load World:"
+        '
+        'LoadWorld
+        '
+        Me.LoadWorld.Location = New System.Drawing.Point(282, 223)
+        Me.LoadWorld.Name = "LoadWorld"
+        Me.LoadWorld.Size = New System.Drawing.Size(120, 20)
+        Me.LoadWorld.TabIndex = 32
+        Me.LoadWorld.Text = "Load World..."
         '
         'EnableSnooper
         '
         Me.EnableSnooper.AutoSize = True
-        Me.EnableSnooper.Location = New System.Drawing.Point(9, 128)
+        Me.EnableSnooper.Location = New System.Drawing.Point(8, 130)
         Me.EnableSnooper.Name = "EnableSnooper"
         Me.EnableSnooper.Size = New System.Drawing.Size(102, 17)
         Me.EnableSnooper.TabIndex = 31
@@ -844,7 +754,7 @@ Partial Class Settings
         'Debug
         '
         Me.Debug.AutoSize = True
-        Me.Debug.Location = New System.Drawing.Point(8, 20)
+        Me.Debug.Location = New System.Drawing.Point(345, 249)
         Me.Debug.Name = "Debug"
         Me.Debug.Size = New System.Drawing.Size(58, 17)
         Me.Debug.TabIndex = 0
@@ -877,14 +787,14 @@ Partial Class Settings
         Me.ResetToDefault.Text = "Reset To Default"
         Me.ResetToDefault.UseVisualStyleBackColor = True
         '
-        'MaximumWorldSizeCalculation
+        'SnooperHelp
         '
-        Me.MaximumWorldSizeCalculation.AutoSize = True
-        Me.MaximumWorldSizeCalculation.Location = New System.Drawing.Point(15, 183)
-        Me.MaximumWorldSizeCalculation.Name = "MaximumWorldSizeCalculation"
-        Me.MaximumWorldSizeCalculation.Size = New System.Drawing.Size(37, 13)
-        Me.MaximumWorldSizeCalculation.TabIndex = 31
-        Me.MaximumWorldSizeCalculation.Text = "2n×2n"
+        Me.SnooperHelp.Location = New System.Drawing.Point(110, 130)
+        Me.SnooperHelp.Name = "SnooperHelp"
+        Me.SnooperHelp.Size = New System.Drawing.Size(119, 23)
+        Me.SnooperHelp.TabIndex = 32
+        Me.SnooperHelp.Text = "What is Snooper?"
+        Me.SnooperHelp.UseVisualStyleBackColor = True
         '
         'Settings
         '
@@ -894,10 +804,8 @@ Partial Class Settings
         Me.CancelButton = Me.Apply_Button
         Me.ClientSize = New System.Drawing.Size(435, 541)
         Me.Controls.Add(Me.ResetToDefault)
-        Me.Controls.Add(Me.Server)
-        Me.Controls.Add(Me.Players)
+        Me.Controls.Add(Me.Connection)
         Me.Controls.Add(Me.World)
-        Me.Controls.Add(Me.Environment)
         Me.Controls.Add(Me.ButtonLayoutPanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -907,11 +815,6 @@ Partial Class Settings
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Settings"
         Me.ButtonLayoutPanel.ResumeLayout(False)
-        CType(Me.JAVASwitch, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Environment.ResumeLayout(False)
-        Me.Environment.PerformLayout()
-        CType(Me.MemoryMaximum, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MemoryMinimum, System.ComponentModel.ISupportInitialize).EndInit()
         Me.World.ResumeLayout(False)
         Me.World.PerformLayout()
         CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).EndInit()
@@ -923,8 +826,8 @@ Partial Class Settings
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Server.ResumeLayout(False)
-        Me.Server.PerformLayout()
+        Me.Connection.ResumeLayout(False)
+        Me.Connection.PerformLayout()
         CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.QueryPort, System.ComponentModel.ISupportInitialize).EndInit()
@@ -937,17 +840,7 @@ Partial Class Settings
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Apply_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
-    Friend WithEvents JAVAWLabel As System.Windows.Forms.Label
-    Friend WithEvents JAVALabel As System.Windows.Forms.Label
-    Friend WithEvents JAVASwitch As System.Windows.Forms.TrackBar
-    Friend WithEvents Environment As System.Windows.Forms.GroupBox
     Friend WithEvents World As System.Windows.Forms.GroupBox
-    Friend WithEvents MemoryUsage As System.Windows.Forms.Label
-    Friend WithEvents MemoryMaximumUnit As System.Windows.Forms.ComboBox
-    Friend WithEvents MemoryMaximum As System.Windows.Forms.NumericUpDown
-    Friend WithEvents MemoryMinimumUnit As System.Windows.Forms.ComboBox
-    Friend WithEvents MemoryMinimum As System.Windows.Forms.NumericUpDown
-    Friend WithEvents MemoryUsageTo As System.Windows.Forms.Label
     Friend WithEvents EnableCommandBlocks As System.Windows.Forms.CheckBox
     Friend WithEvents AllowNether As System.Windows.Forms.CheckBox
     Friend WithEvents GenerateStructures As System.Windows.Forms.CheckBox
@@ -972,7 +865,7 @@ Partial Class Settings
     Friend WithEvents PVP As System.Windows.Forms.CheckBox
     Friend WithEvents ViewDistance As System.Windows.Forms.NumericUpDown
     Friend WithEvents ViewDistanceLabel As System.Windows.Forms.Label
-    Friend WithEvents Server As System.Windows.Forms.GroupBox
+    Friend WithEvents Connection As System.Windows.Forms.GroupBox
     Friend WithEvents AnnouncePlayerAchievements As System.Windows.Forms.CheckBox
     Friend WithEvents BroadcastConsoleToOPs As System.Windows.Forms.CheckBox
     Friend WithEvents Debug As System.Windows.Forms.CheckBox
@@ -1006,5 +899,7 @@ Partial Class Settings
     Friend WithEvents SpawnProtectionLabel As System.Windows.Forms.Label
     Friend WithEvents ResetToDefault As System.Windows.Forms.Button
     Friend WithEvents MaximumWorldSizeCalculation As System.Windows.Forms.Label
-
+    Friend WithEvents LoadWorldLabel As System.Windows.Forms.Label
+    Friend WithEvents LoadWorld As System.Windows.Forms.DomainUpDown
+    Friend WithEvents SnooperHelp As Button
 End Class

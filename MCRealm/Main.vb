@@ -1,6 +1,37 @@
 ﻿Public Class Main
-    Friend ReadOnly MinSize As System.Drawing.Size = Me.Size
+    Friend ReadOnly MinSize As Size = Size
     Friend WithEvents Server As New Process()
+    Friend JavaArgs As JavaRuntimeArgs
+    Friend Structure JavaRuntimeArgs
+        Friend Running As Boolean
+        Friend JavaW As Boolean
+        Friend MemoryMin As UInt32
+        Friend MemoryInit As UInt32
+        Friend MemoryMax As UInt32
+        Friend MemoryMinUnit As MemoryUnit
+        Friend MemoryInitUnit As MemoryUnit
+        Friend MemoryMaxUnit As MemoryUnit
+        Friend Enum MemoryUnit As Byte
+            [Byte]
+            ''' <summary>
+            ''' Kilobyte (1024 Bytes)
+            ''' </summary>
+            K
+            ''' <summary>
+            ''' Megabyte (1024 Kilobytes)
+            ''' </summary>
+            M
+            ''' <summary>
+            ''' Gigabyte (1024 Megabytes)
+            ''' </summary>
+            G
+            ''' <summary>
+            ''' Tetrabyte (1024 Gigabytes)
+            ''' Do not use this as java thinks that this is too big for a size.
+            ''' </summary>
+            T
+        End Enum
+    End Structure
     Friend ReadOnly Property ServerRunning As Boolean
         Get
             Try
@@ -31,7 +62,7 @@
     Friend Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
-                Settings.JAVASwitch.Enabled = True
+                JavaArgs.Running = False
                 Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
                 Server.StandardInput.Flush()
                 Server.CancelErrorRead()
@@ -57,7 +88,7 @@
             Process.Start(appDataStartInfo)
             'Launch Minecraft
             javaStartInfo.FileName = "javaw.exe"
-            javaStartInfo.Arguments = "-Xms4096M -Xmx4096M -cp " & appPath & "\LocalAppData\.minecraft\bin\Minecraft.jar net.minecraft.LauncherFrame"
+      javaStartInfo.Arguments = "-Xms4096M -Xmx4096M -cp " & appPath & "\LocalAppData\.minecraft\bin\Minecraft.jar net.minecraft.LauncherFrame"
             javaStartInfo.UseShellExecute = True
             Process.Start(javaStartInfo)
 #End If
@@ -73,9 +104,13 @@
                 With Server.StartInfo
                     .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                     .FileName = Determine()
-                    .Arguments = String.Format("-Xms{0}{1} -Xmx{2}{3} -jar ""{4}"" nogui -o true", Settings.MemoryMinimum.Value,
-                                               Settings.MemoryMinimumUnit.SelectedText, Settings.MemoryMaximum.Value,
-                                               Settings.MemoryMaximumUnit.SelectedText, JAR.Text)
+                    .Arguments = String.Format(
+                     "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy -Xmn{0}{1} -Xms{2}{3} -Xmx{4}{5} -d64 -jar ""{6}"" nogui -o true",
+                                               JavaArgs.MemoryMin, '-XX:+CMSIncrementalMode
+                                               JavaArgs.MemoryMinUnit.ToString(),
+                                               JavaArgs.MemoryInit, JavaArgs.MemoryInitUnit,
+                                               JavaArgs.MemoryMax, JavaArgs.MemoryMaxUnit,
+                                               JAR.Text).Replace("Byte", String.Empty)
                     .UseShellExecute = False
                     .CreateNoWindow = True
                     .RedirectStandardInput = True
@@ -83,7 +118,7 @@
                     .RedirectStandardError = True
                 End With
                 ' You can start any process, HelloWorld is a do-nothing example.
-                Settings.JAVASwitch.Enabled = False
+                JavaArgs.Running = True
                 ServerSwitch.Text = "Stop Server"
                 With Server
                     .EnableRaisingEvents = True
@@ -102,11 +137,11 @@
         End Try
     End Sub
     Friend Function Determine() As String
-        Return If(Settings.JAVASwitch.Value = 0, "java.exe", "javaw.exe")
+        Return If(JavaArgs.JavaW, "javaw.exe", "java.exe")
     End Function
     Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
-        Settings.JAVASwitch.Enabled = True
+        JavaArgs.Running = False
         If ServerSwitch.InvokeRequired Then
             Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
@@ -114,7 +149,7 @@
             ServerSwitch.Text = "Start Server"
         End If
     End Sub
-    Private Sub Display(sender As Object, e As System.Diagnostics.DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
+    Private Sub Display(sender As Object, e As DataReceivedEventArgs) Handles Server.ErrorDataReceived, Server.OutputDataReceived
         AppendOutputText(e.Data & vbCrLf)
     End Sub
     Private Delegate Sub AppendTextDelegate(Text As String)
@@ -1984,7 +2019,18 @@
     End Sub
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Settings.MemoryMaximumUnit.SelectedItem = "M"
-        Settings.MemoryMinimumUnit.SelectedItem = "M"
+        With JavaArgs
+            .JavaW = False
+            .MemoryInit = 1024
+            .MemoryInitUnit = JavaRuntimeArgs.MemoryUnit.M
+            .MemoryMax = 2048
+            .MemoryMaxUnit = JavaRuntimeArgs.MemoryUnit.M
+            .MemoryMin = 1024
+            .MemoryMinUnit = JavaRuntimeArgs.MemoryUnit.M
+        End With
+    End Sub
+
+    Private Sub EnvironmentButton_Click(sender As Object, e As EventArgs) Handles EnvironmentButton.Click
+        Environment.Show()
     End Sub
 End Class

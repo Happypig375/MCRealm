@@ -18,11 +18,13 @@ Public Class Settings
     End Sub
 
     Private Sub Apply_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Apply_Button.Click
-
+        Me.DialogResult = DialogResult.None
+        Me.Hide()
     End Sub
 
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
-        If Me.DialogResult = Windows.Forms.DialogResult.None OrElse Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
+        If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
+            Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
         Dim RestartServer As Boolean = False
         If Changed OrElse Main.ServerRunning Then
             Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
@@ -35,9 +37,10 @@ Public Class Settings
         End If
         Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
         Writer.WriteLine("#Minecraft server properties")
-        Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day, Now.TimeOfDay.ToString,
-                         If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now), TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) _
-                     Char.IsUpper(Character)), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
+        Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day,
+                         Now.TimeOfDay.ToString, If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now),
+                         TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) Char.IsUpper(Character)
+                     ), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
         '#Thu Feb 04 18:24:36 CST 2016
         Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
         Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
@@ -78,6 +81,7 @@ Public Class Settings
         Writer.Close()
         If RestartServer Then
             Main.RunServer_Click(sender, e)
+            Threading.Thread.Sleep(1000)
             Main.RunServer_Click(sender, e)
         End If
     End Sub
@@ -115,8 +119,10 @@ Public Class Settings
                         AllowNether.Checked = Convert.ToBoolean(Line(1))
                     Case "announce-player-achievements"
                         AnnouncePlayerAchievements.Checked = Convert.ToBoolean(Line(1))
+                        ' Not in default server.properties, but probably deprecated
                     Case "broadcast-console-to-ops"
                         BroadcastConsoleToOPs.Checked = Convert.ToBoolean(Line(1))
+                        ' Not in default server.properties, but probably deprecated
                     Case "debug"
                         Debug.Checked = Convert.ToBoolean(Line(1))
                     Case "difficulty"
@@ -165,13 +171,17 @@ Public Class Settings
                         End If
                     Case "pvp"
                         PVP.Checked = Convert.ToBoolean(Line(1))
+                        ' Not in default server.properties, but verified
                     Case "query.port"
                         QueryPort.Value = CDec(Line(1))
+                        ' Not in default server.properties, but verified
                     Case "rcon.port"
                         RemoteConnectionPort.Value = CDec(Line(1))
+                        ' Not in default server.properties, but verified
                     Case "rcon.password"
                         RemoteConnectionPassword.Text = Line(1)
                     Case "resource-pack"
+                        ' Not in default server.properties, but probably deprecated
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
                     Case "server-ip"
@@ -186,6 +196,7 @@ Public Class Settings
                         SpawnMonsters.Checked = Convert.ToBoolean(Line(1))
                     Case "spawn-npcs"
                         SpawnVillagers.Checked = Convert.ToBoolean(Line(1))
+                        ' Not in default server.properties, but verified
                     Case "spawn-protection"
                         SpawnProtection.Value = Convert.ToDecimal(Line(1))
                     Case "view-distance"
@@ -203,17 +214,22 @@ Public Class Settings
     End Sub
     'Writer = New System.IO.StreamWriter(PropertiesPath)
 
-    Private Sub RemoteConnectionPasswordButton_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseDown
+    Private Sub RemoteConnectionPasswordButton_MouseDown(ByVal sender As Object,
+                                                         ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseDown
         RemoteConnectionPassword.PasswordChar = Nothing
     End Sub
 
-    Private Sub RemoteConnectionPasswordButton_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseMove
-        If e.X < RemoteConnectionPasswordButton.Location.X OrElse e.X > RemoteConnectionPasswordButton.Location.X +
-            RemoteConnectionPasswordButton.Size.Width OrElse e.Y < RemoteConnectionPasswordButton.Location.Y OrElse e.Y >
-            RemoteConnectionPasswordButton.Location.Y + RemoteConnectionPasswordButton.Size.Height Then RemoteConnectionPassword.PasswordChar = "*"c
+    Private Sub RemoteConnectionPasswordButton_MouseMove(ByVal sender As Object,
+                                                         ByVal e As MouseEventArgs) Handles RemoteConnectionPasswordButton.MouseMove
+        If e.X < RemoteConnectionPasswordButton.Location.X OrElse
+            e.X > RemoteConnectionPasswordButton.Location.X + RemoteConnectionPasswordButton.Size.Width OrElse
+            e.Y < RemoteConnectionPasswordButton.Location.Y OrElse
+            e.Y > RemoteConnectionPasswordButton.Location.Y +
+            RemoteConnectionPasswordButton.Size.Height Then RemoteConnectionPassword.PasswordChar = "*"c
     End Sub
 
-    Private Sub RemoteConnectionPasswordButton_MouseUp(ByVal sender As Object, ByVal e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
+    Private Sub RemoteConnectionPasswordButton_MouseUp(ByVal sender As Object,
+                                                       ByVal e As EventArgs) Handles RemoteConnectionPasswordButton.MouseUp
         RemoteConnectionPassword.PasswordChar = "*"c
     End Sub
     Friend NetworkCompressionThresholdValue As Integer
@@ -235,31 +251,29 @@ Public Class Settings
                 NetworkCompressionThresholdValue = CInt(NetworkCompressionThreshold.Value)
         End Select
     End Sub
-    Private Sub Settings_Changed(sender As Object, e As EventArgs) Handles AllowFlight.CheckedChanged, AllowNether.CheckedChanged,
-         AnnouncePlayerAchievements.CheckedChanged, BroadcastConsoleToOPs.CheckedChanged, Debug.CheckedChanged, DefaultGamemode.SelectedIndexChanged,
-         Difficulty.SelectedIndexChanged, EnableCommandBlocks.CheckedChanged, EnableQuery.CheckedChanged, EnableRemoteConnection.CheckedChanged,
-         EnableSnooper.CheckedChanged, ForceDefaultGamemode.CheckedChanged, GenerateStructures.CheckedChanged, Hardcore.CheckedChanged, IP.TextChanged,
-         JAVASwitch.ValueChanged, MaximumBuildHeight.ValueChanged, MaximumPlayers.ValueChanged, MaximumTickTime.ValueChanged, MaximumWorldSize.ValueChanged,
-         MemoryMaximum.ValueChanged, MemoryMaximumUnit.SelectedIndexChanged, MemoryMinimum.ValueChanged, MemoryMinimumUnit.SelectedIndexChanged,
-        MessageOfTheDay.TextChanged, NetworkCompressionThreshold.ValueChanged, OnlineMode.CheckedChanged, OPPermissionLevel.ValueChanged, PlayerIdleTimeout.ValueChanged,
-        PlayerIdleTimeoutCheckBox.CheckedChanged, PVP.CheckedChanged, QueryPort.ValueChanged, RemoteConnectionPassword.TextChanged, RemoteConnectionPort.ValueChanged,
-        ServerPort.ValueChanged, SpawnAnimals.CheckedChanged, SpawnMonsters.CheckedChanged, SpawnVillagers.CheckedChanged, SpawnProtection.ValueChanged,
-        UseWhiteList.CheckedChanged, ViewDistance.ValueChanged
+    Private Sub Settings_Changed(sender As Object, e As EventArgs) Handles AllowFlight.CheckedChanged,
+        AllowNether.CheckedChanged, AnnouncePlayerAchievements.CheckedChanged, BroadcastConsoleToOPs.CheckedChanged,
+        Debug.CheckedChanged, DefaultGamemode.SelectedIndexChanged, Difficulty.SelectedIndexChanged,
+        EnableCommandBlocks.CheckedChanged, EnableQuery.CheckedChanged, EnableRemoteConnection.CheckedChanged,
+        EnableSnooper.CheckedChanged, ForceDefaultGamemode.CheckedChanged, GenerateStructures.CheckedChanged,
+        Hardcore.CheckedChanged, IP.TextChanged, MaximumBuildHeight.ValueChanged, MaximumPlayers.ValueChanged,
+        MaximumTickTime.ValueChanged, MaximumWorldSize.ValueChanged, MessageOfTheDay.TextChanged,
+        NetworkCompressionThreshold.ValueChanged, OnlineMode.CheckedChanged, OPPermissionLevel.ValueChanged,
+        PlayerIdleTimeout.ValueChanged, PlayerIdleTimeoutCheckBox.CheckedChanged, PVP.CheckedChanged,
+        QueryPort.ValueChanged, RemoteConnectionPassword.TextChanged, RemoteConnectionPort.ValueChanged,
+        ServerPort.ValueChanged, SpawnAnimals.CheckedChanged, SpawnMonsters.CheckedChanged,
+        SpawnVillagers.CheckedChanged, SpawnProtection.ValueChanged, UseWhiteList.CheckedChanged, ViewDistance.ValueChanged
         Changed = True
     End Sub
 
-    Private Sub SpawnProtection_ValueChanged(sender As Object, e As EventArgs) Handles SpawnProtection.ValueChanged, SpawnProtection.KeyUp, SpawnProtection.Scroll,
-                                                                                       MaximumWorldSize.ValueChanged, MaximumWorldSize.KeyUp, MaximumWorldSize.Scroll
+    Private Sub SpawnProtection_ValueChanged(sender As Object, e As EventArgs) Handles _
+             SpawnProtection.ValueChanged, SpawnProtection.KeyUp, SpawnProtection.Scroll,
+             MaximumWorldSize.ValueChanged, MaximumWorldSize.KeyUp, MaximumWorldSize.Scroll
         SpawnProtectionCalculation.Text = String.Format("{0}×{0}", 2 * SpawnProtection.Value + 1)
         MaximumWorldSizeCalculation.Text = String.Format("{0}×{0}", 2 * MaximumWorldSize.Value)
     End Sub
 
     Private Sub ResetToDefault_Click(sender As Object, e As EventArgs) Handles ResetToDefault.Click
-        JAVASwitch.Value = 1
-        MemoryMinimum.Value = 512
-        MemoryMinimumUnit.SelectedIndex = 1
-        MemoryMaximum.Value = 2048
-        MemoryMaximumUnit.SelectedIndex = 1
         AllowFlight.Checked = False
         AllowNether.Checked = True
         AnnouncePlayerAchievements.Checked = True
@@ -297,5 +311,16 @@ Public Class Settings
         SpawnVillagers.Checked = True
         UseWhiteList.Checked = False
         ViewDistance.Value = 10
+    End Sub
+
+    Private Sub SnooperHelp_Click(sender As Object, e As EventArgs) Handles SnooperHelp.Click
+        MsgBox("Snooper allows Mojang to collect information about your" &
+               " machine to help improve Minecraft by knowing what they" &
+               " can support and where the biggest problems are. All of " &
+               "this information is completely anonymous and able to be " &
+               "viewed within the settings page. They promise they won't" &
+               " do anything bad with this data, but if you want to opt " &
+               "out then feel free to toggle it off!", MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
+
     End Sub
 End Class

@@ -32,6 +32,7 @@ Partial Class Main
         Me.SpeechButton = New System.Windows.Forms.Button()
         Me.Input = New System.Windows.Forms.ComboBox()
         Me.SettingsButton = New System.Windows.Forms.Button()
+        Me.EnvironmentButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'LoadWorld
@@ -49,7 +50,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Path.Location = New System.Drawing.Point(102, 15)
         Me.Path.Name = "Path"
-        Me.Path.Size = New System.Drawing.Size(171, 20)
+        Me.Path.Size = New System.Drawing.Size(253, 20)
         Me.Path.TabIndex = 1
         '
         'LoadJAR
@@ -67,7 +68,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAR.Location = New System.Drawing.Point(101, 41)
         Me.JAR.Name = "JAR"
-        Me.JAR.Size = New System.Drawing.Size(172, 20)
+        Me.JAR.Size = New System.Drawing.Size(254, 20)
         Me.JAR.TabIndex = 3
         '
         'Output
@@ -79,7 +80,7 @@ Partial Class Main
         Me.Output.Multiline = True
         Me.Output.Name = "Output"
         Me.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Output.Size = New System.Drawing.Size(259, 158)
+        Me.Output.Size = New System.Drawing.Size(341, 220)
         Me.Output.TabIndex = 4
         '
         'ServerSwitch
@@ -103,7 +104,7 @@ Partial Class Main
         'SpeechButton
         '
         Me.SpeechButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SpeechButton.Location = New System.Drawing.Point(250, 260)
+        Me.SpeechButton.Location = New System.Drawing.Point(332, 322)
         Me.SpeechButton.Name = "SpeechButton"
         Me.SpeechButton.Size = New System.Drawing.Size(23, 23)
         Me.SpeechButton.TabIndex = 10
@@ -116,9 +117,9 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Input.FormattingEnabled = True
         Me.Input.Items.AddRange(New Object() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug", "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute", "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op", "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off", "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn", "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor", "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger", "weather", "whitelist", "worldborder", "xp"})
-        Me.Input.Location = New System.Drawing.Point(13, 260)
+        Me.Input.Location = New System.Drawing.Point(13, 322)
         Me.Input.Name = "Input"
-        Me.Input.Size = New System.Drawing.Size(231, 21)
+        Me.Input.Size = New System.Drawing.Size(313, 21)
         Me.Input.TabIndex = 11
         '
         'SettingsButton
@@ -130,11 +131,21 @@ Partial Class Main
         Me.SettingsButton.Text = "Settings..."
         Me.SettingsButton.UseVisualStyleBackColor = True
         '
+        'EnvironmentButton
+        '
+        Me.EnvironmentButton.Location = New System.Drawing.Point(265, 67)
+        Me.EnvironmentButton.Name = "EnvironmentButton"
+        Me.EnvironmentButton.Size = New System.Drawing.Size(83, 23)
+        Me.EnvironmentButton.TabIndex = 13
+        Me.EnvironmentButton.Text = "Environment..."
+        Me.EnvironmentButton.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(284, 286)
+        Me.ClientSize = New System.Drawing.Size(366, 348)
+        Me.Controls.Add(Me.EnvironmentButton)
         Me.Controls.Add(Me.SettingsButton)
         Me.Controls.Add(Me.Input)
         Me.Controls.Add(Me.SpeechButton)
@@ -161,5 +172,5 @@ Partial Class Main
     Friend WithEvents SpeechButton As System.Windows.Forms.Button
     Friend WithEvents Input As System.Windows.Forms.ComboBox
     Friend WithEvents SettingsButton As System.Windows.Forms.Button
-
+    Friend WithEvents EnvironmentButton As Button
 End Class

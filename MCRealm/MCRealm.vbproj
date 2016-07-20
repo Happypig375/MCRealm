@@ -100,6 +100,12 @@
     <Compile Include="AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Environment.Designer.vb">
+      <DependentUpon>Environment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Environment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Settings.Designer.vb">
       <DependentUpon>Settings.vb</DependentUpon>
     </Compile>
@@ -138,6 +144,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Environment.resx">
+      <DependentUpon>Environment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Load From....resx">
       <DependentUpon>Load From....vb</DependentUpon>
