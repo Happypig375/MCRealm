@@ -22,8 +22,7 @@ Partial Class Main
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.LoadWorld = New System.Windows.Forms.Button()
-        Me.Path = New System.Windows.Forms.TextBox()
+        Me.RefreshWorlds = New System.Windows.Forms.Button()
         Me.LoadJAR = New System.Windows.Forms.Button()
         Me.JAR = New System.Windows.Forms.TextBox()
         Me.Output = New System.Windows.Forms.TextBox()
@@ -33,25 +32,18 @@ Partial Class Main
         Me.Input = New System.Windows.Forms.ComboBox()
         Me.SettingsButton = New System.Windows.Forms.Button()
         Me.EnvironmentButton = New System.Windows.Forms.Button()
+        Me.Worlds = New System.Windows.Forms.ComboBox()
+        Me.RestartServer = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'LoadWorld
+        'RefreshWorlds
         '
-        Me.LoadWorld.Location = New System.Drawing.Point(13, 12)
-        Me.LoadWorld.Name = "LoadWorld"
-        Me.LoadWorld.Size = New System.Drawing.Size(83, 23)
-        Me.LoadWorld.TabIndex = 0
-        Me.LoadWorld.Text = "Load World..."
-        Me.LoadWorld.UseVisualStyleBackColor = True
-        '
-        'Path
-        '
-        Me.Path.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Path.Location = New System.Drawing.Point(102, 15)
-        Me.Path.Name = "Path"
-        Me.Path.Size = New System.Drawing.Size(253, 20)
-        Me.Path.TabIndex = 1
+        Me.RefreshWorlds.Location = New System.Drawing.Point(13, 12)
+        Me.RefreshWorlds.Name = "RefreshWorlds"
+        Me.RefreshWorlds.Size = New System.Drawing.Size(91, 23)
+        Me.RefreshWorlds.TabIndex = 0
+        Me.RefreshWorlds.Text = "Refresh Worlds"
+        Me.RefreshWorlds.UseVisualStyleBackColor = True
         '
         'LoadJAR
         '
@@ -68,7 +60,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.JAR.Location = New System.Drawing.Point(101, 41)
         Me.JAR.Name = "JAR"
-        Me.JAR.Size = New System.Drawing.Size(254, 20)
+        Me.JAR.Size = New System.Drawing.Size(406, 20)
         Me.JAR.TabIndex = 3
         '
         'Output
@@ -80,7 +72,7 @@ Partial Class Main
         Me.Output.Multiline = True
         Me.Output.Name = "Output"
         Me.Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Output.Size = New System.Drawing.Size(341, 220)
+        Me.Output.Size = New System.Drawing.Size(493, 220)
         Me.Output.TabIndex = 4
         '
         'ServerSwitch
@@ -104,7 +96,7 @@ Partial Class Main
         'SpeechButton
         '
         Me.SpeechButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SpeechButton.Location = New System.Drawing.Point(332, 322)
+        Me.SpeechButton.Location = New System.Drawing.Point(484, 322)
         Me.SpeechButton.Name = "SpeechButton"
         Me.SpeechButton.Size = New System.Drawing.Size(23, 23)
         Me.SpeechButton.TabIndex = 10
@@ -119,7 +111,7 @@ Partial Class Main
         Me.Input.Items.AddRange(New Object() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug", "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute", "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op", "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off", "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn", "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor", "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger", "weather", "whitelist", "worldborder", "xp"})
         Me.Input.Location = New System.Drawing.Point(13, 322)
         Me.Input.Name = "Input"
-        Me.Input.Size = New System.Drawing.Size(313, 21)
+        Me.Input.Size = New System.Drawing.Size(465, 21)
         Me.Input.TabIndex = 11
         '
         'SettingsButton
@@ -140,11 +132,32 @@ Partial Class Main
         Me.EnvironmentButton.Text = "Environment..."
         Me.EnvironmentButton.UseVisualStyleBackColor = True
         '
+        'Worlds
+        '
+        Me.Worlds.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Worlds.FormattingEnabled = True
+        Me.Worlds.Location = New System.Drawing.Point(111, 14)
+        Me.Worlds.Name = "Worlds"
+        Me.Worlds.Size = New System.Drawing.Size(395, 21)
+        Me.Worlds.TabIndex = 14
+        '
+        'RestartServer
+        '
+        Me.RestartServer.Location = New System.Drawing.Point(354, 67)
+        Me.RestartServer.Name = "RestartServer"
+        Me.RestartServer.Size = New System.Drawing.Size(87, 23)
+        Me.RestartServer.TabIndex = 15
+        Me.RestartServer.Text = "Restart Server"
+        Me.RestartServer.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(366, 348)
+        Me.ClientSize = New System.Drawing.Size(518, 348)
+        Me.Controls.Add(Me.RestartServer)
+        Me.Controls.Add(Me.Worlds)
         Me.Controls.Add(Me.EnvironmentButton)
         Me.Controls.Add(Me.SettingsButton)
         Me.Controls.Add(Me.Input)
@@ -154,16 +167,14 @@ Partial Class Main
         Me.Controls.Add(Me.Output)
         Me.Controls.Add(Me.JAR)
         Me.Controls.Add(Me.LoadJAR)
-        Me.Controls.Add(Me.Path)
-        Me.Controls.Add(Me.LoadWorld)
+        Me.Controls.Add(Me.RefreshWorlds)
         Me.Name = "Main"
         Me.Text = "MCRealm"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents LoadWorld As System.Windows.Forms.Button
-    Friend WithEvents Path As System.Windows.Forms.TextBox
+    Friend WithEvents RefreshWorlds As System.Windows.Forms.Button
     Friend WithEvents LoadJAR As System.Windows.Forms.Button
     Friend WithEvents JAR As System.Windows.Forms.TextBox
     Friend WithEvents Output As System.Windows.Forms.TextBox
@@ -173,4 +184,6 @@ Partial Class Main
     Friend WithEvents Input As System.Windows.Forms.ComboBox
     Friend WithEvents SettingsButton As System.Windows.Forms.Button
     Friend WithEvents EnvironmentButton As Button
+    Friend WithEvents Worlds As ComboBox
+    Friend WithEvents RestartServer As Button
 End Class

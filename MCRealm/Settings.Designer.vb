@@ -22,30 +22,15 @@ Partial Class Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ButtonLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
+        Me.Buttons = New System.Windows.Forms.TableLayoutPanel()
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Apply_Button = New System.Windows.Forms.Button()
         Me.World = New System.Windows.Forms.GroupBox()
+        Me.LoadWorldLabel = New System.Windows.Forms.Label()
+        Me.LoadWorld = New System.Windows.Forms.DomainUpDown()
         Me.MaximumWorldSizeCalculation = New System.Windows.Forms.Label()
         Me.SpawnProtectionCalculation = New System.Windows.Forms.Label()
-        Me.SpawnProtection = New System.Windows.Forms.NumericUpDown()
-        Me.SpawnProtectionLabel = New System.Windows.Forms.Label()
-        Me.Difficulty = New System.Windows.Forms.ComboBox()
-        Me.DifficultyLabel = New System.Windows.Forms.Label()
-        Me.SpawnVillagers = New System.Windows.Forms.CheckBox()
-        Me.SpawnMonsters = New System.Windows.Forms.CheckBox()
-        Me.SpawnAnimals = New System.Windows.Forms.CheckBox()
-        Me.OPPermissionLevel = New System.Windows.Forms.NumericUpDown()
-        Me.OPPermissionLevelLabel = New System.Windows.Forms.Label()
-        Me.MaximumWorldSize = New System.Windows.Forms.NumericUpDown()
-        Me.MaximumWorldSizeLabel = New System.Windows.Forms.Label()
-        Me.MaximumBuildHeight = New System.Windows.Forms.NumericUpDown()
-        Me.MaximumBuildHeightLabel = New System.Windows.Forms.Label()
-        Me.Hardcore = New System.Windows.Forms.CheckBox()
-        Me.GenerateStructures = New System.Windows.Forms.CheckBox()
-        Me.EnableCommandBlocks = New System.Windows.Forms.CheckBox()
-        Me.AllowNether = New System.Windows.Forms.CheckBox()
         Me.Players = New System.Windows.Forms.GroupBox()
         Me.UseWhiteList = New System.Windows.Forms.CheckBox()
         Me.DefaultGamemode = New System.Windows.Forms.ComboBox()
@@ -62,9 +47,26 @@ Partial Class Settings
         Me.ViewDistanceLabel = New System.Windows.Forms.Label()
         Me.PlayerIdleTimeoutCheckBox = New System.Windows.Forms.CheckBox()
         Me.MaximumPlayers = New System.Windows.Forms.NumericUpDown()
+        Me.SpawnProtection = New System.Windows.Forms.NumericUpDown()
+        Me.SpawnProtectionLabel = New System.Windows.Forms.Label()
+        Me.Difficulty = New System.Windows.Forms.ComboBox()
+        Me.DifficultyLabel = New System.Windows.Forms.Label()
+        Me.SpawnVillagers = New System.Windows.Forms.CheckBox()
+        Me.SpawnMonsters = New System.Windows.Forms.CheckBox()
+        Me.SpawnAnimals = New System.Windows.Forms.CheckBox()
+        Me.OPPermissionLevel = New System.Windows.Forms.NumericUpDown()
+        Me.OPPermissionLevelLabel = New System.Windows.Forms.Label()
+        Me.MaximumWorldSize = New System.Windows.Forms.NumericUpDown()
+        Me.MaximumWorldSizeLabel = New System.Windows.Forms.Label()
+        Me.MaximumBuildHeight = New System.Windows.Forms.NumericUpDown()
+        Me.MaximumBuildHeightLabel = New System.Windows.Forms.Label()
+        Me.Debug = New System.Windows.Forms.CheckBox()
+        Me.Hardcore = New System.Windows.Forms.CheckBox()
+        Me.GenerateStructures = New System.Windows.Forms.CheckBox()
+        Me.EnableCommandBlocks = New System.Windows.Forms.CheckBox()
+        Me.AllowNether = New System.Windows.Forms.CheckBox()
         Me.Connection = New System.Windows.Forms.GroupBox()
-        Me.LoadWorldLabel = New System.Windows.Forms.Label()
-        Me.LoadWorld = New System.Windows.Forms.DomainUpDown()
+        Me.SnooperHelp = New System.Windows.Forms.Button()
         Me.EnableSnooper = New System.Windows.Forms.CheckBox()
         Me.IP = New System.Windows.Forms.TextBox()
         Me.IPLabel = New System.Windows.Forms.Label()
@@ -83,21 +85,19 @@ Partial Class Settings
         Me.MessageOfTheDayLabel = New System.Windows.Forms.Label()
         Me.EnableRemoteConnection = New System.Windows.Forms.CheckBox()
         Me.EnableQuery = New System.Windows.Forms.CheckBox()
-        Me.Debug = New System.Windows.Forms.CheckBox()
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
         Me.ResetToDefault = New System.Windows.Forms.Button()
-        Me.SnooperHelp = New System.Windows.Forms.Button()
-        Me.ButtonLayoutPanel.SuspendLayout()
+        Me.Buttons.SuspendLayout()
         Me.World.SuspendLayout()
-        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Players.SuspendLayout()
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Connection.SuspendLayout()
         CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RemoteConnectionPort, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,22 +106,22 @@ Partial Class Settings
         CType(Me.MaximumTickTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'ButtonLayoutPanel
+        'Buttons
         '
-        Me.ButtonLayoutPanel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonLayoutPanel.ColumnCount = 3
-        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
-        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
-        Me.ButtonLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33353!))
-        Me.ButtonLayoutPanel.Controls.Add(Me.Cancel_Button, 0, 0)
-        Me.ButtonLayoutPanel.Controls.Add(Me.OK_Button, 0, 0)
-        Me.ButtonLayoutPanel.Controls.Add(Me.Apply_Button, 1, 0)
-        Me.ButtonLayoutPanel.Location = New System.Drawing.Point(204, 500)
-        Me.ButtonLayoutPanel.Name = "ButtonLayoutPanel"
-        Me.ButtonLayoutPanel.RowCount = 1
-        Me.ButtonLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.ButtonLayoutPanel.Size = New System.Drawing.Size(219, 29)
-        Me.ButtonLayoutPanel.TabIndex = 0
+        Me.Buttons.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Buttons.ColumnCount = 3
+        Me.Buttons.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
+        Me.Buttons.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33323!))
+        Me.Buttons.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33353!))
+        Me.Buttons.Controls.Add(Me.Cancel_Button, 0, 0)
+        Me.Buttons.Controls.Add(Me.OK_Button, 0, 0)
+        Me.Buttons.Controls.Add(Me.Apply_Button, 1, 0)
+        Me.Buttons.Location = New System.Drawing.Point(204, 500)
+        Me.Buttons.Name = "Buttons"
+        Me.Buttons.RowCount = 1
+        Me.Buttons.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.Buttons.Size = New System.Drawing.Size(219, 29)
+        Me.Buttons.TabIndex = 0
         '
         'Cancel_Button
         '
@@ -185,6 +185,23 @@ Partial Class Settings
         Me.World.TabStop = False
         Me.World.Text = "World"
         '
+        'LoadWorldLabel
+        '
+        Me.LoadWorldLabel.AutoSize = True
+        Me.LoadWorldLabel.Location = New System.Drawing.Point(214, 225)
+        Me.LoadWorldLabel.Name = "LoadWorldLabel"
+        Me.LoadWorldLabel.Size = New System.Drawing.Size(65, 13)
+        Me.LoadWorldLabel.TabIndex = 33
+        Me.LoadWorldLabel.Text = "Load World:"
+        '
+        'LoadWorld
+        '
+        Me.LoadWorld.Location = New System.Drawing.Point(282, 223)
+        Me.LoadWorld.Name = "LoadWorld"
+        Me.LoadWorld.Size = New System.Drawing.Size(120, 20)
+        Me.LoadWorld.TabIndex = 32
+        Me.LoadWorld.Text = "Load World..."
+        '
         'MaximumWorldSizeCalculation
         '
         Me.MaximumWorldSizeCalculation.AutoSize = True
@@ -202,168 +219,6 @@ Partial Class Settings
         Me.SpawnProtectionCalculation.Size = New System.Drawing.Size(73, 13)
         Me.SpawnProtectionCalculation.TabIndex = 30
         Me.SpawnProtectionCalculation.Text = "(2n+1)×(2n+1)"
-        '
-        'SpawnProtection
-        '
-        Me.SpawnProtection.Location = New System.Drawing.Point(122, 285)
-        Me.SpawnProtection.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
-        Me.SpawnProtection.Name = "SpawnProtection"
-        Me.SpawnProtection.Size = New System.Drawing.Size(52, 20)
-        Me.SpawnProtection.TabIndex = 29
-        Me.SpawnProtection.Value = New Decimal(New Integer() {16, 0, 0, 0})
-        '
-        'SpawnProtectionLabel
-        '
-        Me.SpawnProtectionLabel.AutoSize = True
-        Me.SpawnProtectionLabel.Location = New System.Drawing.Point(8, 287)
-        Me.SpawnProtectionLabel.Name = "SpawnProtectionLabel"
-        Me.SpawnProtectionLabel.Size = New System.Drawing.Size(91, 13)
-        Me.SpawnProtectionLabel.TabIndex = 28
-        Me.SpawnProtectionLabel.Text = "Spawn Protection"
-        '
-        'Difficulty
-        '
-        Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Difficulty.FormattingEnabled = True
-        Me.Difficulty.Items.AddRange(New Object() {"0. Peaceful", "1. Easy", "2. Normal", "3. Hard"})
-        Me.Difficulty.Location = New System.Drawing.Point(51, 37)
-        Me.Difficulty.Name = "Difficulty"
-        Me.Difficulty.Size = New System.Drawing.Size(121, 21)
-        Me.Difficulty.TabIndex = 27
-        '
-        'DifficultyLabel
-        '
-        Me.DifficultyLabel.AutoSize = True
-        Me.DifficultyLabel.Location = New System.Drawing.Point(4, 40)
-        Me.DifficultyLabel.Name = "DifficultyLabel"
-        Me.DifficultyLabel.Size = New System.Drawing.Size(47, 13)
-        Me.DifficultyLabel.TabIndex = 26
-        Me.DifficultyLabel.Text = "Difficulty"
-        '
-        'SpawnVillagers
-        '
-        Me.SpawnVillagers.AutoSize = True
-        Me.SpawnVillagers.Location = New System.Drawing.Point(7, 267)
-        Me.SpawnVillagers.Name = "SpawnVillagers"
-        Me.SpawnVillagers.Size = New System.Drawing.Size(101, 17)
-        Me.SpawnVillagers.TabIndex = 14
-        Me.SpawnVillagers.Text = "Spawn Villagers"
-        Me.SpawnVillagers.UseVisualStyleBackColor = True
-        '
-        'SpawnMonsters
-        '
-        Me.SpawnMonsters.AutoSize = True
-        Me.SpawnMonsters.Location = New System.Drawing.Point(7, 244)
-        Me.SpawnMonsters.Name = "SpawnMonsters"
-        Me.SpawnMonsters.Size = New System.Drawing.Size(105, 17)
-        Me.SpawnMonsters.TabIndex = 13
-        Me.SpawnMonsters.Text = "Spawn Monsters"
-        Me.SpawnMonsters.UseVisualStyleBackColor = True
-        '
-        'SpawnAnimals
-        '
-        Me.SpawnAnimals.AutoSize = True
-        Me.SpawnAnimals.Location = New System.Drawing.Point(7, 221)
-        Me.SpawnAnimals.Name = "SpawnAnimals"
-        Me.SpawnAnimals.Size = New System.Drawing.Size(98, 17)
-        Me.SpawnAnimals.TabIndex = 12
-        Me.SpawnAnimals.Text = "Spawn Animals"
-        Me.SpawnAnimals.UseVisualStyleBackColor = True
-        '
-        'OPPermissionLevel
-        '
-        Me.OPPermissionLevel.Location = New System.Drawing.Point(120, 194)
-        Me.OPPermissionLevel.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.OPPermissionLevel.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.OPPermissionLevel.Name = "OPPermissionLevel"
-        Me.OPPermissionLevel.Size = New System.Drawing.Size(52, 20)
-        Me.OPPermissionLevel.TabIndex = 11
-        Me.OPPermissionLevel.Value = New Decimal(New Integer() {4, 0, 0, 0})
-        '
-        'OPPermissionLevelLabel
-        '
-        Me.OPPermissionLevelLabel.AutoSize = True
-        Me.OPPermissionLevelLabel.Location = New System.Drawing.Point(6, 196)
-        Me.OPPermissionLevelLabel.Name = "OPPermissionLevelLabel"
-        Me.OPPermissionLevelLabel.Size = New System.Drawing.Size(104, 13)
-        Me.OPPermissionLevelLabel.TabIndex = 10
-        Me.OPPermissionLevelLabel.Text = "OP Permission Level"
-        '
-        'MaximumWorldSize
-        '
-        Me.MaximumWorldSize.Location = New System.Drawing.Point(120, 164)
-        Me.MaximumWorldSize.Maximum = New Decimal(New Integer() {30000000, 0, 0, 0})
-        Me.MaximumWorldSize.Name = "MaximumWorldSize"
-        Me.MaximumWorldSize.Size = New System.Drawing.Size(52, 20)
-        Me.MaximumWorldSize.TabIndex = 9
-        '
-        'MaximumWorldSizeLabel
-        '
-        Me.MaximumWorldSizeLabel.AutoSize = True
-        Me.MaximumWorldSizeLabel.Location = New System.Drawing.Point(6, 166)
-        Me.MaximumWorldSizeLabel.Name = "MaximumWorldSizeLabel"
-        Me.MaximumWorldSizeLabel.Size = New System.Drawing.Size(105, 13)
-        Me.MaximumWorldSizeLabel.TabIndex = 8
-        Me.MaximumWorldSizeLabel.Text = "Maximum World Size"
-        '
-        'MaximumBuildHeight
-        '
-        Me.MaximumBuildHeight.Location = New System.Drawing.Point(120, 136)
-        Me.MaximumBuildHeight.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
-        Me.MaximumBuildHeight.Name = "MaximumBuildHeight"
-        Me.MaximumBuildHeight.Size = New System.Drawing.Size(52, 20)
-        Me.MaximumBuildHeight.TabIndex = 5
-        '
-        'MaximumBuildHeightLabel
-        '
-        Me.MaximumBuildHeightLabel.AutoSize = True
-        Me.MaximumBuildHeightLabel.Location = New System.Drawing.Point(6, 138)
-        Me.MaximumBuildHeightLabel.Name = "MaximumBuildHeightLabel"
-        Me.MaximumBuildHeightLabel.Size = New System.Drawing.Size(111, 13)
-        Me.MaximumBuildHeightLabel.TabIndex = 4
-        Me.MaximumBuildHeightLabel.Text = "Maximum Build Height"
-        '
-        'Hardcore
-        '
-        Me.Hardcore.AutoSize = True
-        Me.Hardcore.Location = New System.Drawing.Point(6, 114)
-        Me.Hardcore.Name = "Hardcore"
-        Me.Hardcore.Size = New System.Drawing.Size(70, 17)
-        Me.Hardcore.TabIndex = 3
-        Me.Hardcore.Text = "Hardcore"
-        Me.Hardcore.UseVisualStyleBackColor = True
-        '
-        'GenerateStructures
-        '
-        Me.GenerateStructures.AutoSize = True
-        Me.GenerateStructures.Location = New System.Drawing.Point(6, 90)
-        Me.GenerateStructures.Name = "GenerateStructures"
-        Me.GenerateStructures.Size = New System.Drawing.Size(121, 17)
-        Me.GenerateStructures.TabIndex = 2
-        Me.GenerateStructures.Text = "Generate Structures"
-        Me.GenerateStructures.UseVisualStyleBackColor = True
-        '
-        'EnableCommandBlocks
-        '
-        Me.EnableCommandBlocks.AutoSize = True
-        Me.EnableCommandBlocks.Location = New System.Drawing.Point(6, 67)
-        Me.EnableCommandBlocks.Name = "EnableCommandBlocks"
-        Me.EnableCommandBlocks.Size = New System.Drawing.Size(144, 17)
-        Me.EnableCommandBlocks.TabIndex = 1
-        Me.EnableCommandBlocks.Text = "Enable Command Blocks"
-        Me.EnableCommandBlocks.UseVisualStyleBackColor = True
-        '
-        'AllowNether
-        '
-        Me.AllowNether.AutoSize = True
-        Me.AllowNether.Checked = True
-        Me.AllowNether.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AllowNether.Location = New System.Drawing.Point(7, 20)
-        Me.AllowNether.Name = "AllowNether"
-        Me.AllowNether.Size = New System.Drawing.Size(86, 17)
-        Me.AllowNether.TabIndex = 0
-        Me.AllowNether.Text = "Allow Nether"
-        Me.AllowNether.UseVisualStyleBackColor = True
         '
         'Players
         '
@@ -537,6 +392,178 @@ Partial Class Settings
         Me.MaximumPlayers.Size = New System.Drawing.Size(52, 20)
         Me.MaximumPlayers.TabIndex = 17
         '
+        'SpawnProtection
+        '
+        Me.SpawnProtection.Location = New System.Drawing.Point(122, 285)
+        Me.SpawnProtection.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.SpawnProtection.Name = "SpawnProtection"
+        Me.SpawnProtection.Size = New System.Drawing.Size(52, 20)
+        Me.SpawnProtection.TabIndex = 29
+        Me.SpawnProtection.Value = New Decimal(New Integer() {16, 0, 0, 0})
+        '
+        'SpawnProtectionLabel
+        '
+        Me.SpawnProtectionLabel.AutoSize = True
+        Me.SpawnProtectionLabel.Location = New System.Drawing.Point(8, 287)
+        Me.SpawnProtectionLabel.Name = "SpawnProtectionLabel"
+        Me.SpawnProtectionLabel.Size = New System.Drawing.Size(91, 13)
+        Me.SpawnProtectionLabel.TabIndex = 28
+        Me.SpawnProtectionLabel.Text = "Spawn Protection"
+        '
+        'Difficulty
+        '
+        Me.Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Difficulty.FormattingEnabled = True
+        Me.Difficulty.Items.AddRange(New Object() {"0. Peaceful", "1. Easy", "2. Normal", "3. Hard"})
+        Me.Difficulty.Location = New System.Drawing.Point(51, 37)
+        Me.Difficulty.Name = "Difficulty"
+        Me.Difficulty.Size = New System.Drawing.Size(121, 21)
+        Me.Difficulty.TabIndex = 27
+        '
+        'DifficultyLabel
+        '
+        Me.DifficultyLabel.AutoSize = True
+        Me.DifficultyLabel.Location = New System.Drawing.Point(4, 40)
+        Me.DifficultyLabel.Name = "DifficultyLabel"
+        Me.DifficultyLabel.Size = New System.Drawing.Size(47, 13)
+        Me.DifficultyLabel.TabIndex = 26
+        Me.DifficultyLabel.Text = "Difficulty"
+        '
+        'SpawnVillagers
+        '
+        Me.SpawnVillagers.AutoSize = True
+        Me.SpawnVillagers.Location = New System.Drawing.Point(7, 267)
+        Me.SpawnVillagers.Name = "SpawnVillagers"
+        Me.SpawnVillagers.Size = New System.Drawing.Size(101, 17)
+        Me.SpawnVillagers.TabIndex = 14
+        Me.SpawnVillagers.Text = "Spawn Villagers"
+        Me.SpawnVillagers.UseVisualStyleBackColor = True
+        '
+        'SpawnMonsters
+        '
+        Me.SpawnMonsters.AutoSize = True
+        Me.SpawnMonsters.Location = New System.Drawing.Point(7, 244)
+        Me.SpawnMonsters.Name = "SpawnMonsters"
+        Me.SpawnMonsters.Size = New System.Drawing.Size(105, 17)
+        Me.SpawnMonsters.TabIndex = 13
+        Me.SpawnMonsters.Text = "Spawn Monsters"
+        Me.SpawnMonsters.UseVisualStyleBackColor = True
+        '
+        'SpawnAnimals
+        '
+        Me.SpawnAnimals.AutoSize = True
+        Me.SpawnAnimals.Location = New System.Drawing.Point(7, 221)
+        Me.SpawnAnimals.Name = "SpawnAnimals"
+        Me.SpawnAnimals.Size = New System.Drawing.Size(98, 17)
+        Me.SpawnAnimals.TabIndex = 12
+        Me.SpawnAnimals.Text = "Spawn Animals"
+        Me.SpawnAnimals.UseVisualStyleBackColor = True
+        '
+        'OPPermissionLevel
+        '
+        Me.OPPermissionLevel.Location = New System.Drawing.Point(120, 194)
+        Me.OPPermissionLevel.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.OPPermissionLevel.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.OPPermissionLevel.Name = "OPPermissionLevel"
+        Me.OPPermissionLevel.Size = New System.Drawing.Size(52, 20)
+        Me.OPPermissionLevel.TabIndex = 11
+        Me.OPPermissionLevel.Value = New Decimal(New Integer() {4, 0, 0, 0})
+        '
+        'OPPermissionLevelLabel
+        '
+        Me.OPPermissionLevelLabel.AutoSize = True
+        Me.OPPermissionLevelLabel.Location = New System.Drawing.Point(6, 196)
+        Me.OPPermissionLevelLabel.Name = "OPPermissionLevelLabel"
+        Me.OPPermissionLevelLabel.Size = New System.Drawing.Size(104, 13)
+        Me.OPPermissionLevelLabel.TabIndex = 10
+        Me.OPPermissionLevelLabel.Text = "OP Permission Level"
+        '
+        'MaximumWorldSize
+        '
+        Me.MaximumWorldSize.Location = New System.Drawing.Point(120, 164)
+        Me.MaximumWorldSize.Maximum = New Decimal(New Integer() {30000000, 0, 0, 0})
+        Me.MaximumWorldSize.Name = "MaximumWorldSize"
+        Me.MaximumWorldSize.Size = New System.Drawing.Size(52, 20)
+        Me.MaximumWorldSize.TabIndex = 9
+        '
+        'MaximumWorldSizeLabel
+        '
+        Me.MaximumWorldSizeLabel.AutoSize = True
+        Me.MaximumWorldSizeLabel.Location = New System.Drawing.Point(6, 166)
+        Me.MaximumWorldSizeLabel.Name = "MaximumWorldSizeLabel"
+        Me.MaximumWorldSizeLabel.Size = New System.Drawing.Size(105, 13)
+        Me.MaximumWorldSizeLabel.TabIndex = 8
+        Me.MaximumWorldSizeLabel.Text = "Maximum World Size"
+        '
+        'MaximumBuildHeight
+        '
+        Me.MaximumBuildHeight.Location = New System.Drawing.Point(120, 136)
+        Me.MaximumBuildHeight.Maximum = New Decimal(New Integer() {2147483647, 0, 0, 0})
+        Me.MaximumBuildHeight.Name = "MaximumBuildHeight"
+        Me.MaximumBuildHeight.Size = New System.Drawing.Size(52, 20)
+        Me.MaximumBuildHeight.TabIndex = 5
+        '
+        'MaximumBuildHeightLabel
+        '
+        Me.MaximumBuildHeightLabel.AutoSize = True
+        Me.MaximumBuildHeightLabel.Location = New System.Drawing.Point(6, 138)
+        Me.MaximumBuildHeightLabel.Name = "MaximumBuildHeightLabel"
+        Me.MaximumBuildHeightLabel.Size = New System.Drawing.Size(111, 13)
+        Me.MaximumBuildHeightLabel.TabIndex = 4
+        Me.MaximumBuildHeightLabel.Text = "Maximum Build Height"
+        '
+        'Debug
+        '
+        Me.Debug.AutoSize = True
+        Me.Debug.Location = New System.Drawing.Point(345, 249)
+        Me.Debug.Name = "Debug"
+        Me.Debug.Size = New System.Drawing.Size(58, 17)
+        Me.Debug.TabIndex = 0
+        Me.Debug.Text = "Debug"
+        Me.Debug.UseVisualStyleBackColor = True
+        '
+        'Hardcore
+        '
+        Me.Hardcore.AutoSize = True
+        Me.Hardcore.Location = New System.Drawing.Point(6, 114)
+        Me.Hardcore.Name = "Hardcore"
+        Me.Hardcore.Size = New System.Drawing.Size(70, 17)
+        Me.Hardcore.TabIndex = 3
+        Me.Hardcore.Text = "Hardcore"
+        Me.Hardcore.UseVisualStyleBackColor = True
+        '
+        'GenerateStructures
+        '
+        Me.GenerateStructures.AutoSize = True
+        Me.GenerateStructures.Location = New System.Drawing.Point(6, 90)
+        Me.GenerateStructures.Name = "GenerateStructures"
+        Me.GenerateStructures.Size = New System.Drawing.Size(121, 17)
+        Me.GenerateStructures.TabIndex = 2
+        Me.GenerateStructures.Text = "Generate Structures"
+        Me.GenerateStructures.UseVisualStyleBackColor = True
+        '
+        'EnableCommandBlocks
+        '
+        Me.EnableCommandBlocks.AutoSize = True
+        Me.EnableCommandBlocks.Location = New System.Drawing.Point(6, 67)
+        Me.EnableCommandBlocks.Name = "EnableCommandBlocks"
+        Me.EnableCommandBlocks.Size = New System.Drawing.Size(144, 17)
+        Me.EnableCommandBlocks.TabIndex = 1
+        Me.EnableCommandBlocks.Text = "Enable Command Blocks"
+        Me.EnableCommandBlocks.UseVisualStyleBackColor = True
+        '
+        'AllowNether
+        '
+        Me.AllowNether.AutoSize = True
+        Me.AllowNether.Checked = True
+        Me.AllowNether.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AllowNether.Location = New System.Drawing.Point(7, 20)
+        Me.AllowNether.Name = "AllowNether"
+        Me.AllowNether.Size = New System.Drawing.Size(86, 17)
+        Me.AllowNether.TabIndex = 0
+        Me.AllowNether.Text = "Allow Nether"
+        Me.AllowNether.UseVisualStyleBackColor = True
+        '
         'Connection
         '
         Me.Connection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
@@ -569,22 +596,14 @@ Partial Class Settings
         Me.Connection.TabStop = False
         Me.Connection.Text = " Connection"
         '
-        'LoadWorldLabel
+        'SnooperHelp
         '
-        Me.LoadWorldLabel.AutoSize = True
-        Me.LoadWorldLabel.Location = New System.Drawing.Point(214, 225)
-        Me.LoadWorldLabel.Name = "LoadWorldLabel"
-        Me.LoadWorldLabel.Size = New System.Drawing.Size(65, 13)
-        Me.LoadWorldLabel.TabIndex = 33
-        Me.LoadWorldLabel.Text = "Load World:"
-        '
-        'LoadWorld
-        '
-        Me.LoadWorld.Location = New System.Drawing.Point(282, 223)
-        Me.LoadWorld.Name = "LoadWorld"
-        Me.LoadWorld.Size = New System.Drawing.Size(120, 20)
-        Me.LoadWorld.TabIndex = 32
-        Me.LoadWorld.Text = "Load World..."
+        Me.SnooperHelp.Location = New System.Drawing.Point(110, 130)
+        Me.SnooperHelp.Name = "SnooperHelp"
+        Me.SnooperHelp.Size = New System.Drawing.Size(119, 23)
+        Me.SnooperHelp.TabIndex = 32
+        Me.SnooperHelp.Text = "What is Snooper?"
+        Me.SnooperHelp.UseVisualStyleBackColor = True
         '
         'EnableSnooper
         '
@@ -751,16 +770,6 @@ Partial Class Settings
         Me.EnableQuery.Text = "Enable Query - Port :"
         Me.EnableQuery.UseVisualStyleBackColor = True
         '
-        'Debug
-        '
-        Me.Debug.AutoSize = True
-        Me.Debug.Location = New System.Drawing.Point(345, 249)
-        Me.Debug.Name = "Debug"
-        Me.Debug.Size = New System.Drawing.Size(58, 17)
-        Me.Debug.TabIndex = 0
-        Me.Debug.Text = "Debug"
-        Me.Debug.UseVisualStyleBackColor = True
-        '
         'MaximumTickTime
         '
         Me.MaximumTickTime.Location = New System.Drawing.Point(119, 61)
@@ -787,15 +796,6 @@ Partial Class Settings
         Me.ResetToDefault.Text = "Reset To Default"
         Me.ResetToDefault.UseVisualStyleBackColor = True
         '
-        'SnooperHelp
-        '
-        Me.SnooperHelp.Location = New System.Drawing.Point(110, 130)
-        Me.SnooperHelp.Name = "SnooperHelp"
-        Me.SnooperHelp.Size = New System.Drawing.Size(119, 23)
-        Me.SnooperHelp.TabIndex = 32
-        Me.SnooperHelp.Text = "What is Snooper?"
-        Me.SnooperHelp.UseVisualStyleBackColor = True
-        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
@@ -806,7 +806,7 @@ Partial Class Settings
         Me.Controls.Add(Me.ResetToDefault)
         Me.Controls.Add(Me.Connection)
         Me.Controls.Add(Me.World)
-        Me.Controls.Add(Me.ButtonLayoutPanel)
+        Me.Controls.Add(Me.Buttons)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -814,18 +814,18 @@ Partial Class Settings
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Settings"
-        Me.ButtonLayoutPanel.ResumeLayout(False)
+        Me.Buttons.ResumeLayout(False)
         Me.World.ResumeLayout(False)
         Me.World.PerformLayout()
-        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Players.ResumeLayout(False)
         Me.Players.PerformLayout()
         CType(Me.ViewDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PlayerIdleTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MaximumPlayers, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SpawnProtection, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.OPPermissionLevel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MaximumWorldSize, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MaximumBuildHeight, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Connection.ResumeLayout(False)
         Me.Connection.PerformLayout()
         CType(Me.ServerPort, System.ComponentModel.ISupportInitialize).EndInit()
@@ -836,7 +836,7 @@ Partial Class Settings
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents ButtonLayoutPanel As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents Buttons As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Apply_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button

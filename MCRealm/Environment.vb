@@ -7,6 +7,10 @@
         MemoryMaximumUnit.SelectedIndex = 2
         MemoryInitial.Value = MemoryMinimum.Value
         MemoryInitialUnit.SelectedIndex = MemoryMinimumUnit.SelectedIndex
+        BitSwitch.Value = 0
+        GUI.Checked = False
+        Online.Checked = True
+        JavaArgs.Text = "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy"
     End Sub
 
     Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click
@@ -18,6 +22,10 @@
             .MemoryMinUnit = CType(MemoryMinimumUnit.SelectedIndex, Main.JavaRuntimeArgs.MemoryUnit)
             .MemoryInitUnit = CType(MemoryInitialUnit.SelectedIndex, Main.JavaRuntimeArgs.MemoryUnit)
             .MemoryMaxUnit = CType(MemoryMaximumUnit.SelectedIndex, Main.JavaRuntimeArgs.MemoryUnit)
+            .Bit64 = BitSwitch.Value = 1
+            .NoGUI = Not GUI.Checked
+            .Online = Online.Checked
+            .Args = JavaArgs.Text
         End With
         DialogResult = DialogResult.OK
         Close()
@@ -31,13 +39,16 @@
     Private Sub Environment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         With Main.JavaArgs
             JAVASwitch.Value = If(.JavaW, 1, 0)
-            Enabled = Not .Running
             MemoryMinimum.Value = .MemoryMin
             MemoryInitial.Value = .MemoryInit
             MemoryMaximum.Value = .MemoryMax
             MemoryMinimumUnit.SelectedIndex = .MemoryMinUnit
             MemoryInitialUnit.SelectedIndex = .MemoryInitUnit
             MemoryMaximumUnit.SelectedIndex = .MemoryMaxUnit
+            BitSwitch.Value = If(.Bit64, 1, 0)
+            GUI.Checked = Not .NoGUI
+            Online.Checked = .Online
+            JavaArgs.Text = .Args
         End With
     End Sub
 End Class

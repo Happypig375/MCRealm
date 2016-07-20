@@ -3,7 +3,6 @@
     Friend WithEvents Server As New Process()
     Friend JavaArgs As JavaRuntimeArgs
     Friend Structure JavaRuntimeArgs
-        Friend Running As Boolean
         Friend JavaW As Boolean
         Friend MemoryMin As UInt32
         Friend MemoryInit As UInt32
@@ -11,6 +10,10 @@
         Friend MemoryMinUnit As MemoryUnit
         Friend MemoryInitUnit As MemoryUnit
         Friend MemoryMaxUnit As MemoryUnit
+        Friend Bit64 As Boolean
+        Friend NoGUI As Boolean
+        Friend Online As Boolean
+        Friend Args As String
         Friend Enum MemoryUnit As Byte
             [Byte]
             ''' <summary>
@@ -45,9 +48,8 @@
         If ServerRunning Then RunServer_Click(sender, e)
     End Sub
 
-    Private Sub LoadWorld_Click(sender As Object, e As EventArgs) Handles LoadWorld.Click
-        If Load_From.ShowDialog = System.Windows.Forms.DialogResult.Cancel Then Exit Sub
-        Path.Text = Load_From.Path
+    Private Sub RefreshWorlds_Click(sender As Object, e As EventArgs) Handles RefreshWorlds.Click
+
     End Sub
 
     Private Sub LoadJAR_Click(sender As Object, e As EventArgs) Handles LoadJAR.Click
@@ -62,12 +64,7 @@
     Friend Sub RunServer_Click(sender As Object, e As EventArgs) Handles ServerSwitch.Click
         Try
             If ServerRunning Then
-                JavaArgs.Running = False
-                Server.StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
-                Server.StandardInput.Flush()
-                Server.CancelErrorRead()
-                Server.CancelOutputRead()
-                Server.Kill()
+                KillServer()
             Else
 #If False Then
             ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
@@ -105,12 +102,16 @@
                     .WorkingDirectory = System.IO.Path.GetDirectoryName(JAR.Text)
                     .FileName = Determine()
                     .Arguments = String.Format(
-                     "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy -Xmn{0}{1} -Xms{2}{3} -Xmx{4}{5} -d64 -jar ""{6}"" nogui -o true",
+                     "-Xmn{0}{1} -Xms{2}{3} -Xmx{4}{5} -d{6} -jar ""{7}"" {8} -o {9}{10}",
                                                JavaArgs.MemoryMin, '-XX:+CMSIncrementalMode
                                                JavaArgs.MemoryMinUnit.ToString(),
                                                JavaArgs.MemoryInit, JavaArgs.MemoryInitUnit,
                                                JavaArgs.MemoryMax, JavaArgs.MemoryMaxUnit,
-                                               JAR.Text).Replace("Byte", String.Empty)
+                                               If(JavaArgs.Bit64, "64", "32"),
+                                               JAR.Text, If(JavaArgs.NoGUI, "nogui", String.Empty),
+                                               JavaArgs.Online.ToString.ToLower,
+                                               If(String.IsNullOrEmpty(JavaArgs.Args), String.Empty, " "c & JavaArgs.Args)
+                                               ).Replace("Byte", String.Empty)
                     .UseShellExecute = False
                     .CreateNoWindow = True
                     .RedirectStandardInput = True
@@ -118,7 +119,7 @@
                     .RedirectStandardError = True
                 End With
                 ' You can start any process, HelloWorld is a do-nothing example.
-                JavaArgs.Running = True
+                UpdateButtons(True)
                 ServerSwitch.Text = "Stop Server"
                 With Server
                     .EnableRaisingEvents = True
@@ -141,7 +142,7 @@
     End Function
     Private Delegate Sub DefaultEventDelegate(sender As Object, e As EventArgs)
     Private Sub Server_Exited(sender As Object, e As EventArgs) Handles Server.Exited
-        JavaArgs.Running = False
+        UpdateButtons(False)
         If ServerSwitch.InvokeRequired Then
             Dim myDelegate As New DefaultEventDelegate(AddressOf Server_Exited)
             Me.Invoke(myDelegate, sender, e)
@@ -2027,10 +2028,47 @@
             .MemoryMaxUnit = JavaRuntimeArgs.MemoryUnit.M
             .MemoryMin = 1024
             .MemoryMinUnit = JavaRuntimeArgs.MemoryUnit.M
+            .Bit64 = False
+            .NoGUI = True
+            .Online = True
         End With
     End Sub
 
     Private Sub EnvironmentButton_Click(sender As Object, e As EventArgs) Handles EnvironmentButton.Click
         Environment.Show()
+    End Sub
+
+    Friend Sub UpdateButtons(ServerRunning As Boolean)
+        For Each Control As Control In Environment.Controls
+            Control.Enabled = Not ServerRunning
+        Next
+        For Each Control As Control In Settings.Controls
+            Control.Enabled = Not ServerRunning
+        Next
+    End Sub
+
+    Private Sub RestartServer_Click(sender As Object, e As EventArgs) Handles RestartServer.Click
+        If ServerRunning Then KillServer()
+        Threading.Thread.Sleep(10000)
+
+    End Sub
+
+    Friend Sub KillServer()
+        UpdateButtons(False)
+        With Server
+            Try
+                .StandardInput.WriteLine("/stop") 'send an EXIT command to the Command Prompt
+                .StandardInput.Flush()
+                .WaitForExit(15000)
+            Catch ex As InvalidOperationException
+            Finally
+                Try
+                    .CancelErrorRead()
+                    .CancelOutputRead()
+                    .Kill()
+                Catch ex As InvalidOperationException
+                End Try
+            End Try
+        End With
     End Sub
 End Class
