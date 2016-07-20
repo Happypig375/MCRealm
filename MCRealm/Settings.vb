@@ -68,6 +68,7 @@ Public Class Settings
         Writer.WriteLine("query.port={0}", QueryPort.Value)
         Writer.WriteLine("rcon.port={0}", RemoteConnectionPort.Value)
         Writer.WriteLine("rcon.password={0}", RemoteConnectionPassword.Text)
+        Writer.WriteLine("resource-pack={0}", RescPack.Text)
         Writer.WriteLine("server-ip={0}", IP.Text)
         Writer.WriteLine("server-port={0}", ServerPort.Value)
         Writer.WriteLine("snooper-enabled={0}", EnableSnooper.Checked)
@@ -181,6 +182,7 @@ Public Class Settings
                     Case "rcon.password"
                         RemoteConnectionPassword.Text = Line(1)
                     Case "resource-pack"
+                        RescPack.Text = Line(1)
                         ' Not in default server.properties, but probably deprecated
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
@@ -302,6 +304,7 @@ Public Class Settings
         PlayerIdleTimeoutCheckBox.Checked = False
         PVP.Checked = True
         QueryPort.Value = 25565
+        RescPack.Text = Nothing
         RemoteConnectionPassword.Text = Nothing
         RemoteConnectionPort.Value = 25575
         ServerPort.Value = 25565
@@ -322,5 +325,14 @@ Public Class Settings
                " do anything bad with this data, but if you want to opt " &
                "out then feel free to toggle it off!", MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
 
+    End Sub
+
+    Private Sub RescPackHelp_Click(sender As Object, e As EventArgs) Handles RescPackHelp.Click
+        MsgBox("- Make sure that your resource pack is in a .zip file.
+- Ensure that the resource pack size is 50 MB or less. This is a restriction from Mojang.
+- Verify that the file has completely uploaded to your hosting site.
+- If you are using Dropbox, ensure that your resource pack's URL ends in ""?dl=1""," &
+" which directs Minecraft to download instead of the preview page.",
+               MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
     End Sub
 End Class

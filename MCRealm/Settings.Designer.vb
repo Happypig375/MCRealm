@@ -88,6 +88,9 @@ Partial Class Settings
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
         Me.ResetToDefault = New System.Windows.Forms.Button()
+        Me.RescPackHelp = New System.Windows.Forms.Button()
+        Me.RescPackDownload = New System.Windows.Forms.Label()
+        Me.RescPack = New System.Windows.Forms.TextBox()
         Me.Buttons.SuspendLayout()
         Me.World.SuspendLayout()
         Me.Players.SuspendLayout()
@@ -173,7 +176,6 @@ Partial Class Settings
         Me.World.Controls.Add(Me.MaximumWorldSizeLabel)
         Me.World.Controls.Add(Me.MaximumBuildHeight)
         Me.World.Controls.Add(Me.MaximumBuildHeightLabel)
-        Me.World.Controls.Add(Me.Debug)
         Me.World.Controls.Add(Me.Hardcore)
         Me.World.Controls.Add(Me.GenerateStructures)
         Me.World.Controls.Add(Me.EnableCommandBlocks)
@@ -188,7 +190,7 @@ Partial Class Settings
         'LoadWorldLabel
         '
         Me.LoadWorldLabel.AutoSize = True
-        Me.LoadWorldLabel.Location = New System.Drawing.Point(214, 225)
+        Me.LoadWorldLabel.Location = New System.Drawing.Point(211, 294)
         Me.LoadWorldLabel.Name = "LoadWorldLabel"
         Me.LoadWorldLabel.Size = New System.Drawing.Size(65, 13)
         Me.LoadWorldLabel.TabIndex = 33
@@ -196,7 +198,7 @@ Partial Class Settings
         '
         'LoadWorld
         '
-        Me.LoadWorld.Location = New System.Drawing.Point(282, 223)
+        Me.LoadWorld.Location = New System.Drawing.Point(279, 292)
         Me.LoadWorld.Name = "LoadWorld"
         Me.LoadWorld.Size = New System.Drawing.Size(120, 20)
         Me.LoadWorld.TabIndex = 32
@@ -222,6 +224,9 @@ Partial Class Settings
         '
         'Players
         '
+        Me.Players.Controls.Add(Me.RescPack)
+        Me.Players.Controls.Add(Me.RescPackDownload)
+        Me.Players.Controls.Add(Me.RescPackHelp)
         Me.Players.Controls.Add(Me.UseWhiteList)
         Me.Players.Controls.Add(Me.DefaultGamemode)
         Me.Players.Controls.Add(Me.DefaultGamemodeLabel)
@@ -237,9 +242,9 @@ Partial Class Settings
         Me.Players.Controls.Add(Me.ViewDistanceLabel)
         Me.Players.Controls.Add(Me.PlayerIdleTimeoutCheckBox)
         Me.Players.Controls.Add(Me.MaximumPlayers)
-        Me.Players.Location = New System.Drawing.Point(181, 19)
+        Me.Players.Location = New System.Drawing.Point(179, 15)
         Me.Players.Name = "Players"
-        Me.Players.Size = New System.Drawing.Size(228, 203)
+        Me.Players.Size = New System.Drawing.Size(228, 267)
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
@@ -515,7 +520,7 @@ Partial Class Settings
         'Debug
         '
         Me.Debug.AutoSize = True
-        Me.Debug.Location = New System.Drawing.Point(345, 249)
+        Me.Debug.Location = New System.Drawing.Point(305, 67)
         Me.Debug.Name = "Debug"
         Me.Debug.Size = New System.Drawing.Size(58, 17)
         Me.Debug.TabIndex = 0
@@ -586,6 +591,7 @@ Partial Class Settings
         Me.Connection.Controls.Add(Me.MessageOfTheDay)
         Me.Connection.Controls.Add(Me.MessageOfTheDayLabel)
         Me.Connection.Controls.Add(Me.EnableRemoteConnection)
+        Me.Connection.Controls.Add(Me.Debug)
         Me.Connection.Controls.Add(Me.EnableQuery)
         Me.Connection.Controls.Add(Me.MaximumTickTime)
         Me.Connection.Controls.Add(Me.MaximumTickTimeLabel)
@@ -796,6 +802,31 @@ Partial Class Settings
         Me.ResetToDefault.Text = "Reset To Default"
         Me.ResetToDefault.UseVisualStyleBackColor = True
         '
+        'RescPackHelp
+        '
+        Me.RescPackHelp.Location = New System.Drawing.Point(7, 237)
+        Me.RescPackHelp.Name = "RescPackHelp"
+        Me.RescPackHelp.Size = New System.Drawing.Size(214, 24)
+        Me.RescPackHelp.TabIndex = 28
+        Me.RescPackHelp.Text = "The pack isn't working..."
+        Me.RescPackHelp.UseVisualStyleBackColor = True
+        '
+        'RescPackDownload
+        '
+        Me.RescPackDownload.AutoSize = True
+        Me.RescPackDownload.Location = New System.Drawing.Point(7, 197)
+        Me.RescPackDownload.Name = "RescPackDownload"
+        Me.RescPackDownload.Size = New System.Drawing.Size(192, 13)
+        Me.RescPackDownload.TabIndex = 29
+        Me.RescPackDownload.Text = "Default Resource Pack (download link)"
+        '
+        'RescPack
+        '
+        Me.RescPack.Location = New System.Drawing.Point(6, 214)
+        Me.RescPack.Name = "RescPack"
+        Me.RescPack.Size = New System.Drawing.Size(216, 20)
+        Me.RescPack.TabIndex = 30
+        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
@@ -902,4 +933,7 @@ Partial Class Settings
     Friend WithEvents LoadWorldLabel As System.Windows.Forms.Label
     Friend WithEvents LoadWorld As System.Windows.Forms.DomainUpDown
     Friend WithEvents SnooperHelp As Button
+    Friend WithEvents RescPackHelp As Button
+    Friend WithEvents RescPackDownload As Label
+    Friend WithEvents RescPack As TextBox
 End Class
