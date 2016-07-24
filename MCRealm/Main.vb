@@ -2072,3 +2072,182 @@
         End With
     End Sub
 End Class
+
+Public Class PropertiesFile
+    Inherits Dictionary(Of String, String)
+    Implements IDictionary(Of String, String),
+        IDictionary, Runtime.Serialization.ISerializable, Runtime.Serialization.IDeserializationCallback,
+        ICollection(Of KeyValuePair(Of String, String)), IEnumerable(Of KeyValuePair(Of String, String)), IEnumerable
+
+    Private AsyncReader As IO.StreamReader
+    Private AsyncWriter As IO.StreamWriter
+
+#Region "Constructers"
+
+    Public Sub New()
+        MyBase.New
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String))
+        MyBase.New(dictionary)
+    End Sub
+
+    Public Sub New(Key As String, Value As String)
+        Me.New
+        Add(Key, Value)
+    End Sub
+
+    Public Sub New(KeyValuePair As KeyValuePair(Of String, String))
+        Me.New
+        Add(KeyValuePair)
+    End Sub
+
+    Public Sub New(KeyValuePairs As KeyValuePair(Of String, String)())
+        MyBase.New(KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value))
+    End Sub
+
+    Public Sub New(ParamArray KeyValuePairs As String()())
+        Me.New
+        AddRange(KeyValuePairs)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), Key As String, Value As String)
+        Me.New(dictionary)
+        Add(Key, Value)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), KeyValuePair As KeyValuePair(Of String, String))
+        Me.New(dictionary)
+        Add(KeyValuePair)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), KeyValuePairs As KeyValuePair(Of String, String)())
+        Me.New(dictionary)
+        AddRange(KeyValuePairs)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), ParamArray KeyValuePairs As String()())
+        Me.New(dictionary)
+        AddRange(KeyValuePairs)
+    End Sub
+
+#End Region
+
+#Region "IEqualityComparer<String> Constructers"
+
+    Public Sub New(comparer As IEqualityComparer(Of String))
+        MyBase.New(comparer)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), comparer As IEqualityComparer(Of String))
+        MyBase.New(dictionary, comparer)
+    End Sub
+
+    Public Sub New(Key As String, Value As String, comparer As IEqualityComparer(Of String))
+        Me.New(comparer)
+        Add(Key, Value)
+    End Sub
+
+    Public Sub New(KeyValuePair As KeyValuePair(Of String, String), comparer As IEqualityComparer(Of String))
+        Me.New(comparer)
+        Add(KeyValuePair)
+    End Sub
+
+    Public Sub New(KeyValuePairs As KeyValuePair(Of String, String)(), comparer As IEqualityComparer(Of String))
+        Me.New(comparer)
+        AddRange(KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value).ToArray)
+    End Sub
+
+    Public Sub New(comparer As IEqualityComparer(Of String), ParamArray KeyValuePairs As String()())
+        Me.New(comparer)
+        For Each KeyValue As String() In KeyValuePairs
+            Add(KeyValue(0), KeyValue(1))
+        Next
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), Key As String, Value As String,
+                       comparer As IEqualityComparer(Of String))
+        Me.New(dictionary, comparer)
+        Add(Key, Value)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), KeyValuePair As KeyValuePair(Of String, String),
+                       comparer As IEqualityComparer(Of String))
+        Me.New(dictionary, comparer)
+        Add(KeyValuePair)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), KeyValuePairs As KeyValuePair(Of String, String)(),
+                       comparer As IEqualityComparer(Of String))
+        Me.New(dictionary, comparer)
+        AddRange(KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value).ToArray)
+    End Sub
+
+    Public Sub New(dictionary As IDictionary(Of String, String), comparer As IEqualityComparer(Of String),
+                       ParamArray KeyValuePairs As String()())
+        Me.New(dictionary, comparer)
+        For Each KeyValue As String() In KeyValuePairs
+            Add(KeyValue(0), KeyValue(1))
+        Next
+    End Sub
+#End Region
+
+    Public Overloads Sub Add(KeyValuePair As KeyValuePair(Of String, String))
+        Add(KeyValuePair.Key, KeyValuePair.Value)
+    End Sub
+
+
+    Public Sub AddRange(KeyValuePairs As KeyValuePair(Of String, String)())
+        For Each KeyValuePair As KeyValuePair(Of String, String) In KeyValuePairs
+            Add(KeyValuePair)
+        Next
+    End Sub
+
+    Public Sub AddRange(<[ParamArray]> ParamArray KeyValuePairs As String()())
+        For Each KeyValue As String() In KeyValuePairs
+            Add(KeyValue(0), KeyValue(1))
+        Next
+    End Sub
+
+    Public Function ToDictionary() As Dictionary(Of String, String)
+        Return New Dictionary(Of String, String)(Me)
+    End Function
+
+    Public Sub LoadFile(Path As String)
+        LoadString(My.Computer.FileSystem.ReadAllText(Path))
+    End Sub
+
+    Public Sub LoadFile(Path As String, Encoding As System.Text.Encoding)
+        LoadString(My.Computer.FileSystem.ReadAllText(Path, Encoding))
+    End Sub
+
+    Public Sub LoadFileAsync(Path As String)
+        AsyncReader = New IO.StreamReader(Path)
+
+    End Sub
+
+    Public Sub LoadFileAsync(Path As String, Encoding As System.Text.Encoding)
+        AsyncReader = New IO.StreamReader(Path, Encoding)
+    End Sub
+
+    Public Sub LoadStream(Stream As IO.Stream)
+        AsyncReader = New IO.StreamReader(Stream)
+    End Sub
+
+    Public Sub LoadString(Content As String)
+        Dim Prepend As String = String.Empty
+        For Each Line As String In Content.Split({vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+            If Not Line.EndsWith("\\") AndAlso Line.EndsWith("\"c) Then
+                Prepend &= Line.TrimEnd("\"c)
+            ElseIf Prepend IsNot String.Empty Then
+
+                Prepend = String.Empty
+            Else
+            End If
+        Next
+    End Sub
+    Public Shared ReadOnly Empty As Integer
+    Public Sub LoadLine(Line As String)
+
+    End Sub
+End Class

@@ -106,6 +106,7 @@
     <Compile Include="Environment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PropertiesFile.vb" />
     <Compile Include="Settings.Designer.vb">
       <DependentUpon>Settings.vb</DependentUpon>
     </Compile>

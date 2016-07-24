@@ -7,6 +7,7 @@ Public Class Settings
     Friend Changed As Boolean
     Friend ErrorOccurred As Boolean
     Friend PropertiesPath As String
+    Friend Properties As JavaProperties
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -35,7 +36,7 @@ Public Class Settings
                     Exit Sub
             End Select
         End If
-        Writer = New System.IO.StreamWriter(PropertiesPath, False, System.Text.Encoding.Unicode)
+        Writer = New System.IO.StreamWriter(PropertiesPath, False, JavaProperties.DefaultEncoding)
         Writer.WriteLine("#Minecraft server properties")
         Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day,
                          Now.TimeOfDay.ToString, If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now),
@@ -90,6 +91,7 @@ Public Class Settings
     Private Sub Settings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Try
             PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
+            Properties.Load(New FileStream(PropertiesPath, FileMode.OpenOrCreate))
         Catch ex As ArgumentException
             ErrorOccurred = True
             Main.DisplayError(ex)
@@ -102,117 +104,109 @@ Public Class Settings
             Me.Close()
             Exit Sub
         End If
-        Reader = New System.IO.StreamReader(PropertiesPath)
-        Try
-            Do While Reader.Peek() >= 0
-                Dim Line(1) As String
-                Line(0) = Reader.ReadLine
-                If Not Line(0).Contains("="c) Then Continue Do
-                'Line = Line(0).Split("="c)
-                Line(1) = New String(Line(0).Skip(Line(0).IndexOf("="c) + 1).ToArray)
-                Line(0) = New String(Line(0).Take(Line(0).IndexOf("="c)).ToArray).ToLower
-                Select Case Line(0)
-                    Case "#"
-                        Continue Do
+        For Each Pair As KeyValuePair(Of String, String) In Properties
+            Try
+
+                Select Case Pair.Key
                     Case "allow-flight"
-                        AllowFlight.Checked = Convert.ToBoolean(Line(1))
+                        AllowFlight.Checked = Convert.ToBoolean(Pair.Value)
                     Case "allow-nether"
-                        AllowNether.Checked = Convert.ToBoolean(Line(1))
+                        AllowNether.Checked = Convert.ToBoolean(Pair.Value)
                     Case "announce-player-achievements"
-                        AnnouncePlayerAchievements.Checked = Convert.ToBoolean(Line(1))
+                        AnnouncePlayerAchievements.Checked = Convert.ToBoolean(Pair.Value)
                         ' Not in default server.properties, but probably deprecated
                     Case "broadcast-console-to-ops"
-                        BroadcastConsoleToOPs.Checked = Convert.ToBoolean(Line(1))
+                        BroadcastConsoleToOPs.Checked = Convert.ToBoolean(Pair.Value)
                         ' Not in default server.properties, but probably deprecated
                     Case "debug"
-                        Debug.Checked = Convert.ToBoolean(Line(1))
+                        Debug.Checked = Convert.ToBoolean(Pair.Value)
                     Case "difficulty"
-                        Difficulty.SelectedIndex = CInt(Line(1))
+                        Difficulty.SelectedIndex = CInt(Pair.Value)
                     Case "enable-command-block"
-                        EnableCommandBlocks.Checked = Convert.ToBoolean(Line(1))
+                        EnableCommandBlocks.Checked = Convert.ToBoolean(Pair.Value)
                     Case "enable-query"
-                        EnableQuery.Checked = Convert.ToBoolean(Line(1))
+                        EnableQuery.Checked = Convert.ToBoolean(Pair.Value)
                     Case "enable-rcon"
-                        EnableRemoteConnection.Checked = Convert.ToBoolean(Line(1))
+                        EnableRemoteConnection.Checked = Convert.ToBoolean(Pair.Value)
                     Case "force-gamemode"
-                        ForceDefaultGamemode.Checked = Convert.ToBoolean(Line(1))
+                        ForceDefaultGamemode.Checked = Convert.ToBoolean(Pair.Value)
                     Case "gamemode"
-                        DefaultGamemode.SelectedIndex = CInt(Line(1))
+                        DefaultGamemode.SelectedIndex = CInt(Pair.Value)
                     Case "generate-structures"
-                        GenerateStructures.Checked = Convert.ToBoolean(Line(1))
+                        GenerateStructures.Checked = Convert.ToBoolean(Pair.Value)
                     Case "generator-settings"
                     Case "hardcore"
-                        Hardcore.Checked = Convert.ToBoolean(Line(1))
+                        Hardcore.Checked = Convert.ToBoolean(Pair.Value)
                     Case "level-name"
                     Case "level-seed"
                     Case "level-type"
                     Case "max-build-height"
-                        MaximumBuildHeight.Value = CDec(Line(1))
+                        MaximumBuildHeight.Value = CDec(Pair.Value)
                     Case "max-players"
-                        MaximumPlayers.Value = CDec(Line(1))
+                        MaximumPlayers.Value = CDec(Pair.Value)
                     Case "max-tick-time"
-                        MaximumTickTime.Value = CDec(Line(1))
+                        MaximumTickTime.Value = CDec(Pair.Value)
                     Case "max-world-size"
-                        MaximumWorldSize.Value = CDec(Line(1))
+                        MaximumWorldSize.Value = CDec(Pair.Value)
                     Case "motd"
-                        MessageOfTheDay.Text = Line(1)
+                        MessageOfTheDay.Text = Pair.Value
                     Case "network-compression-threshold"
-                        NetworkCompressionThreshold.Value = CDec(Line(1))
+                        NetworkCompressionThreshold.Value = CDec(Pair.Value)
                     Case "online-mode"
-                        OnlineMode.Checked = Convert.ToBoolean(Line(1))
+                        OnlineMode.Checked = Convert.ToBoolean(Pair.Value)
                     Case "op-permission-level"
-                        OPPermissionLevel.Value = CDec(Line(1))
+                        OPPermissionLevel.Value = CDec(Pair.Value)
                     Case "player-idle-timeout"
-                        If Val(Line(1)) = 0 Then
+                        If Val(Pair.Value) = 0 Then
                             PlayerIdleTimeoutCheckBox.Checked = False
                             PlayerIdleTimeout.Enabled = False
                         Else
                             PlayerIdleTimeoutCheckBox.Checked = True
-                            PlayerIdleTimeout.Value = CDec(Line(1))
+                            PlayerIdleTimeout.Value = CDec(Pair.Value)
                         End If
                     Case "pvp"
-                        PVP.Checked = Convert.ToBoolean(Line(1))
+                        PVP.Checked = Convert.ToBoolean(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "query.port"
-                        QueryPort.Value = CDec(Line(1))
+                        QueryPort.Value = CDec(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "rcon.port"
-                        RemoteConnectionPort.Value = CDec(Line(1))
+                        RemoteConnectionPort.Value = CDec(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "rcon.password"
-                        RemoteConnectionPassword.Text = Line(1)
+                        RemoteConnectionPassword.Text = Pair.Value
                     Case "resource-pack"
-                        RescPack.Text = Line(1)
+                        RescPack.Text = Pair.Value
                         ' Not in default server.properties, but probably deprecated
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
                     Case "server-ip"
-                        IP.Text = Line(1)
+                        IP.Text = Pair.Value
                     Case "server-port"
-                        ServerPort.Value = CDec(Line(1))
+                        ServerPort.Value = CDec(Pair.Value)
                     Case "snooper-enabled"
-                        EnableSnooper.Checked = Convert.ToBoolean(Line(1))
+                        EnableSnooper.Checked = Convert.ToBoolean(Pair.Value)
                     Case "spawn-animals"
-                        SpawnAnimals.Checked = Convert.ToBoolean(Line(1))
+                        SpawnAnimals.Checked = Convert.ToBoolean(Pair.Value)
                     Case "spawn-monsters"
-                        SpawnMonsters.Checked = Convert.ToBoolean(Line(1))
+                        SpawnMonsters.Checked = Convert.ToBoolean(Pair.Value)
                     Case "spawn-npcs"
-                        SpawnVillagers.Checked = Convert.ToBoolean(Line(1))
+                        SpawnVillagers.Checked = Convert.ToBoolean(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "spawn-protection"
-                        SpawnProtection.Value = Convert.ToDecimal(Line(1))
+                        SpawnProtection.Value = Convert.ToDecimal(Pair.Value)
                     Case "view-distance"
-                        ViewDistance.Value = CDec(Line(1))
+                        ViewDistance.Value = CDec(Pair.Value)
                     Case "white-list"
-                        UseWhiteList.Checked = Convert.ToBoolean(Line(1))
+                        UseWhiteList.Checked = Convert.ToBoolean(Pair.Value)
                 End Select
-            Loop
-        Catch ex As Exception
-            Main.DisplayError(ex)
-        Finally
-            Reader.Close()
-            Changed = False
-        End Try
+            Catch ex As Exception
+                Main.DisplayError(ex)
+            Finally
+                Reader.Close()
+                Changed = False
+            End Try
+        Next
     End Sub
     'Writer = New System.IO.StreamWriter(PropertiesPath)
 
