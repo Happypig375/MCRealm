@@ -2,12 +2,11 @@
 Imports System.IO
 
 Public Class Settings
-    Friend Reader As System.IO.StreamReader
-    Friend Writer As System.IO.StreamWriter
     Friend Changed As Boolean
     Friend ErrorOccurred As Boolean
     Friend PropertiesPath As String
-    Friend Properties As JavaProperties
+    Friend Properties As New JavaProperties
+    Dim PropertiesStream As FileStream
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -36,51 +35,54 @@ Public Class Settings
                     Exit Sub
             End Select
         End If
-        Writer = New System.IO.StreamWriter(PropertiesPath, False, JavaProperties.DefaultEncoding)
-        Writer.WriteLine("#Minecraft server properties")
-        Writer.WriteLine("#{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day,
+        Properties.SetProperty("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
+        Properties.SetProperty("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
+        Properties.SetProperty("announce-player-achievements={0}", AnnouncePlayerAchievements.Checked.ToString.ToLower)
+        Properties.SetProperty("broadcast-console-to-ops={0}", BroadcastConsoleToOPs.Checked.ToString.ToLower)
+        Properties.SetProperty("debug={0}", Debug.Checked.ToString.ToLower)
+        Properties.SetProperty("difficulty={0}", Str(Difficulty.SelectedIndex))
+        Properties.SetProperty("enable-command-block={0}", EnableCommandBlocks.Checked.ToString.ToLower)
+        Properties.SetProperty("enable-query={0}", EnableQuery.Checked.ToString.ToLower)
+        Properties.SetProperty("enable-rcon={0}", EnableRemoteConnection.Checked.ToString.ToLower)
+        Properties.SetProperty("force-gamemode={0}", ForceDefaultGamemode.Checked.ToString.ToLower)
+        Properties.SetProperty("gamemode={0}", Str(DefaultGamemode.SelectedIndex))
+        Properties.SetProperty("generate-structures={0}", GenerateStructures.Checked.ToString.ToLower)
+        Properties.SetProperty("hardcore={0}", Hardcore.Checked.ToString.ToLower)
+        Properties.SetProperty("max-build-height={0}", Str(MaximumBuildHeight.Value))
+        Properties.SetProperty("max-players={0}", Str(MaximumPlayers.Value))
+        Properties.SetProperty("max-tick-time={0}", Str(MaximumTickTime.Value))
+        Properties.SetProperty("max-world-size={0}", Str(MaximumWorldSize.Value))
+        Properties.SetProperty("motd={0}", MessageOfTheDay.Text)
+        Properties.SetProperty("network-compression-threshold={0}", Str(NetworkCompressionThreshold.Value))
+        Properties.SetProperty("online-mode={0}", OnlineMode.Checked.ToString.ToLower)
+        Properties.SetProperty("op-permission-level={0}", Str(OPPermissionLevel.Value))
+        Properties.SetProperty("player-idle-timeout={0}", If(PlayerIdleTimeoutCheckBox.Checked, Str(PlayerIdleTimeout.Value), "0"c))
+        Properties.SetProperty("pvp={0}", PVP.Checked.ToString.ToLower)
+        Properties.SetProperty("query.port={0}", Str(QueryPort.Value))
+        Properties.SetProperty("rcon.port={0}", Str(RemoteConnectionPort.Value))
+        Properties.SetProperty("rcon.password={0}", RemoteConnectionPassword.Text)
+        Properties.SetProperty("resource-pack={0}", RescPack.Text)
+        Properties.SetProperty("server-ip={0}", IP.Text)
+        Properties.SetProperty("server-port={0}", Str(ServerPort.Value))
+        Properties.SetProperty("snooper-enabled={0}", EnableSnooper.Checked.ToString.ToLower)
+        Properties.SetProperty("spawn-animals={0}", SpawnAnimals.Checked.ToString.ToLower)
+        Properties.SetProperty("spawn-monsters={0}", SpawnMonsters.Checked.ToString.ToLower)
+        Properties.SetProperty("spawn-npcs={0}", SpawnVillagers.Checked.ToString.ToLower)
+        Properties.SetProperty("spawn-protection={0}", Str(SpawnProtection.Value))
+        Properties.SetProperty("view-distance={0}", Str(ViewDistance.Value))
+        Properties.SetProperty("white-list={0}", UseWhiteList.Checked.ToString.ToLower)
+        Properties.Store(PropertiesStream, "Minecraft server properties", String.Format(
+                         "{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day,
                          Now.TimeOfDay.ToString, If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now),
                          TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) Char.IsUpper(Character)
-                     ), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year)
+                     ), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year))
         '#Thu Feb 04 18:24:36 CST 2016
-        Writer.WriteLine("allow-flight={0}", AllowFlight.Checked.ToString.ToLower)
-        Writer.WriteLine("allow-nether={0}", AllowNether.Checked.ToString.ToLower)
-        Writer.WriteLine("announce-player-achievements={0}", AnnouncePlayerAchievements.Checked.ToString.ToLower)
-        Writer.WriteLine("broadcast-console-to-ops={0}", BroadcastConsoleToOPs.Checked.ToString.ToLower)
-        Writer.WriteLine("debug={0}", Debug.Checked.ToString.ToLower)
-        Writer.WriteLine("difficulty={0}", Difficulty.SelectedIndex)
-        Writer.WriteLine("enable-command-block={0}", EnableCommandBlocks.Checked.ToString.ToLower)
-        Writer.WriteLine("enable-query={0}", EnableQuery.Checked.ToString.ToLower)
-        Writer.WriteLine("enable-rcon={0}", EnableRemoteConnection.Checked.ToString.ToLower)
-        Writer.WriteLine("force-gamemode={0}", ForceDefaultGamemode.Checked.ToString.ToLower)
-        Writer.WriteLine("gamemode={0}", DefaultGamemode.SelectedIndex)
-        Writer.WriteLine("generate-structures={0}", GenerateStructures.Checked.ToString.ToLower)
-        Writer.WriteLine("hardcore={0}", Hardcore.Checked.ToString.ToLower)
-        Writer.WriteLine("max-build-height={0}", MaximumBuildHeight.Value)
-        Writer.WriteLine("max-players={0}", MaximumPlayers.Value)
-        Writer.WriteLine("max-tick-time={0}", MaximumTickTime.Value)
-        Writer.WriteLine("max-world-size={0}", MaximumWorldSize.Value)
-        Writer.WriteLine("motd={0}", MessageOfTheDay.Text)
-        Writer.WriteLine("network-compression-threshold={0}", NetworkCompressionThreshold.Value)
-        Writer.WriteLine("online-mode={0}", OnlineMode.Checked.ToString.ToLower)
-        Writer.WriteLine("op-permission-level={0}", OPPermissionLevel.Value)
-        Writer.WriteLine("player-idle-timeout={0}", If(PlayerIdleTimeoutCheckBox.Checked, PlayerIdleTimeout.Value, 0))
-        Writer.WriteLine("pvp={0}", PVP.Checked.ToString.ToLower)
-        Writer.WriteLine("query.port={0}", QueryPort.Value)
-        Writer.WriteLine("rcon.port={0}", RemoteConnectionPort.Value)
-        Writer.WriteLine("rcon.password={0}", RemoteConnectionPassword.Text)
-        Writer.WriteLine("resource-pack={0}", RescPack.Text)
-        Writer.WriteLine("server-ip={0}", IP.Text)
-        Writer.WriteLine("server-port={0}", ServerPort.Value)
-        Writer.WriteLine("snooper-enabled={0}", EnableSnooper.Checked)
-        Writer.WriteLine("spawn-animals={0}", SpawnAnimals.Checked)
-        Writer.WriteLine("spawn-monsters={0}", SpawnMonsters.Checked)
-        Writer.WriteLine("spawn-npcs={0}", SpawnVillagers.Checked)
-        Writer.WriteLine("spawn-protection={0}", SpawnProtection.Value)
-        Writer.WriteLine("view-distance={0}", ViewDistance.Value)
-        Writer.WriteLine("white-list={0}", UseWhiteList.Checked)
-        Writer.Flush()
-        Writer.Close()
+        With PropertiesStream
+            .Flush()
+            .Unlock(0, .Length)
+            .Close()
+            .Dispose()
+        End With
         If RestartServer Then
             Main.RunServer_Click(sender, e)
             Threading.Thread.Sleep(1000)
@@ -91,52 +93,54 @@ Public Class Settings
     Private Sub Settings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Try
             PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
-            Properties.Load(New FileStream(PropertiesPath, FileMode.OpenOrCreate))
+            PropertiesStream = New FileStream(PropertiesPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite)
+            PropertiesStream.Lock(0, PropertiesStream.Length)
+            Dim Reader As New JavaPropertyReader(Properties)
+            Reader.Parse(PropertiesStream)
         Catch ex As ArgumentException
             ErrorOccurred = True
             Main.DisplayError(ex)
             Me.Close()
             Exit Sub
         End Try
-        If Not File.Exists(PropertiesPath) Then
+        If File.Exists(PropertiesPath) Then
             ErrorOccurred = True
             Main.DisplayError(New FileNotFoundException("server.properties not found!", PropertiesPath))
             Me.Close()
             Exit Sub
         End If
-        For Each Pair As KeyValuePair(Of String, String) In Properties
+        For Each Pair As DictionaryEntry In Properties
             Try
-
-                Select Case Pair.Key
+                Select Case CStr(Pair.Key)
                     Case "allow-flight"
-                        AllowFlight.Checked = Convert.ToBoolean(Pair.Value)
+                        AllowFlight.Checked = CBool(Pair.Value)
                     Case "allow-nether"
-                        AllowNether.Checked = Convert.ToBoolean(Pair.Value)
+                        AllowNether.Checked = CBool(Pair.Value)
                     Case "announce-player-achievements"
-                        AnnouncePlayerAchievements.Checked = Convert.ToBoolean(Pair.Value)
+                        AnnouncePlayerAchievements.Checked = CBool(Pair.Value)
                         ' Not in default server.properties, but probably deprecated
                     Case "broadcast-console-to-ops"
-                        BroadcastConsoleToOPs.Checked = Convert.ToBoolean(Pair.Value)
+                        BroadcastConsoleToOPs.Checked = CBool(Pair.Value)
                         ' Not in default server.properties, but probably deprecated
                     Case "debug"
-                        Debug.Checked = Convert.ToBoolean(Pair.Value)
+                        Debug.Checked = CBool(Pair.Value)
                     Case "difficulty"
                         Difficulty.SelectedIndex = CInt(Pair.Value)
                     Case "enable-command-block"
-                        EnableCommandBlocks.Checked = Convert.ToBoolean(Pair.Value)
+                        EnableCommandBlocks.Checked = CBool(Pair.Value)
                     Case "enable-query"
-                        EnableQuery.Checked = Convert.ToBoolean(Pair.Value)
+                        EnableQuery.Checked = CBool(Pair.Value)
                     Case "enable-rcon"
-                        EnableRemoteConnection.Checked = Convert.ToBoolean(Pair.Value)
+                        EnableRemoteConnection.Checked = CBool(Pair.Value)
                     Case "force-gamemode"
-                        ForceDefaultGamemode.Checked = Convert.ToBoolean(Pair.Value)
+                        ForceDefaultGamemode.Checked = CBool(Pair.Value)
                     Case "gamemode"
                         DefaultGamemode.SelectedIndex = CInt(Pair.Value)
                     Case "generate-structures"
-                        GenerateStructures.Checked = Convert.ToBoolean(Pair.Value)
+                        GenerateStructures.Checked = CBool(Pair.Value)
                     Case "generator-settings"
                     Case "hardcore"
-                        Hardcore.Checked = Convert.ToBoolean(Pair.Value)
+                        Hardcore.Checked = CBool(Pair.Value)
                     Case "level-name"
                     Case "level-seed"
                     Case "level-type"
@@ -149,11 +153,11 @@ Public Class Settings
                     Case "max-world-size"
                         MaximumWorldSize.Value = CDec(Pair.Value)
                     Case "motd"
-                        MessageOfTheDay.Text = Pair.Value
+                        MessageOfTheDay.Text = CStr(Pair.Value)
                     Case "network-compression-threshold"
                         NetworkCompressionThreshold.Value = CDec(Pair.Value)
                     Case "online-mode"
-                        OnlineMode.Checked = Convert.ToBoolean(Pair.Value)
+                        OnlineMode.Checked = CBool(Pair.Value)
                     Case "op-permission-level"
                         OPPermissionLevel.Value = CDec(Pair.Value)
                     Case "player-idle-timeout"
@@ -165,7 +169,7 @@ Public Class Settings
                             PlayerIdleTimeout.Value = CDec(Pair.Value)
                         End If
                     Case "pvp"
-                        PVP.Checked = Convert.ToBoolean(Pair.Value)
+                        PVP.Checked = CBool(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "query.port"
                         QueryPort.Value = CDec(Pair.Value)
@@ -174,37 +178,34 @@ Public Class Settings
                         RemoteConnectionPort.Value = CDec(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "rcon.password"
-                        RemoteConnectionPassword.Text = Pair.Value
+                        RemoteConnectionPassword.Text = CStr(Pair.Value)
                     Case "resource-pack"
-                        RescPack.Text = Pair.Value
+                        RescPack.Text = CStr(Pair.Value)
                         ' Not in default server.properties, but probably deprecated
                     Case "resource-pack-hash"
                     Case "resource-pack-sha1"
                     Case "server-ip"
-                        IP.Text = Pair.Value
+                        IP.Text = CStr(Pair.Value)
                     Case "server-port"
                         ServerPort.Value = CDec(Pair.Value)
                     Case "snooper-enabled"
-                        EnableSnooper.Checked = Convert.ToBoolean(Pair.Value)
+                        EnableSnooper.Checked = CBool(Pair.Value)
                     Case "spawn-animals"
-                        SpawnAnimals.Checked = Convert.ToBoolean(Pair.Value)
+                        SpawnAnimals.Checked = CBool(Pair.Value)
                     Case "spawn-monsters"
-                        SpawnMonsters.Checked = Convert.ToBoolean(Pair.Value)
+                        SpawnMonsters.Checked = CBool(Pair.Value)
                     Case "spawn-npcs"
-                        SpawnVillagers.Checked = Convert.ToBoolean(Pair.Value)
+                        SpawnVillagers.Checked = CBool(Pair.Value)
                         ' Not in default server.properties, but verified
                     Case "spawn-protection"
-                        SpawnProtection.Value = Convert.ToDecimal(Pair.Value)
+                        SpawnProtection.Value = CDec(Pair.Value)
                     Case "view-distance"
                         ViewDistance.Value = CDec(Pair.Value)
                     Case "white-list"
-                        UseWhiteList.Checked = Convert.ToBoolean(Pair.Value)
+                        UseWhiteList.Checked = CBool(Pair.Value)
                 End Select
-            Catch ex As Exception
-                Main.DisplayError(ex)
-            Finally
-                Reader.Close()
-                Changed = False
+            Catch ex As Exception : Main.DisplayError(ex)
+            Finally : Changed = False
             End Try
         Next
     End Sub
@@ -311,22 +312,25 @@ Public Class Settings
     End Sub
 
     Private Sub SnooperHelp_Click(sender As Object, e As EventArgs) Handles SnooperHelp.Click
-        MsgBox("Snooper allows Mojang to collect information about your" &
+        DisplayHelp("Snooper allows Mojang to collect information about your" &
                " machine to help improve Minecraft by knowing what they" &
                " can support and where the biggest problems are. All of " &
                "this information is completely anonymous and able to be " &
                "viewed within the settings page. They promise they won't" &
                " do anything bad with this data, but if you want to opt " &
-               "out then feel free to toggle it off!", MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
+               "out then feel free to toggle it off!")
 
     End Sub
 
     Private Sub RescPackHelp_Click(sender As Object, e As EventArgs) Handles RescPackHelp.Click
-        MsgBox("- Make sure that your resource pack is in a .zip file.
+        DisplayHelp("- Make sure that your resource pack is in a .zip file.
 - Ensure that the resource pack size is 50 MB or less. This is a restriction from Mojang.
 - Verify that the file has completely uploaded to your hosting site.
 - If you are using Dropbox, ensure that your resource pack's URL ends in ""?dl=1""," &
-" which directs Minecraft to download instead of the preview page.",
-               MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
+" which directs Minecraft to download instead of the preview page.")
     End Sub
+
+    Friend Function DisplayHelp(Help As String) As MsgBoxResult
+        Return MsgBox(Help, MsgBoxStyle.Information Or MsgBoxStyle.MsgBoxSetForeground)
+    End Function
 End Class

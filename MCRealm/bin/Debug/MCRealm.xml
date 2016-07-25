@@ -6,6 +6,335 @@ MCRealm
 </name>
 </assembly>
 <members>
+<member name="T:MCRealm.JavaProperties">
+ <summary>
+ Hold Java style properties as key-value pairs and allow them to be loaded from or
+ saved to a ".properties" file. The file is stored with character set ISO-8859-1 which extends US-ASCII
+ (the characters 0-127 are the same) and forms the first part of the Unicode character set.  Within the
+ application <see cref="T:System.String"/> are Unicode - but all values outside the basic US-ASCII set are escaped.
+ </summary>
+</member>
+<member name="P:MCRealm.JavaProperties.DefaultEncoding">
+ <summary>
+ Gets a reference to the ISO-8859-1 encoding (code page 28592). This is the Java standard for .properties files.
+ </summary>
+</member>
+<member name="F:MCRealm.JavaProperties.defaults">
+ <summary>
+ A reference to an optional set of default properties - these values are returned
+ if the value has not been loaded from a ".properties" file or set programatically.
+ </summary>
+</member>
+<member name="M:MCRealm.JavaProperties.#ctor">
+ <summary>
+ An empty constructor that doesn't set the defaults.
+ </summary>
+</member>
+<member name="M:MCRealm.JavaProperties.#ctor(System.Collections.Hashtable)">
+ <summary>
+ Use this constructor to provide a set of default values.  The default values are kept separate
+ to the ones in this instant.
+ </summary>
+ <param name="defaults">A Hashtable that holds a set of defafult key value pairs to
+ return when the requested key has not been set.</param>
+</member>
+<member name="M:MCRealm.JavaProperties.Load(System.IO.Stream)">
+ <summary>
+ Load Java Properties from a stream expecting the format as described in <see cref="T:MCRealm.JavaPropertyReader"/>.
+ </summary>
+ <param name="streamIn">An input stream to read properties from.</param>
+ <exception cref="T:MCRealm.ParseException">If the stream source is invalid.</exception>
+</member>
+<member name="M:MCRealm.JavaProperties.Load(System.IO.Stream,System.Text.Encoding)">
+ <summary>
+ Load Java Properties from a stream with the specified encoding and 
+ expecting the format as described in <see cref="T:MCRealm.JavaPropertyReader"/>.
+ </summary>
+ <param name="streamIn">An input stream to read properties from.</param>
+ <param name="encoding">The stream's encoding.</param>
+</member>
+<member name="M:MCRealm.JavaProperties.Store(System.IO.Stream,System.String)">
+ <summary>
+ Store the contents of this collection of properties to the stream in the format
+ used for Java ".properties" files using an instance of <see cref="T:MCRealm.JavaPropertyWriter"/>.
+ The keys and values will be minimally escaped to ensure special characters are read back
+ in properly.  Keys are not sorted.  The file will begin with a comment identifying the
+ date - and an additional comment may be included before it.
+ </summary>
+ <param name="streamOut">An output stream to write the properties to.</param>
+ <param name="comments">Optional additional comment to include at the head of the output.</param>
+</member>
+<member name="M:MCRealm.JavaProperties.Store(System.IO.Stream,System.String,System.String)">
+ <summary>
+ Store the contents of this collection of properties to the stream in the format
+ used for Java ".properties" files using an instance of <see cref="T:MCRealm.JavaPropertyWriter"/>.
+ The keys and values will be minimally escaped to ensure special characters are read back
+ in properly.  Keys are not sorted.  The file will begin with a comment identifying the
+ date - and an additional comment may be included before it.
+ </summary>
+ <param name="streamOut">An output stream to write the properties to.</param>
+ <param name="comments">Optional additional comment to include at the head of the output.</param>
+ <param name="datetime">Optional custom file modification timestamp that is placed after the custom comment.</param>
+</member>
+<member name="M:MCRealm.JavaProperties.GetProperty(System.String)">
+ <summary>
+ Get the value for the specified key value.  If the key is not found, then return the
+ default value - and if still not found, return null.
+ </summary>
+ <param name="key">The key whose value should be returned.</param>
+ <returns>The value corresponding to the key - or null if not found.</returns>
+</member>
+<member name="M:MCRealm.JavaProperties.GetProperty(System.String,System.String)">
+ <summary>
+ Get the value for the specified key value.  If the key is not found, then return the
+ default value - and if still not found, return <c>defaultValue</c>.
+ </summary>
+ <param name="key">The key whose value should be returned.</param>
+ <param name="defaultValue">The default value if the key is not found.</param>
+ <returns>The value corresponding to the key - or null if not found.</returns>
+</member>
+<member name="M:MCRealm.JavaProperties.SetProperty(System.String,System.String)">
+ <summary>
+ Set the value for a property key.  The old value is returned - if any.
+ </summary>
+ <param name="key">The key whose value is to be set.</param>
+ <param name="newValue">The new value off the key.</param>
+ <returns>The original value of the key - as a string.</returns>
+</member>
+<member name="M:MCRealm.JavaProperties.PropertyNames">
+ <summary>
+ Returns an enumerator of all the properties available in this instance - including the
+ defaults.
+ </summary>
+ <returns>An enumarator for all of the keys including defaults.</returns>
+</member>
+<member name="M:MCRealm.JavaProperties.AsString(System.Object)">
+ <summary>
+ A utility method to safely convert an <c>Object</c> to a <c>string</c>.
+ </summary>
+ <param name="o">An Object or null to be returned as a string.</param>
+ <returns>string value of the object - or null.</returns>
+</member>
+<member name="T:MCRealm.JavaPropertyReader">
+ <summary>
+ This class reads Java style properties from an input stream.  
+ </summary>
+</member>
+<member name="M:MCRealm.JavaPropertyReader.#ctor(System.Collections.Hashtable)">
+ <summary>
+ Construct a reader passing a reference to a Hashtable (or JavaProperties) instance
+ where the keys are to be stored.
+ </summary>
+ <param name="hashtable">A reference to a hashtable where the key-value pairs can be stored.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyReader.Parse(System.IO.Stream)">
+ <summary>
+ <para>Load key value pairs (properties) from an input Stream expected to have ISO-8859-1 encoding (code page 28592).  
+ The input stream (usually reading from a ".properties" file) consists of a series of lines (terminated 
+ by \r, \n or \r\n) each a key value pair, a comment or a blank line.</para>
+ 
+ <para>Leading whitespace (spaces, tabs, formfeeds) are ignored at the start of any line - and a line that is empty or 
+ contains only whitespace is blank and ignored.</para>
+ 
+ <para>A line with the first non-whitespace character is a '#' or '!' is a comment line and the rest of the line is 
+ ignored.</para>
+ 
+ <para>If the first non-whitespace character is not '#' or '!' then it is the start of a key.  A key is all the
+ characters up to the first whitespace or a key/value separator - '=' or ':'.</para>
+ 
+ <para>The separator is optional.  Any whitespace after the key or after the separator (if present) is ignored.</para>
+ 
+ <para>The first non-whitespace character after the separator (or after the key if no separator) begins the value.  
+ The value may include whitespace, separators, or comment characters.</para>
+ 
+ <para>Any unicode character may be included in either key or value by using escapes preceded by the escape 
+ character '\'.</para>
+ 
+ <para>The following special cases are defined:</para>
+ <code>
+ 	'\t' - horizontal tab.
+ 	'\f' - form feed.
+ 	'\r' - return
+ 	'\n' - new line
+ 	'\\' - add escape character.
+ 
+ 	'\ ' - add space in a key or at the start of a value.
+ 	'\!', '\#' - add comment markers at the start of a key.
+ 	'\=', '\:' - add a separator in a key.
+ </code>
+ 
+ <para>Any unicode character using the following escape:</para>
+ <code>
+ 	'\uXXXX' - where XXXX represents the unicode character code as 4 hexadecimal digits.
+ </code>
+ 
+ <para>Finally, longer lines can be broken by putting an escape at the very end of the line.  Any leading space
+ (unless escaped) is skipped at the beginning of the following line.</para>
+ 
+ Examples
+ <code>
+ 	a-key = a-value
+ 	a-key : a-value
+ 	a-key=a-value
+ 	a-key a-value
+ </code>
+ 
+ <para>All the above will result in the same key/value pair - key "a-key" and value "a-value".</para>
+ <code>
+ 	! comment...
+ 	# another comment...
+ </code>
+ 
+ <para>The above are two examples of comments.</para>
+ <code>
+ 	Honk\ Kong = Near China
+ </code>
+ 
+ <para>The above shows how to embed a space in a key - key is "Hong Kong", value is "Near China".</para>
+ <code>
+ 	a-longer-key-example = a really long value that is \
+ 			split over two lines.
+ </code>
+ 
+ <para>An example of a long line split into two.</para>
+ </summary>
+ <param name="stream">The input stream that the properties are read from.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyReader.Parse(System.IO.Stream,System.Text.Encoding)">
+ <summary>
+ <para>Load key value pairs (properties) from an input Stream expected to have ISO-8859-1 encoding (code page 28592).  
+ The input stream (usually reading from a ".properties" file) consists of a series of lines (terminated 
+ by \r, \n or \r\n) each a key value pair, a comment or a blank line.</para>
+ 
+ <para>Leading whitespace (spaces, tabs, formfeeds) are ignored at the start of any line - and a line that is empty or 
+ contains only whitespace is blank and ignored.</para>
+ 
+ <para>A line with the first non-whitespace character is a '#' or '!' is a comment line and the rest of the line is 
+ ignored.</para>
+ 
+ <para>If the first non-whitespace character is not '#' or '!' then it is the start of a key.  A key is all the
+ characters up to the first whitespace or a key/value separator - '=' or ':'.</para>
+ 
+ <para>The separator is optional.  Any whitespace after the key or after the separator (if present) is ignored.</para>
+ 
+ <para>The first non-whitespace character after the separator (or after the key if no separator) begins the value.  
+ The value may include whitespace, separators, or comment characters.</para>
+ 
+ <para>Any unicode character may be included in either key or value by using escapes preceded by the escape 
+ character '\'.</para>
+ 
+ <para>The following special cases are defined:</para>
+ <code>
+ 	'\t' - horizontal tab.
+ 	'\f' - form feed.
+ 	'\r' - return
+ 	'\n' - new line
+ 	'\\' - add escape character.
+ 
+ 	'\ ' - add space in a key or at the start of a value.
+ 	'\!', '\#' - add comment markers at the start of a key.
+ 	'\=', '\:' - add a separator in a key.
+ </code>
+ 
+ <para>Any unicode character using the following escape:</para>
+ <code>
+ 	'\uXXXX' - where XXXX represents the unicode character code as 4 hexadecimal digits.
+ </code>
+ 
+ <para>Finally, longer lines can be broken by putting an escape at the very end of the line.  Any leading space
+ (unless escaped) is skipped at the beginning of the following line.</para>
+ 
+ Examples
+ <code>
+ 	a-key = a-value
+ 	a-key : a-value
+ 	a-key=a-value
+ 	a-key a-value
+ </code>
+ 
+ <para>All the above will result in the same key/value pair - key "a-key" and value "a-value".</para>
+ <code>
+ 	! comment...
+ 	# another comment...
+ </code>
+ 
+ <para>The above are two examples of comments.</para>
+ <code>
+ 	Honk\ Kong = Near China
+ </code>
+ 
+ <para>The above shows how to embed a space in a key - key is "Hong Kong", value is "Near China".</para>
+ <code>
+ 	a-longer-key-example = a really long value that is \
+ 			split over two lines.
+ </code>
+ 
+ <para>An example of a long line split into two.</para>
+ </summary>
+ <param name="stream">The input stream that the properties are read from.</param>
+ <param name="encoding">The <see cref="T:System.Text.Encoding">encoding</see> that is used to read the properies file stream.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyReader.ReadCharSafe">
+ <summary>
+ A method to substitute calls to <c>stream.ReadByte()</c>.
+ The <see cref="T:MCRealm.JavaPropertyReader" /> now uses a <see cref="T:System.IO.BinaryReader"/> to read properties.
+ Unlike a plain stream, the <see cref="T:System.IO.BinaryReader"/> will not return -1 when the stream end is reached,
+ instead an <see cref="T:System.IO.IOException" /> is to be thrown. 
+ <para>
+ In this method we perform a check if the stream is already processed to the end, and return <c>-1</c>.
+ </para>
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:MCRealm.JavaPropertyWriter">
+ <summary>
+ Use this class for writing a set of key value pair strings to an
+ output stream using the Java properties format.
+ </summary>
+</member>
+<member name="M:MCRealm.JavaPropertyWriter.#ctor(System.Collections.Hashtable)">
+ <summary>
+ Construct an instance of this class.
+ </summary>
+ <param name="hashtable">The Hashtable (or JavaProperties) instance
+ whose values are to be written.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyWriter.Write(System.IO.Stream,System.String)">
+ <summary>
+ Write the properties to the output stream.
+ </summary>
+ <param name="stream">The output stream where the properties are written.</param>
+ <param name="comments">Optional comments that are placed at the beginning of the output.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyWriter.Write(System.IO.Stream,System.String,System.String)">
+ <summary>
+ Write the properties to the output stream.
+ </summary>
+ <param name="stream">The output stream where the properties are written.</param>
+ <param name="comments">Optional comments that are placed at the beginning of the output.</param>
+ <param name="datetime">Optional custom file modification timestamp that is placed after the custom comment.</param>
+</member>
+<member name="M:MCRealm.JavaPropertyWriter.escapeKey(System.String)">
+ <summary>
+ Escape the string as a Key with character set ISO-8859-1 -
+ the characters 0-127 are US-ASCII and we will escape any others.  The passed string is Unicode which extends
+ ISO-8859-1 - so all is well.
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="T:MCRealm.ParseException">
+ <summary>
+ An exception thrown by <see cref="T:MCRealm.JavaPropertyReader"/> when parsing
+ a properties stream.
+ </summary>
+</member>
+<member name="M:MCRealm.ParseException.#ctor(System.String)">
+ <summary>
+ Construct an exception with an error message.
+ </summary>
+ <param name="message">A descriptive message for the exception</param>
+</member>
 <member name="F:MCRealm.Main.JavaRuntimeArgs.MemoryUnit.K">
  <summary>
  Kilobyte (1024 Bytes)

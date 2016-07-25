@@ -95,13 +95,28 @@ Public Class JavaProperties
     ''' used for Java ".properties" files using an instance of <see cref="JavaPropertyWriter"/>.
     ''' The keys and values will be minimally escaped to ensure special characters are read back
     ''' in properly.  Keys are not sorted.  The file will begin with a comment identifying the
-    ''' date - and an additional comment may be included.
+    ''' date - and an additional comment may be included before it.
     ''' </summary>
     ''' <param name="streamOut">An output stream to write the properties to.</param>
     ''' <param name="comments">Optional additional comment to include at the head of the output.</param>
     Public Sub Store(streamOut As Stream, comments As String)
         Dim writer As New JavaPropertyWriter(Me)
         writer.Write(streamOut, comments)
+    End Sub
+
+    ''' <summary>
+    ''' Store the contents of this collection of properties to the stream in the format
+    ''' used for Java ".properties" files using an instance of <see cref="JavaPropertyWriter"/>.
+    ''' The keys and values will be minimally escaped to ensure special characters are read back
+    ''' in properly.  Keys are not sorted.  The file will begin with a comment identifying the
+    ''' date - and an additional comment may be included before it.
+    ''' </summary>
+    ''' <param name="streamOut">An output stream to write the properties to.</param>
+    ''' <param name="comments">Optional additional comment to include at the head of the output.</param>
+    ''' <param name="datetime">Optional custom file modification timestamp that is placed after the custom comment.</param>
+    Public Sub Store(streamOut As Stream, comments As String, datetime As String)
+        Dim writer As New JavaPropertyWriter(Me)
+        writer.Write(streamOut, comments, datetime)
     End Sub
 
     ''' <summary>
