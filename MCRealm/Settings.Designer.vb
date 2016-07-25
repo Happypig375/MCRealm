@@ -32,6 +32,8 @@ Partial Class Settings
         Me.MaximumWorldSizeCalculation = New System.Windows.Forms.Label()
         Me.SpawnProtectionCalculation = New System.Windows.Forms.Label()
         Me.Players = New System.Windows.Forms.GroupBox()
+        Me.RescPack = New System.Windows.Forms.TextBox()
+        Me.RescPackDownload = New System.Windows.Forms.Label()
         Me.UseWhiteList = New System.Windows.Forms.CheckBox()
         Me.DefaultGamemode = New System.Windows.Forms.ComboBox()
         Me.DefaultGamemodeLabel = New System.Windows.Forms.Label()
@@ -60,13 +62,12 @@ Partial Class Settings
         Me.MaximumWorldSizeLabel = New System.Windows.Forms.Label()
         Me.MaximumBuildHeight = New System.Windows.Forms.NumericUpDown()
         Me.MaximumBuildHeightLabel = New System.Windows.Forms.Label()
-        Me.Debug = New System.Windows.Forms.CheckBox()
         Me.Hardcore = New System.Windows.Forms.CheckBox()
         Me.GenerateStructures = New System.Windows.Forms.CheckBox()
         Me.EnableCommandBlocks = New System.Windows.Forms.CheckBox()
         Me.AllowNether = New System.Windows.Forms.CheckBox()
+        Me.Debug = New System.Windows.Forms.CheckBox()
         Me.Connection = New System.Windows.Forms.GroupBox()
-        Me.SnooperHelp = New System.Windows.Forms.Button()
         Me.EnableSnooper = New System.Windows.Forms.CheckBox()
         Me.IP = New System.Windows.Forms.TextBox()
         Me.IPLabel = New System.Windows.Forms.Label()
@@ -88,9 +89,6 @@ Partial Class Settings
         Me.MaximumTickTime = New System.Windows.Forms.NumericUpDown()
         Me.MaximumTickTimeLabel = New System.Windows.Forms.Label()
         Me.ResetToDefault = New System.Windows.Forms.Button()
-        Me.RescPackHelp = New System.Windows.Forms.Button()
-        Me.RescPackDownload = New System.Windows.Forms.Label()
-        Me.RescPack = New System.Windows.Forms.TextBox()
         Me.Buttons.SuspendLayout()
         Me.World.SuspendLayout()
         Me.Players.SuspendLayout()
@@ -226,7 +224,6 @@ Partial Class Settings
         '
         Me.Players.Controls.Add(Me.RescPack)
         Me.Players.Controls.Add(Me.RescPackDownload)
-        Me.Players.Controls.Add(Me.RescPackHelp)
         Me.Players.Controls.Add(Me.UseWhiteList)
         Me.Players.Controls.Add(Me.DefaultGamemode)
         Me.Players.Controls.Add(Me.DefaultGamemodeLabel)
@@ -248,6 +245,22 @@ Partial Class Settings
         Me.Players.TabIndex = 15
         Me.Players.TabStop = False
         Me.Players.Text = "Players"
+        '
+        'RescPack
+        '
+        Me.RescPack.Location = New System.Drawing.Point(6, 214)
+        Me.RescPack.Name = "RescPack"
+        Me.RescPack.Size = New System.Drawing.Size(216, 20)
+        Me.RescPack.TabIndex = 30
+        '
+        'RescPackDownload
+        '
+        Me.RescPackDownload.AutoSize = True
+        Me.RescPackDownload.Location = New System.Drawing.Point(7, 197)
+        Me.RescPackDownload.Name = "RescPackDownload"
+        Me.RescPackDownload.Size = New System.Drawing.Size(192, 13)
+        Me.RescPackDownload.TabIndex = 29
+        Me.RescPackDownload.Text = "Default Resource Pack (download link)"
         '
         'UseWhiteList
         '
@@ -517,16 +530,6 @@ Partial Class Settings
         Me.MaximumBuildHeightLabel.TabIndex = 4
         Me.MaximumBuildHeightLabel.Text = "Maximum Build Height"
         '
-        'Debug
-        '
-        Me.Debug.AutoSize = True
-        Me.Debug.Location = New System.Drawing.Point(305, 67)
-        Me.Debug.Name = "Debug"
-        Me.Debug.Size = New System.Drawing.Size(58, 17)
-        Me.Debug.TabIndex = 0
-        Me.Debug.Text = "Debug"
-        Me.Debug.UseVisualStyleBackColor = True
-        '
         'Hardcore
         '
         Me.Hardcore.AutoSize = True
@@ -569,11 +572,20 @@ Partial Class Settings
         Me.AllowNether.Text = "Allow Nether"
         Me.AllowNether.UseVisualStyleBackColor = True
         '
+        'Debug
+        '
+        Me.Debug.AutoSize = True
+        Me.Debug.Location = New System.Drawing.Point(305, 67)
+        Me.Debug.Name = "Debug"
+        Me.Debug.Size = New System.Drawing.Size(58, 17)
+        Me.Debug.TabIndex = 0
+        Me.Debug.Text = "Debug"
+        Me.Debug.UseVisualStyleBackColor = True
+        '
         'Connection
         '
         Me.Connection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Connection.Controls.Add(Me.SnooperHelp)
         Me.Connection.Controls.Add(Me.EnableSnooper)
         Me.Connection.Controls.Add(Me.IP)
         Me.Connection.Controls.Add(Me.IPLabel)
@@ -601,15 +613,6 @@ Partial Class Settings
         Me.Connection.TabIndex = 16
         Me.Connection.TabStop = False
         Me.Connection.Text = " Connection"
-        '
-        'SnooperHelp
-        '
-        Me.SnooperHelp.Location = New System.Drawing.Point(110, 130)
-        Me.SnooperHelp.Name = "SnooperHelp"
-        Me.SnooperHelp.Size = New System.Drawing.Size(119, 23)
-        Me.SnooperHelp.TabIndex = 32
-        Me.SnooperHelp.Text = "What is Snooper?"
-        Me.SnooperHelp.UseVisualStyleBackColor = True
         '
         'EnableSnooper
         '
@@ -802,31 +805,6 @@ Partial Class Settings
         Me.ResetToDefault.Text = "Reset To Default"
         Me.ResetToDefault.UseVisualStyleBackColor = True
         '
-        'RescPackHelp
-        '
-        Me.RescPackHelp.Location = New System.Drawing.Point(7, 237)
-        Me.RescPackHelp.Name = "RescPackHelp"
-        Me.RescPackHelp.Size = New System.Drawing.Size(214, 24)
-        Me.RescPackHelp.TabIndex = 28
-        Me.RescPackHelp.Text = "The pack isn't working..."
-        Me.RescPackHelp.UseVisualStyleBackColor = True
-        '
-        'RescPackDownload
-        '
-        Me.RescPackDownload.AutoSize = True
-        Me.RescPackDownload.Location = New System.Drawing.Point(7, 197)
-        Me.RescPackDownload.Name = "RescPackDownload"
-        Me.RescPackDownload.Size = New System.Drawing.Size(192, 13)
-        Me.RescPackDownload.TabIndex = 29
-        Me.RescPackDownload.Text = "Default Resource Pack (download link)"
-        '
-        'RescPack
-        '
-        Me.RescPack.Location = New System.Drawing.Point(6, 214)
-        Me.RescPack.Name = "RescPack"
-        Me.RescPack.Size = New System.Drawing.Size(216, 20)
-        Me.RescPack.TabIndex = 30
-        '
         'Settings
         '
         Me.AcceptButton = Me.OK_Button
@@ -839,6 +817,7 @@ Partial Class Settings
         Me.Controls.Add(Me.World)
         Me.Controls.Add(Me.Buttons)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.HelpButton = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "Settings"
@@ -932,8 +911,6 @@ Partial Class Settings
     Friend WithEvents MaximumWorldSizeCalculation As System.Windows.Forms.Label
     Friend WithEvents LoadWorldLabel As System.Windows.Forms.Label
     Friend WithEvents LoadWorld As System.Windows.Forms.DomainUpDown
-    Friend WithEvents SnooperHelp As Button
-    Friend WithEvents RescPackHelp As Button
     Friend WithEvents RescPackDownload As Label
     Friend WithEvents RescPack As TextBox
 End Class
