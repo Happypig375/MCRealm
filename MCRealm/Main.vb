@@ -169,6 +169,7 @@
 
     Private Sub Input_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Input.KeyPress
         If e.KeyChar <> Chr(13) Then Exit Sub
+        If Not ServerRunning Then Exit Sub
 #If False Then
         AppActivate(Server.Id)
         SendKeys.Send(Input.Text)
@@ -186,1229 +187,190 @@
 
     Private Sub SpeechButton_Click(sender As Object, e As EventArgs) Handles SpeechButton.Click
 
+
+        ' Create a GrammarBuilder object and append the Choices object.
+        Dim gb As New Speech.Recognition.GrammarBuilder(New Speech.Recognition.Choices(
+                                                       "achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
+                                                       "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute",
+                                                       "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op",
+                                                       "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off",
+                                                       "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn",
+                                                       "spawnpoint", "spreadplayers", "stats", "stop", "summon", "teleport", "tell", "tellraw",
+                                                       "testfor", "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp",
+                                                        "trigger", "weather", "whitelist", "worldborder", "xp"))
+        ' Create a simple grammar that recognizes "red", "green", or "blue".
+
+        Dim Blocks As New Speech.Recognition.Choices("11", "13", "Acacia", "Activator", "Air", "Allium", "Andesite", "Anvil", "Apple", "Armor",
+                                                     "Arrow", "Axe", "Azure", "Baked", "Bale", "Banner", "Barrier", "Bars", "Bat", "Beacon",
+                                                     "Beans", "Bed", "Bedrock", "Beef", "Birch", "Black", "Blaze", "Block", "Blocks", "Blue",
+                                                     "Bluet", "Boat", "Bone", "Book", "Bookshelf", "Boots", "Bottle", "Bow", "Bowl", "Bread",
+                                                     "Brewing", "Brick", "Bricks", "Brown", "Bucket", "Burning", "Bush", "Button", "Cactus",
+                                                     "Cake", "Canes", "Carpet", "Carrot", "Carrots", "Cat", "Cauldron", "Cave", "Chainmail",
+                                                     "Charcoal", "Charge", "Chest", "Chestplate", "Chicken", "Chirp", "Chiseled", "Clay",
+                                                     "Clock", "Clownfish", "Coal", "Coarse", "Cobblestone", "Cobweb", "Coco", "Cocoa",
+                                                     "Command", "Comparator", "Compass", "Cooked", "Cookie", "Cow", "Cracked", "Crafting",
+                                                     "Cream", "Creeper", "Crops", "Crystals", "Cube", "Cyan", "Daisy", "Dandelion", "Dark",
+                                                     "Daylight", "Dead", "Detector", "Diamond", "Diorite", "Dirt", "Disc", "Dispenser", "Door",
+                                                     "Double", "Dragon", "Dropper", "Dust", "Dye", "Egg", "Emerald", "Empty", "Enchanted",
+                                                     "Enchanting", "Enchantment", "End", "Ender", "Enderman", "Endermite", "Eye", "Far",
+                                                     "Farmland", "Feather", "Fence", "Fermented", "Fern", "Fire", "Firework", "Fish",
+                                                     "Fishing", "Flesh", "Flint", "Flower", "Flowing", "Foot", "Frame", "Free", "Furnace",
+                                                     "Gate", "Ghast", "Glass", "Glistering", "Glowing", "Glowstone", "Gold", "Golden",
+                                                     "Granite", "Grass", "Gravel", "Gray", "Green", "Guardian", "Gunpowder", "Hardened", "Hay",
+                                                     "Head", "Helmet", "Hide", "Hoe", "Hook", "Hopper", "Horse", "Human", "Ice", "Ingot",
+                                                     "Ink", "Inverted", "Iron", "Item", "Jack", "Jukebox", "Jungle", "Ladder", "Lamp",
+                                                     "Lantern", "Lapis", "Large", "Lava", "Lazuli", "Lead", "Leather", "Leaves", "Leggings",
+                                                     "Lever", "Light", "Lilac", "Lily", "Lime", "Magenta", "Magma", "Mall", "Map", "Meal",
+                                                     "Mellohi", "Melon", "Milk", "Minecart", "Mob", "Monster", "Mooshroom", "Moss", "Mossy",
+                                                     "Mushroom", "Mutton", "Mycelium", "Name", "Nether", "Netherrack", "Note", "Nugget", "Oak",
+                                                     "Obsidian", "Ocelot", "Orange", "Orchid", "Ore", "Oxeye", "Packed", "Pad", "Painting",
+                                                     "Pane", "Pants", "Paper", "Pearl", "Peony", "Pickaxe", "Pie", "Pig", "Pigman", "Pillar",
+                                                     "Pink", "Piston", "Plank", "Plate", "Podzol", "Poisonous", "Polished", "Poppy",
+                                                     "Porkchop", "Portal", "Pot", "Potato", "Potatoes", "Potion", "Powder", "Powered",
+                                                     "Pressure", "Prismarine", "Pufferfish", "Pumpkin", "Purple", "Quartz", "Quill", "Rabbit",
+                                                     "Rabbit's", "Rail", "Raw", "Red", "Redstone", "Repeater", "Rocket", "Rod", "Rose",
+                                                     "Rotten", "Sack", "Saddle", "Salmon", "Sand", "Sandstone", "Sapling", "Sea", "Seeds",
+                                                     "Sensor", "Shard", "Shears", "Sheep", "Shovel", "Shrub", "Sign", "Silverfish", "Skeleton",
+                                                     "Skeleton", "Slab", "Slime", "Slimeball", "Smooth", "Snow", "Snowball", "Soul", "Spawn",
+                                                     "Spawner", "Spider", "Sponge", "Spruce", "Squid", "Stained", "Stairs", "Stal", "Stand",
+                                                     "Standing", "Star", "Steak", "Steel", "Stem", "Stew", "Stick", "Sticky", "Still", "Stone",
+                                                     "Strad", "String", "Sugar", "Sunflower", "Sword", "TNT", "Table", "Tag", "Tallgrass",
+                                                     "Tear", "Torch", "Trapdoor", "Trapped", "Tripwire", "Tulip", "Tunic", "Villager", "Vines",
+                                                     "Wait", "Wall", "Ward", "Wart", "Water", "Weighted", "Wet", "Wheat", "White", "Wire",
+                                                     "Witch", "Wither", "Wolf", "Wood", "Wooden", "Wool", "Written", "Yellow", "Zombie", "a",
+                                                     "active", "and", "heavy", "inactive", "light", "mounted", "o'", "of", "off", "on",
+                                                     "standing", "with")
+        Dim IDs As New Speech.Recognition.Choices("minecraft:acacia_door", "minecraft:acacia_fence", "minecraft:acacia_fence_gate",
+                                                  "minecraft:acacia_stairs", "minecraft:activator_rail", "minecraft:air", "minecraft:anvil",
+                                                  "minecraft:apple", "minecraft:armor_stand", "minecraft:arrow", "minecraft:baked_potato",
+                                                  "minecraft:banner", "minecraft:barrier", "minecraft:beacon", "minecraft:bed",
+                                                  "minecraft:bedrock", "minecraft:beef", "minecraft:birch_door", "minecraft:birch_fence",
+                                                  "minecraft:birch_fence_gate", "minecraft:birch_stairs", "minecraft:blaze_powder",
+                                                  "minecraft:blaze_rod", "minecraft:boat", "minecraft:bone", "minecraft:book",
+                                                  "minecraft:bookshelf", "minecraft:bow", "minecraft:bowl", "minecraft:bread",
+                                                  "minecraft:brewing_stand", "minecraft:brick", "minecraft:brick_block",
+                                                  "minecraft:brick_stairs", "minecraft:brown_mushroom", "minecraft:brown_mushroom_block",
+                                                  "minecraft:bucket", "minecraft:cactus", "minecraft:cake", "minecraft:carpet",
+                                                  "minecraft:carrot", "minecraft:carrot_on_a_stick", "minecraft:carrots", "minecraft:cauldron",
+                                                  "minecraft:chainmail_boots", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet",
+                                                  "minecraft:chainmail_leggings", "minecraft:chest", "minecraft:chest_minecart",
+                                                  "minecraft:chicken", "minecraft:clay", "minecraft:clay_ball", "minecraft:clock",
+                                                  "minecraft:coal", "minecraft:coal_block", "minecraft:coal_ore", "minecraft:cobblestone",
+                                                  "minecraft:cobblestone_wall", "minecraft:cocoa", "minecraft:command_block",
+                                                  "minecraft:command_block_minecart", "minecraft:comparator", "minecraft:compass",
+                                                  "minecraft:cooked_beef", "minecraft:cooked_chicken", "minecraft:cooked_fish",
+                                                  "minecraft:cooked_mutton", "minecraft:cooked_porkchop", "minecraft:cooked_rabbit",
+                                                  "minecraft:cookie", "minecraft:crafting_table", "minecraft:dark_oak_door",
+                                                  "minecraft:dark_oak_fence", "minecraft:dark_oak_fence_gate", "minecraft:dark_oak_stairs",
+                                                  "minecraft:daylight_detector", "minecraft:daylight_detector_inverted", "minecraft:deadbush",
+                                                  "minecraft:detector_rail", "minecraft:diamond", "minecraft:diamond_axe",
+                                                  "minecraft:diamond_block", "minecraft:diamond_boots", "minecraft:diamond_chestplate",
+                                                  "minecraft:diamond_helmet", "minecraft:diamond_hoe", "minecraft:diamond_horse_armor",
+                                                  "minecraft:diamond_leggings", "minecraft:diamond_ore", "minecraft:diamond_pickaxe",
+                                                  "minecraft:diamond_shovel", "minecraft:diamond_sword", "minecraft:dirt",
+                                                  "minecraft:dispenser", "minecraft:double_plant", "minecraft:double_stone_slab",
+                                                  "minecraft:double_stone_slab2", "minecraft:double_wooden_slab", "minecraft:dragon_egg",
+                                                  "minecraft:dropper", "minecraft:dye", "minecraft:egg", "minecraft:emerald",
+                                                  "minecraft:emerald_block", "minecraft:emerald_ore", "minecraft:enchanted_book",
+                                                  "minecraft:enchanting_table", "minecraft:end_portal", "minecraft:end_portal_frame",
+                                                  "minecraft:end_stone", "minecraft:ender_chest", "minecraft:ender_eye",
+                                                  "minecraft:ender_pearl", "minecraft:experience_bottle", "minecraft:farmland",
+                                                  "minecraft:feather", "minecraft:fence", "minecraft:fence_gate",
+                                                  "minecraft:fermented_spider_eye", "minecraft:filled_map", "minecraft:fire",
+                                                  "minecraft:fire_charge", "minecraft:firework_charge", "minecraft:fireworks",
+                                                  "minecraft:fish", "minecraft:fishing_rod", "minecraft:flint", "minecraft:flint_and_steel",
+                                                  "minecraft:flower_pot", "minecraft:flowing_lava", "minecraft:flowing_water",
+                                                  "minecraft:furnace", "minecraft:furnace_minecart", "minecraft:ghast_tear", "minecraft:glass",
+                                                  "minecraft:glass_bottle", "minecraft:glass_pane", "minecraft:glowstone",
+                                                  "minecraft:glowstone_dust", "minecraft:gold_block", "minecraft:gold_ingot",
+                                                  "minecraft:gold_nugget", "minecraft:gold_ore", "minecraft:golden_apple",
+                                                  "minecraft:golden_axe", "minecraft:golden_boots", "minecraft:golden_carrot",
+                                                  "minecraft:golden_chestplate", "minecraft:golden_helmet", "minecraft:golden_hoe",
+                                                  "minecraft:golden_horse_armor", "minecraft:golden_leggings", "minecraft:golden_pickaxe",
+                                                  "minecraft:golden_rail", "minecraft:golden_shovel", "minecraft:golden_sword",
+                                                  "minecraft:grass", "minecraft:gravel", "minecraft:gunpowder", "minecraft:hardened_clay",
+                                                  "minecraft:hay_block", "minecraft:heavy_weighted_pressure_plate", "minecraft:hopper",
+                                                  "minecraft:hopper_minecart", "minecraft:ice", "minecraft:iron_axe", "minecraft:iron_bars",
+                                                  "minecraft:iron_block", "minecraft:iron_boots", "minecraft:iron_chestplate",
+                                                  "minecraft:iron_door", "minecraft:iron_helmet", "minecraft:iron_hoe",
+                                                  "minecraft:iron_horse_armor", "minecraft:iron_ingot", "minecraft:iron_leggings",
+                                                  "minecraft:iron_ore", "minecraft:iron_pickaxe", "minecraft:iron_shovel",
+                                                  "minecraft:iron_sword", "minecraft:iron_trapdoor", "minecraft:item_frame",
+                                                  "minecraft:jukebox", "minecraft:jungle_door", "minecraft:jungle_fence",
+                                                  "minecraft:jungle_fence_gate", "minecraft:jungle_stairs", "minecraft:ladder",
+                                                  "minecraft:lapis_block", "minecraft:lapis_ore", "minecraft:lava", "minecraft:lava_bucket",
+                                                  "minecraft:lead", "minecraft:leather", "minecraft:leather_boots",
+                                                  "minecraft:leather_chestplate", "minecraft:leather_helmet", "minecraft:leather_leggings",
+                                                  "minecraft:leaves", "minecraft:leaves2", "minecraft:lever",
+                                                  "minecraft:light_weighted_pressure_plate", "minecraft:lit_furnace", "minecraft:lit_pumpkin",
+                                                  "minecraft:lit_redstone_lamp", "minecraft:lit_redstone_ore", "minecraft:log",
+                                                  "minecraft:log2", "minecraft:magma_cream", "minecraft:map", "minecraft:melon",
+                                                  "minecraft:melon_block", "minecraft:melon_seeds", "minecraft:melon_stem",
+                                                  "minecraft:milk_bucket", "minecraft:minecart", "minecraft:mob_spawner",
+                                                  "minecraft:monster_egg", "minecraft:mossy_cobblestone", "minecraft:mushroom_stew",
+                                                  "minecraft:mutton", "minecraft:mycelium", "minecraft:name_tag", "minecraft:nether_brick",
+                                                  "minecraft:nether_brick_fence", "minecraft:nether_brick_stairs", "minecraft:nether_star",
+                                                  "minecraft:nether_wart", "minecraft:netherbrick", "minecraft:netherrack",
+                                                  "minecraft:noteblock", "minecraft:oak_stairs", "minecraft:obsidian", "minecraft:packed_ice",
+                                                  "minecraft:painting", "minecraft:paper", "minecraft:piston", "minecraft:piston_head",
+                                                  "minecraft:planks", "minecraft:poisonous_potato", "minecraft:porkchop", "minecraft:portal",
+                                                  "minecraft:potato", "minecraft:potatoes", "minecraft:potion", "minecraft:powered_comparator",
+                                                  "minecraft:powered_repeater", "minecraft:prismarine", "minecraft:prismarine_crystals",
+                                                  "minecraft:prismarine_shard", "minecraft:pumpkin", "minecraft:pumpkin_pie",
+                                                  "minecraft:pumpkin_seeds", "minecraft:pumpkin_stem", "minecraft:quartz",
+                                                  "minecraft:quartz_block", "minecraft:quartz_ore", "minecraft:quartz_stairs",
+                                                  "minecraft:rabbit", "minecraft:rabbit_foot", "minecraft:rabbit_hide",
+                                                  "minecraft:rabbit_stew", "minecraft:rail", "minecraft:record_11", "minecraft:record_13",
+                                                  "minecraft:record_blocks", "minecraft:record_cat", "minecraft:record_chirp",
+                                                  "minecraft:record_far", "minecraft:record_mall", "minecraft:record_mellohi",
+                                                  "minecraft:record_stal", "minecraft:record_strad", "minecraft:record_wait",
+                                                  "minecraft:record_ward", "minecraft:red_flower", "minecraft:red_mushroom",
+                                                  "minecraft:red_mushroom_block", "minecraft:red_sandstone", "minecraft:red_sandstone_stairs",
+                                                  "minecraft:redstone", "minecraft:redstone_block", "minecraft:redstone_lamp",
+                                                  "minecraft:redstone_ore", "minecraft:redstone_torch", "minecraft:redstone_wire",
+                                                  "minecraft:reeds", "minecraft:repeater", "minecraft:rotten_flesh", "minecraft:saddle",
+                                                  "minecraft:sand", "minecraft:sandstone", "minecraft:sandstone_stairs", "minecraft:sapling",
+                                                  "minecraft:sea_lantern", "minecraft:shears", "minecraft:sign", "minecraft:skull",
+                                                  "minecraft:slime", "minecraft:slime_ball", "minecraft:snow", "minecraft:snow_layer",
+                                                  "minecraft:snowball", "minecraft:soul_sand", "minecraft:spawn_egg",
+                                                  "minecraft:speckled_melon", "minecraft:spider_eye", "minecraft:sponge",
+                                                  "minecraft:spruce_door", "minecraft:spruce_fence", "minecraft:spruce_fence_gate",
+                                                  "minecraft:spruce_stairs", "minecraft:stained_glass", "minecraft:stained_glass_pane",
+                                                  "minecraft:stained_hardened_clay", "minecraft:standing_banner", "minecraft:standing_sign",
+                                                  "minecraft:stick", "minecraft:sticky_piston", "minecraft:stone", "minecraft:stone_axe",
+                                                  "minecraft:stone_brick_stairs", "minecraft:stone_button", "minecraft:stone_hoe",
+                                                  "minecraft:stone_pickaxe", "minecraft:stone_pressure_plate", "minecraft:stone_shovel",
+                                                  "minecraft:stone_slab", "minecraft:stone_slab2", "minecraft:stone_stairs",
+                                                  "minecraft:stone_sword", "minecraft:stonebrick", "minecraft:string", "minecraft:sugar",
+                                                  "minecraft:tallgrass", "minecraft:tnt", "minecraft:tnt_minecart", "minecraft:torch",
+                                                  "minecraft:trapdoor", "minecraft:trapped_chest", "minecraft:tripwire_hook",
+                                                  "minecraft:unlit_redstone_torch", "minecraft:unpowered_comparator",
+                                                  "minecraft:unpowered_repeater", "minecraft:vine", "minecraft:wall_banner",
+                                                  "minecraft:wall_sign", "minecraft:water", "minecraft:water_bucket", "minecraft:waterlily",
+                                                  "minecraft:web", "minecraft:wheat", "minecraft:wheat_seeds", "minecraft:wooden_axe",
+                                                  "minecraft:wooden_button", "minecraft:wooden_door", "minecraft:wooden_hoe",
+                                                  "minecraft:wooden_pickaxe", "minecraft:wooden_pressure_plate", "minecraft:wooden_shovel",
+                                                  "minecraft:wooden_slab", "minecraft:wooden_sword", "minecraft:wool",
+                                                  "minecraft:writable_book", "minecraft:written_book", "minecraft:yellow_flower")
+
         ' Create a new SpeechRecognitionEngine instance.
         Dim recognizer As New Speech.Recognition.SpeechRecognizer()
-
-        ' Create a simple grammar that recognizes "red", "green", or "blue".
-        Dim Commands As New Speech.Recognition.Choices(New String() {"achievement", "ban", "ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
-                                                                     "defaultgamemode", "deop", "difficulty", "effect", "enchant", "entitydata", "execute",
-                                                                     "fill", "gamemode", "gamerule", "give", "help", "kick", "kill", "list", "me", "op",
-                                                                     "pardon", "particle", "playsound", "publish", "replaceitem", "save-all", "save-off",
-                                                                     "save-on", "say", "scoreboard", "seed", "setblock", "setidletimeout", "setworldspawn",
-                                                                     "spawnpoint", "spreadplayers", "stats", "stop", "summon", "tell", "tellraw", "testfor",
-                                                                     "testforblock", "testforblocks", "time", "title", "toggledownfall", "tp", "trigger",
-                                                                     "weather", "whitelist", "worldborder", "xp"})
-        Dim Blocks As New Speech.Recognition.Choices("air", "stone")
-        'Adminium:Aggressive:Alpha:Arrow:Asperguim :Attack:Bedrock:Beta:Biomes:Blocks:Book:Bookshelf:Bone:Bonemeal:Bow:Cactus:Cake:Charcoal:Chest:Clock:Cobblestone/Cobble:Compass:Coal:Crafting:Creeper:
-        '(?<=\s+)(\w+)
-#If False Then
-	"Air"
-(minecraft:air)
-	"Stone"
-(minecraft:stone)
-	"Granite"
-(minecraft:stone)
-	"Polished" "Granite"
-(minecraft:stone)
-	"Diorite"
-(minecraft:stone)
-	"Polished" "Diorite"
-(minecraft:stone)
-	"Andesite"
-(minecraft:stone)
-	"Polished" "Andesite"
-(minecraft:stone)
-	"Grass"
-(minecraft:grass)
-	"Dirt"
-(minecraft:dirt)
-	"Coarse" "Dirt"
-(minecraft:dirt)
-	"Podzol"
-(minecraft:dirt)
-	"Cobblestone"
-(minecraft:cobblestone)
-	"Oak" "Wood" "Plank"
-(minecraft:planks)
-	"Spruce" "Wood" "Plank"
-(minecraft:planks)
-	"Birch" "Wood" "Plank"
-(minecraft:planks)
-	"Jungle" "Wood" "Plank"
-(minecraft:planks)
-	"Acacia" "Wood" "Plank"
-(minecraft:planks)
-	"Dark" "Oak" "Wood" "Plank"
-(minecraft:planks)
-	"Oak" "Sapling"
-(minecraft:sapling)
-	"Spruce" "Sapling"
-(minecraft:sapling)
-	"Birch" "Sapling"
-(minecraft:sapling)
-	"Jungle" "Sapling"
-(minecraft:sapling)
-	"Acacia" "Sapling"
-(minecraft:sapling)
-	"Dark" "Oak" "Sapling"
-(minecraft:sapling)
-	"Bedrock"
-(minecraft:bedrock)
-	"Flowing" "Water"
-(minecraft:flowing_water)
-	"Still" "Water"
-(minecraft:water)
-	"Flowing" "Lava"
-(minecraft:flowing_lava)
-	"Still" "Lava"
-(minecraft:lava)
-	"Sand"
-(minecraft:sand)
-	"Red" "Sand"
-(minecraft:sand)
-	"Gravel"
-(minecraft:gravel)
-	"Gold" "Ore"
-(minecraft:gold_ore)
-	"Iron" "Ore"
-(minecraft:iron_ore)
-	"Coal" "Ore"
-(minecraft:coal_ore)
-	"Oak" "Wood"
-(minecraft:log)
-	"Spruce" "Wood"
-(minecraft:log)
-	"Birch" "Wood"
-(minecraft:log)
-	"Jungle" "Wood"
-(minecraft:log)
-	"Oak" "Leaves"
-(minecraft:leaves)
-	"Spruce" "Leaves"
-(minecraft:leaves)
-	"Birch" "Leaves"
-(minecraft:leaves)
-	"Jungle" "Leaves"
-(minecraft:leaves)
-	"Sponge"
-(minecraft:sponge)
-	"Wet" "Sponge"
-(minecraft:sponge)
-	"Glass"
-(minecraft:glass)
-	"Lapis" "Lazuli" "Ore"
-(minecraft:lapis_ore)
-	"Lapis" "Lazuli" "Block"
-(minecraft:lapis_block)
-	"Dispenser"
-(minecraft:dispenser)
-	"Sandstone"
-(minecraft:sandstone)
-	"Chiseled" "Sandstone"
-(minecraft:sandstone)
-	"Smooth" "Sandstone"
-(minecraft:sandstone)
-	"Note" "Block"
-(minecraft:noteblock)
-	"Bed"
-(minecraft:bed)
-	"Powered" "Rail"
-(minecraft:golden_rail)
-	"Detector" "Rail"
-(minecraft:detector_rail)
-	"Sticky" "Piston"
-(minecraft:sticky_piston)
-	"Cobweb"
-(minecraft:web)
-	"Dead" "Shrub"
-(minecraft:tallgrass)
-	"Grass"
-(minecraft:tallgrass)
-	"Fern"
-(minecraft:tallgrass)
-	"Dead" "Bush"
-(minecraft:deadbush)
-	"Piston"
-(minecraft:piston)
-	"Piston" "Head"
-(minecraft:piston_head)
-	"White" "Wool"
-(minecraft:wool)
-	"Orange" "Wool"
-(minecraft:wool)
-	"Magenta" "Wool"
-(minecraft:wool)
-	"Light" "Blue" "Wool"
-(minecraft:wool)
-	"Yellow" "Wool"
-(minecraft:wool)
-	"Lime" "Wool"
-(minecraft:wool)
-	"Pink" "Wool"
-(minecraft:wool)
-	"Gray" "Wool"
-(minecraft:wool)
-	"Light" "Gray" "Wool"
-(minecraft:wool)
-	"Cyan" "Wool"
-(minecraft:wool)
-	"Purple" "Wool"
-(minecraft:wool)
-	"Blue" "Wool"
-(minecraft:wool)
-	"Brown" "Wool"
-(minecraft:wool)
-	"Green" "Wool"
-(minecraft:wool)
-	"Red" "Wool"
-(minecraft:wool)
-	"Black" "Wool"
-(minecraft:wool)
-	"Dandelion"
-(minecraft:yellow_flower)
-	"Poppy"
-(minecraft:red_flower)
-	"Blue" "Orchid"
-(minecraft:red_flower)
-	"Allium"
-(minecraft:red_flower)
-	"Azure" "Bluet"
-(minecraft:red_flower)
-	"Red" "Tulip"
-(minecraft:red_flower)
-	"Orange" "Tulip"
-(minecraft:red_flower)
-	"White" "Tulip"
-(minecraft:red_flower)
-	"Pink" "Tulip"
-(minecraft:red_flower)
-	"Oxeye" "Daisy"
-(minecraft:red_flower)
-	"Brown" "Mushroom"
-(minecraft:brown_mushroom)
-	"Red" "Mushroom"
-(minecraft:red_mushroom)
-	"Gold" "Block"
-(minecraft:gold_block)
-	"Iron" "Block"
-(minecraft:iron_block)
-	"Double" "Stone" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Sandstone" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Wooden" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Cobblestone" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Brick" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Stone" "Brick" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Nether" "Brick" "Slab"
-(minecraft:double_stone_slab)
-	"Double" "Quartz" "Slab"
-(minecraft:double_stone_slab)
-	"Stone" "Slab"
-(minecraft:stone_slab)
-	"Sandstone" "Slab"
-(minecraft:stone_slab)
-	"Wooden" "Slab"
-(minecraft:stone_slab)
-	"Cobblestone" "Slab"
-(minecraft:stone_slab)
-	"Brick" "Slab"
-(minecraft:stone_slab)
-	"Stone" "Brick" "Slab"
-(minecraft:stone_slab)
-	"Nether" "Brick" "Slab"
-(minecraft:stone_slab)
-	"Quartz" "Slab"
-(minecraft:stone_slab)
-	"Bricks"
-(minecraft:brick_block)
-	"TNT"
-(minecraft:tnt)
-	"Bookshelf"
-(minecraft:bookshelf)
-	"Moss" "Stone"
-(minecraft:mossy_cobblestone)
-	"Obsidian"
-(minecraft:obsidian)
-	"Torch"
-(minecraft:torch)
-	"Fire"
-(minecraft:fire)
-	"Monster" "Spawner"
-(minecraft:mob_spawner)
-	"Oak" "Wood" "Stairs"
-(minecraft:oak_stairs)
-	"Chest"
-(minecraft:chest)
-	"Redstone" "Wire"
-(minecraft:redstone_wire)
-	"Diamond" "Ore"
-(minecraft:diamond_ore)
-	"Diamond" "Block"
-(minecraft:diamond_block)
-	"Crafting" "Table"
-(minecraft:crafting_table)
-	"Wheat" "Crops"
-(minecraft:wheat)
-	"Farmland"
-(minecraft:farmland)
-	"Furnace"
-(minecraft:furnace)
-	"Burning" "Furnace"
-(minecraft:lit_furnace)
-	"Standing" "Sign" "Block"
-(minecraft:standing_sign)
-	"Oak" "Door" "Block"
-(minecraft:wooden_door)
-	"Ladder"
-(minecraft:ladder)
-	"Rail"
-(minecraft:rail)
-	"Cobblestone" "Stairs"
-(minecraft:stone_stairs)
-	"Wall"-mounted "Sign" "Block"
-(minecraft:wall_sign)
-	"Lever"
-(minecraft:lever)
-	"Stone" "Pressure" "Plate"
-(minecraft:stone_pressure_plate)
-	"Iron" "Door" "Block"
-(minecraft:iron_door)
-	"Wooden" "Pressure" "Plate"
-(minecraft:wooden_pressure_plate)
-	"Redstone" "Ore"
-(minecraft:redstone_ore)
-	"Glowing" "Redstone" "Ore"
-(minecraft:lit_redstone_ore)
-	"Redstone" "Torch" (off)
-(minecraft:unlit_redstone_torch)
-	"Redstone" "Torch" (on)
-(minecraft:redstone_torch)
-	"Stone" "Button"
-(minecraft:stone_button)
-	"Snow"
-(minecraft:snow_layer)
-	"Ice"
-(minecraft:ice)
-	"Snow" "Block"
-(minecraft:snow)
-	"Cactus"
-(minecraft:cactus)
-	"Clay"
-(minecraft:clay)
-	"Sugar" "Canes"
-(minecraft:reeds)
-	"Jukebox"
-(minecraft:jukebox)
-	"Oak" "Fence"
-(minecraft:fence)
-	"Pumpkin"
-(minecraft:pumpkin)
-	"Netherrack"
-(minecraft:netherrack)
-	"Soul" "Sand"
-(minecraft:soul_sand)
-	"Glowstone"
-(minecraft:glowstone)
-	"Nether" "Portal"
-(minecraft:portal)
-	"Jack" "o"'Lantern
-(minecraft:lit_pumpkin)
-	"Cake" "Block"
-(minecraft:cake)
-	"Redstone" "Repeater" "Block" (off)
-(minecraft:unpowered_repeater)
-	"Redstone" "Repeater" "Block" (on)
-(minecraft:powered_repeater)
-	"White" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Orange" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Magenta" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Light" "Blue" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Yellow" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Lime" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Pink" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Gray" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Light" "Gray" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Cyan" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Purple" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Blue" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Brown" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Green" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Red" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Black" "Stained" "Glass"
-(minecraft:stained_glass)
-	"Wooden" "Trapdoor"
-(minecraft:trapdoor)
-	"Stone" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Cobblestone" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Stone" "Brick" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Mossy" "Stone" "Brick" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Cracked" "Stone" "Brick" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Chiseled" "Stone" "Brick" "Monster" "Egg"
-(minecraft:monster_egg)
-	"Stone" "Bricks"
-(minecraft:stonebrick)
-	"Mossy" "Stone" "Bricks"
-(minecraft:stonebrick)
-	"Cracked" "Stone" "Bricks"
-(minecraft:stonebrick)
-	"Chiseled" "Stone" "Bricks"
-(minecraft:stonebrick)
-	"Brown" "Mushroom" "Block"
-(minecraft:brown_mushroom_block)
-	"Red" "Mushroom" "Block"
-(minecraft:red_mushroom_block)
-	"Iron" "Bars"
-(minecraft:iron_bars)
-	"Glass" "Pane"
-(minecraft:glass_pane)
-	"Melon" "Block"
-(minecraft:melon_block)
-	"Pumpkin" "Stem"
-(minecraft:pumpkin_stem)
-	"Melon" "Stem"
-(minecraft:melon_stem)
-	"Vines"
-(minecraft:vine)
-	"Oak" "Fence" "Gate"
-(minecraft:fence_gate)
-	"Brick" "Stairs"
-(minecraft:brick_stairs)
-	"Stone" "Brick" "Stairs"
-(minecraft:stone_brick_stairs)
-	"Mycelium"
-(minecraft:mycelium)
-	"Lily" "Pad"
-(minecraft:waterlily)
-	"Nether" "Brick"
-(minecraft:nether_brick)
-	"Nether" "Brick" "Fence"
-(minecraft:nether_brick_fence)
-	"Nether" "Brick" "Stairs"
-(minecraft:nether_brick_stairs)
-	"Nether" "Wart"
-(minecraft:nether_wart)
-	"Enchantment" "Table"
-(minecraft:enchanting_table)
-	"Brewing" "Stand"
-(minecraft:brewing_stand)
-	"Cauldron"
-(minecraft:cauldron)
-	"End" "Portal"
-(minecraft:end_portal)
-	"End" "Portal" "Frame"
-(minecraft:end_portal_frame)
-	"End" "Stone"
-(minecraft:end_stone)
-	"Dragon" "Egg"
-(minecraft:dragon_egg)
-	"Redstone" "Lamp" (inactive)
-(minecraft:redstone_lamp)
-	"Redstone" "Lamp" (active)
-(minecraft:lit_redstone_lamp)
-	"Double" "Oak" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Double" "Spruce" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Double" "Birch" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Double" "Jungle" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Double" "Acacia" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Double" "Dark" "Oak" "Wood" "Slab"
-(minecraft:double_wooden_slab)
-	"Oak" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Spruce" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Birch" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Jungle" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Acacia" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Dark" "Oak" "Wood" "Slab"
-(minecraft:wooden_slab)
-	"Cocoa"
-(minecraft:cocoa)
-	"Sandstone" "Stairs"
-(minecraft:sandstone_stairs)
-	"Emerald" "Ore"
-(minecraft:emerald_ore)
-	"Ender" "Chest"
-(minecraft:ender_chest)
-	"Tripwire" "Hook"
-(minecraft:tripwire_hook)
-	"Tripwire"
-(minecraft:tripwire_hook)
-	"Emerald" "Block"
-(minecraft:emerald_block)
-	"Spruce" "Wood" "Stairs"
-(minecraft:spruce_stairs)
-	"Birch" "Wood" "Stairs"
-(minecraft:birch_stairs)
-	"Jungle" "Wood" "Stairs"
-(minecraft:jungle_stairs)
-	"Command" "Block"
-(minecraft:command_block)
-	"Beacon"
-(minecraft:beacon)
-	"Cobblestone" "Wall"
-(minecraft:cobblestone_wall)
-	"Mossy" "Cobblestone" "Wall"
-(minecraft:cobblestone_wall)
-	"Flower" "Pot"
-(minecraft:flower_pot)
-	"Carrots"
-(minecraft:carrots)
-	"Potatoes"
-(minecraft:potatoes)
-	"Wooden" "Button"
-(minecraft:wooden_button)
-	"Mob" "Head"
-(minecraft:skull)
-	"Anvil"
-(minecraft:anvil)
-	"Trapped" "Chest"
-(minecraft:trapped_chest)
-	"Weighted" "Pressure" "Plate" (light)
-(minecraft:light_weighted_pressure_plate)
-	"Weighted" "Pressure" "Plate" (heavy)
-(minecraft:heavy_weighted_pressure_plate)
-	"Redstone" "Comparator" (inactive)
-(minecraft:unpowered_comparator)
-	"Redstone" "Comparator" (active)
-(minecraft:powered_comparator)
-	"Daylight" "Sensor"
-(minecraft:daylight_detector)
-	"Redstone" "Block"
-(minecraft:redstone_block)
-	"Nether" "Quartz" "Ore"
-(minecraft:quartz_ore)
-	"Hopper"
-(minecraft:hopper)
-	"Quartz" "Block"
-(minecraft:quartz_block)
-	"Chiseled" "Quartz" "Block"
-(minecraft:quartz_block)
-	"Pillar" "Quartz" "Block"
-(minecraft:quartz_block)
-	"Quartz" "Stairs"
-(minecraft:quartz_stairs)
-	"Activator" "Rail"
-(minecraft:activator_rail)
-	"Dropper"
-(minecraft:dropper)
-	"White" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Orange" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Magenta" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Light" "Blue" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Yellow" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Lime" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Pink" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Gray" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Light" "Gray" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Cyan" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Purple" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Blue" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Brown" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Green" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Red" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"Black" "Stained" "Clay"
-(minecraft:stained_hardened_clay)
-	"White" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Orange" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Magenta" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Light" "Blue" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Yellow" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Lime" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Pink" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Gray" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Light" "Gray" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Cyan" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Purple" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Blue" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Brown" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Green" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Red" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Black" "Stained" "Glass" "Pane"
-(minecraft:stained_glass_pane)
-	"Acacia" "Leaves"
-(minecraft:leaves2)
-	"Dark" "Oak" "Leaves"
-(minecraft:leaves2)
-	"Acacia" "Wood"
-(minecraft:log2)
-	"Dark" "Oak" "Wood"
-(minecraft:log2)
-	"Acacia" "Wood" "Stairs"
-(minecraft:acacia_stairs)
-	"Dark" "Oak" "Wood" "Stairs"
-(minecraft:dark_oak_stairs)
-	"Slime" "Block"
-(minecraft:slime)
-	"Barrier"
-(minecraft:barrier)
-	"Iron" "Trapdoor"
-(minecraft:iron_trapdoor)
-	"Prismarine"
-(minecraft:prismarine)
-	"Prismarine" "Bricks"
-(minecraft:prismarine)
-	"Dark" "Prismarine"
-(minecraft:prismarine)
-	"Sea" "Lantern"
-(minecraft:sea_lantern)
-	"Hay" "Bale"
-(minecraft:hay_block)
-	"White" "Carpet"
-(minecraft:carpet)
-	"Orange" "Carpet"
-(minecraft:carpet)
-	"Magenta" "Carpet"
-(minecraft:carpet)
-	"Light" "Blue" "Carpet"
-(minecraft:carpet)
-	"Yellow" "Carpet"
-(minecraft:carpet)
-	"Lime" "Carpet"
-(minecraft:carpet)
-	"Pink" "Carpet"
-(minecraft:carpet)
-	"Gray" "Carpet"
-(minecraft:carpet)
-	"Light" "Gray" "Carpet"
-(minecraft:carpet)
-	"Cyan" "Carpet"
-(minecraft:carpet)
-	"Purple" "Carpet"
-(minecraft:carpet)
-	"Blue" "Carpet"
-(minecraft:carpet)
-	"Brown" "Carpet"
-(minecraft:carpet)
-	"Green" "Carpet"
-(minecraft:carpet)
-	"Red" "Carpet"
-(minecraft:carpet)
-	"Black" "Carpet"
-(minecraft:carpet)
-	"Hardened" "Clay"
-(minecraft:hardened_clay)
-	"Block" "of" "Coal"
-(minecraft:coal_block)
-	"Packed" "Ice"
-(minecraft:packed_ice)
-	"Sunflower"
-(minecraft:double_plant)
-	"Lilac"
-(minecraft:double_plant)
-	"Double" "Tallgrass"
-(minecraft:double_plant)
-	"Large" "Fern"
-(minecraft:double_plant)
-	"Rose" "Bush"
-(minecraft:double_plant)
-	"Peony"
-(minecraft:double_plant)
-	"Free"-standing "Banner"
-(minecraft:standing_banner)
-	"Wall"-mounted "Banner"
-(minecraft:wall_banner)
-	"Inverted" "Daylight" "Sensor"
-(minecraft:daylight_detector_inverted)
-	"Red" "Sandstone"
-(minecraft:red_sandstone)
-	"Chiseled" "Red" "Sandstone"
-(minecraft:red_sandstone)
-	"Smooth" "Red" "Sandstone"
-(minecraft:red_sandstone)
-	"Red" "Sandstone" "Stairs"
-(minecraft:red_sandstone_stairs)
-	"Double" "Red" "Sandstone" "Slab"
-(minecraft:stone_slab2)
-	"Red" "Sandstone" "Slab"
-(minecraft:double_stone_slab2)
-	"Spruce" "Fence" "Gate"
-(minecraft:spruce_fence_gate)
-	"Birch" "Fence" "Gate"
-(minecraft:birch_fence_gate)
-	"Jungle" "Fence" "Gate"
-(minecraft:jungle_fence_gate)
-	"Dark" "Oak" "Fence" "Gate"
-(minecraft:dark_oak_fence_gate)
-	"Acacia" "Fence" "Gate"
-(minecraft:acacia_fence_gate)
-	"Spruce" "Fence"
-(minecraft:spruce_fence)
-	"Birch" "Fence"
-(minecraft:birch_fence)
-	"Jungle" "Fence"
-(minecraft:jungle_fence)
-	"Dark" "Oak" "Fence"
-(minecraft:dark_oak_fence)
-	"Acacia" "Fence"
-(minecraft:acacia_fence)
-	"Spruce" "Door" "Block"
-(minecraft:spruce_door)
-	"Birch" "Door" "Block"
-(minecraft:birch_door)
-	"Jungle" "Door" "Block"
-(minecraft:jungle_door)
-	"Acacia" "Door" "Block"
-(minecraft:acacia_door)
-	"Dark" "Oak" "Door" "Block"
-(minecraft:dark_oak_door)
-	"Iron" "Shovel"
-(minecraft:iron_shovel)
-	"Iron" "Pickaxe"
-(minecraft:iron_pickaxe)
-	"Iron" "Axe"
-(minecraft:iron_axe)
-	"Flint" "and" "Steel"
-(minecraft:flint_and_steel)
-	"Apple"
-(minecraft:apple)
-	"Bow"
-(minecraft:bow)
-	"Arrow"
-(minecraft:arrow)
-	"Coal"
-(minecraft:coal)
-	"Charcoal"
-(minecraft:coal)
-	"Diamond"
-(minecraft:diamond)
-	"Iron" "Ingot"
-(minecraft:iron_ingot)
-	"Gold" "Ingot"
-(minecraft:gold_ingot)
-	"Iron" "Sword"
-(minecraft:iron_sword)
-	"Wooden" "Sword"
-(minecraft:wooden_sword)
-	"Wooden" "Shovel"
-(minecraft:wooden_shovel)
-	"Wooden" "Pickaxe"
-(minecraft:wooden_pickaxe)
-	"Wooden" "Axe"
-(minecraft:wooden_axe)
-	"Stone" "Sword"
-(minecraft:stone_sword)
-	"Stone" "Shovel"
-(minecraft:stone_shovel)
-	"Stone" "Pickaxe"
-(minecraft:stone_pickaxe)
-	"Stone" "Axe"
-(minecraft:stone_axe)
-	"Diamond" "Sword"
-(minecraft:diamond_sword)
-	"Diamond" "Shovel"
-(minecraft:diamond_shovel)
-	"Diamond" "Pickaxe"
-(minecraft:diamond_pickaxe)
-	"Diamond" "Axe"
-(minecraft:diamond_axe)
-	"Stick"
-(minecraft:stick)
-	"Bowl"
-(minecraft:bowl)
-	"Mushroom" "Stew"
-(minecraft:mushroom_stew)
-	"Golden" "Sword"
-(minecraft:golden_sword)
-	"Golden" "Shovel"
-(minecraft:golden_shovel)
-	"Golden" "Pickaxe"
-(minecraft:golden_pickaxe)
-	"Golden" "Axe"
-(minecraft:golden_axe)
-	"String"
-(minecraft:string)
-	"Feather"
-(minecraft:feather)
-	"Gunpowder"
-(minecraft:gunpowder)
-	"Wooden" "Hoe"
-(minecraft:wooden_hoe)
-	"Stone" "Hoe"
-(minecraft:stone_hoe)
-	"Iron" "Hoe"
-(minecraft:iron_hoe)
-	"Diamond" "Hoe"
-(minecraft:diamond_hoe)
-	"Golden" "Hoe"
-(minecraft:golden_hoe)
-	"Wheat" "Seeds"
-(minecraft:wheat_seeds)
-	"Wheat"
-(minecraft:wheat)
-	"Bread"
-(minecraft:bread)
-	"Leather" "Helmet"
-(minecraft:leather_helmet)
-	"Leather" "Tunic"
-(minecraft:leather_chestplate)
-	"Leather" "Pants"
-(minecraft:leather_leggings)
-	"Leather" "Boots"
-(minecraft:leather_boots)
-	"Chainmail" "Helmet"
-(minecraft:chainmail_helmet)
-	"Chainmail" "Chestplate"
-(minecraft:chainmail_chestplate)
-	"Chainmail" "Leggings"
-(minecraft:chainmail_leggings)
-	"Chainmail" "Boots"
-(minecraft:chainmail_boots)
-	"Iron" "Helmet"
-(minecraft:iron_helmet)
-	"Iron" "Chestplate"
-(minecraft:iron_chestplate)
-	"Iron" "Leggings"
-(minecraft:iron_leggings)
-	"Iron" "Boots"
-(minecraft:iron_boots)
-	"Diamond" "Helmet"
-(minecraft:diamond_helmet)
-	"Diamond" "Chestplate"
-(minecraft:diamond_chestplate)
-	"Diamond" "Leggings"
-(minecraft:diamond_leggings)
-	"Diamond" "Boots"
-(minecraft:diamond_boots)
-	"Golden" "Helmet"
-(minecraft:golden_helmet)
-	"Golden" "Chestplate"
-(minecraft:golden_chestplate)
-	"Golden" "Leggings"
-(minecraft:golden_leggings)
-	"Golden" "Boots"
-(minecraft:golden_boots)
-	"Flint"
-(minecraft:flint)
-	"Raw" "Porkchop"
-(minecraft:porkchop)
-	"Cooked" "Porkchop"
-(minecraft:cooked_porkchop)
-	"Painting"
-(minecraft:painting)
-	"Golden" "Apple"
-(minecraft:golden_apple)
-	"Enchanted" "Golden" "Apple"
-(minecraft:golden_apple)
-	"Sign"
-(minecraft:sign)
-	"Oak" "Door"
-(minecraft:wooden_door)
-	"Bucket"
-(minecraft:bucket)
-	"Water" "Bucket"
-(minecraft:water_bucket)
-	"Lava" "Bucket"
-(minecraft:lava_bucket)
-	"Minecart"
-(minecraft:minecart)
-	"Saddle"
-(minecraft:saddle)
-	"Iron" "Door"
-(minecraft:iron_door)
-	"Redstone"
-(minecraft:redstone)
-	"Snowball"
-(minecraft:snowball)
-	"Boat"
-(minecraft:boat)
-	"Leather"
-(minecraft:leather)
-	"Milk" "Bucket"
-(minecraft:milk_bucket)
-	"Brick"
-(minecraft:brick)
-	"Clay"
-(minecraft:clay_ball)
-	"Sugar" "Canes"
-(minecraft:reeds)
-	"Paper"
-(minecraft:paper)
-	"Book"
-(minecraft:book)
-	"Slimeball"
-(minecraft:slime_ball)
-	"Minecart" "with" "Chest"
-(minecraft:chest_minecart)
-	"Minecart" "with" "Furnace"
-(minecraft:furnace_minecart)
-	"Egg"
-(minecraft:egg)
-	"Compass"
-(minecraft:compass)
-	"Fishing" "Rod"
-(minecraft:fishing_rod)
-	"Clock"
-(minecraft:clock)
-	"Glowstone" "Dust"
-(minecraft:glowstone_dust)
-	"Raw" "Fish"
-(minecraft:fish)
-	"Raw" "Salmon"
-(minecraft:fish)
-	"Clownfish"
-(minecraft:fish)
-	"Pufferfish"
-(minecraft:fish)
-	"Cooked" "Fish"
-(minecraft:cooked_fish)
-	"Cooked" "Salmon"
-(minecraft:cooked_fish)
-	"Ink" "Sack"
-(minecraft:dye)
-	"Rose" "Red"
-(minecraft:dye)
-	"Cactus" "Green"
-(minecraft:dye)
-	"Coco" "Beans"
-(minecraft:dye)
-	"Lapis" "Lazuli"
-(minecraft:dye)
-	"Purple" "Dye"
-(minecraft:dye)
-	"Cyan" "Dye"
-(minecraft:dye)
-	"Light" "Gray" "Dye"
-(minecraft:dye)
-	"Gray" "Dye"
-(minecraft:dye)
-	"Pink" "Dye"
-(minecraft:dye)
-	"Lime" "Dye"
-(minecraft:dye)
-	"Dandelion" "Yellow"
-(minecraft:dye)
-	"Light" "Blue" "Dye"
-(minecraft:dye)
-	"Magenta" "Dye"
-(minecraft:dye)
-	"Orange" "Dye"
-(minecraft:dye)
-	"Bone" "Meal"
-(minecraft:dye)
-	"Bone"
-(minecraft:bone)
-	"Sugar"
-(minecraft:sugar)
-	"Cake"
-(minecraft:cake)
-	"Bed"
-(minecraft:bed)
-	"Redstone" "Repeater"
-(minecraft:repeater)
-	"Cookie"
-(minecraft:cookie)
-	"Map"
-(minecraft:filled_map)
-	"Shears"
-(minecraft:shears)
-	"Melon"
-(minecraft:melon)
-	"Pumpkin" "Seeds"
-(minecraft:pumpkin_seeds)
-	"Melon" "Seeds"
-(minecraft:melon_seeds)
-	"Raw" "Beef"
-(minecraft:beef)
-	"Steak"
-(minecraft:cooked_beef)
-	"Raw" "Chicken"
-(minecraft:chicken)
-	"Cooked" "Chicken"
-(minecraft:cooked_chicken)
-	"Rotten" "Flesh"
-(minecraft:rotten_flesh)
-	"Ender" "Pearl"
-(minecraft:ender_pearl)
-	"Blaze" "Rod"
-(minecraft:blaze_rod)
-	"Ghast" "Tear"
-(minecraft:ghast_tear)
-	"Gold" "Nugget"
-(minecraft:gold_nugget)
-	"Nether" "Wart"
-(minecraft:nether_wart)
-	"Potion"
-(minecraft:potion)
-	"Glass" "Bottle"
-(minecraft:glass_bottle)
-	"Spider" "Eye"
-(minecraft:spider_eye)
-	"Fermented" "Spider" "Eye"
-(minecraft:fermented_spider_eye)
-	"Blaze" "Powder"
-(minecraft:blaze_powder)
-	"Magma" "Cream"
-(minecraft:magma_cream)
-	"Brewing" "Stand"
-(minecraft:brewing_stand)
-	"Cauldron"
-(minecraft:cauldron)
-	"Eye" "of" "Ender"
-(minecraft:ender_eye)
-	"Glistering" "Melon"
-(minecraft:speckled_melon)
-	"Spawn" "Creeper"
-(minecraft:spawn_egg)
-	"Spawn" "Skeleton"
-(minecraft:spawn_egg)
-	"Spawn" "Spider"
-(minecraft:spawn_egg)
-	"Spawn" "Zombie"
-(minecraft:spawn_egg)
-	"Spawn" "Slime"
-(minecraft:spawn_egg)
-	"Spawn" "Ghast"
-(minecraft:spawn_egg)
-	"Spawn" "Pigman"
-(minecraft:spawn_egg)
-	"Spawn" "Enderman"
-(minecraft:spawn_egg)
-	"Spawn" "Cave" "Spider"
-(minecraft:spawn_egg)
-	"Spawn" "Silverfish"
-(minecraft:spawn_egg)
-	"Spawn" "Blaze"
-(minecraft:spawn_egg)
-	"Spawn" "Magma" "Cube"
-(minecraft:spawn_egg)
-	"Spawn" "Bat"
-(minecraft:spawn_egg)
-	"Spawn" "Witch"
-(minecraft:spawn_egg)
-	"Spawn" "Endermite"
-(minecraft:spawn_egg)
-	"Spawn" "Guardian"
-(minecraft:spawn_egg)
-	"Spawn" "Pig"
-(minecraft:spawn_egg)
-	"Spawn" "Sheep"
-(minecraft:spawn_egg)
-	"Spawn" "Cow"
-(minecraft:spawn_egg)
-	"Spawn" "Chicken"
-(minecraft:spawn_egg)
-	"Spawn" "Squid"
-(minecraft:spawn_egg)
-	"Spawn" "Wolf"
-(minecraft:spawn_egg)
-	"Spawn" "Mooshroom"
-(minecraft:spawn_egg)
-	"Spawn" "Ocelot"
-(minecraft:spawn_egg)
-	"Spawn" "Horse"
-(minecraft:spawn_egg)
-	"Spawn" "Rabbit"
-(minecraft:spawn_egg)
-	"Spawn" "Villager"
-(minecraft:spawn_egg)
-	"Bottle" "o"' "Enchanting"
-(minecraft:experience_bottle)
-	"Fire" "Charge"
-(minecraft:fire_charge)
-	"Book" "and" "Quill"
-(minecraft:writable_book)
-	"Written" "Book"
-(minecraft:written_book)
-	"Emerald"
-(minecraft:emerald)
-	"Item" "Frame"
-(minecraft:item_frame)
-	"Flower" "Pot"
-(minecraft:flower_pot)
-	"Carrot"
-(minecraft:carrot)
-	"Potato"
-(minecraft:potato)
-	"Baked" "Potato"
-(minecraft:baked_potato)
-	"Poisonous" "Potato"
-(minecraft:poisonous_potato)
-	"Empty" "Map"
-(minecraft:map)
-	"Golden" "Carrot"
-(minecraft:golden_carrot)
-	"Mob" "Head" (Skeleton)
-(minecraft:skull)
-	"Mob" "Head" (Wither "Skeleton")
-(minecraft:skull)
-	"Mob" "Head" (Zombie)
-(minecraft:skull)
-	"Mob" "Head" (Human)
-(minecraft:skull)
-	"Mob" "Head" (Creeper)
-(minecraft:skull)
-	"Carrot" "on" "a" "Stick"
-(minecraft:carrot_on_a_stick)
-	"Nether" "Star"
-(minecraft:nether_star)
-	"Pumpkin" "Pie"
-(minecraft:pumpkin_pie)
-	"Firework" "Rocket"
-(minecraft:fireworks)
-	"Firework" "Star"
-(minecraft:firework_charge)
-	"Enchanted" "Book"
-(minecraft:enchanted_book)
-	"Redstone" "Comparator"
-(minecraft:comparator)
-	"Nether" "Brick"
-(minecraft:netherbrick)
-	"Nether" "Quartz"
-(minecraft:quartz)
-	"Minecart" "with" "TNT"
-(minecraft:tnt_minecart)
-	"Minecart" "with" "Hopper"
-(minecraft:hopper_minecart)
-	"Prismarine" "Shard"
-(minecraft:prismarine_shard)
-	"Prismarine" "Crystals"
-(minecraft:prismarine_crystals)
-	"Raw" "Rabbit"
-(minecraft:rabbit)
-	"Cooked" "Rabbit"
-(minecraft:cooked_rabbit)
-	"Rabbit" "Stew"
-(minecraft:rabbit_stew)
-	"Rabbit"'s "Foot"
-(minecraft:rabbit_foot)
-	"Rabbit" "Hide"
-(minecraft:rabbit_hide)
-	"Armor" "Stand"
-(minecraft:armor_stand)
-	"Iron" "Horse" "Armor"
-(minecraft:iron_horse_armor)
-	"Golden" "Horse" "Armor"
-(minecraft:golden_horse_armor)
-	"Diamond" "Horse" "Armor"
-(minecraft:diamond_horse_armor)
-	"Lead"
-(minecraft:lead)
-	"Name" "Tag"
-(minecraft:name_tag)
-	"Minecart" "with" "Command" "Block"
-(minecraft:command_block_minecart)
-	"Raw" "Mutton"
-(minecraft:mutton)
-	"Cooked" "Mutton"
-(minecraft:cooked_mutton)
-	"Banner"
-(minecraft:banner)
-	"Spruce" "Door"
-(minecraft:spruce_door)
-	"Birch" "Door"
-(minecraft:birch_door)
-	"Jungle" "Door"
-(minecraft:jungle_door)
-	"Acacia" "Door"
-(minecraft:acacia_door)
-	"Dark" "Oak" "Door"
-(minecraft:dark_oak_door)
-	"13" "Disc"
-(minecraft:record_13)
-	"Cat" "Disc"
-(minecraft:record_cat)
-	"Blocks" "Disc"
-(minecraft:record_blocks)
-	"Chirp" "Disc"
-(minecraft:record_chirp)
-	"Far" "Disc"
-(minecraft:record_far)
-	"Mall" "Disc"
-(minecraft:record_mall)
-	"Mellohi" "Disc"
-(minecraft:record_mellohi)
-	"Stal" "Disc"
-(minecraft:record_stal)
-	"Strad" "Disc"
-(minecraft:record_strad)
-	"Ward" "Disc"
-(minecraft:record_ward)
-	"11" "Disc"
-(minecraft:record_11)
-	"Wait" "Disc"
-(minecraft:record_wait)
-#End If
-        ' Create a GrammarBuilder object and append the Choices object.
-        Dim gb As New Speech.Recognition.GrammarBuilder()
-        gb.Append(Commands)
         gb.Append(Blocks)
+        gb.Append(IDs)
         ' Create the Grammar instance and load it into the speech recognition engine.
         recognizer.LoadGrammar(New Speech.Recognition.Grammar(gb))
-
         ' Register a handler for the SpeechRecognized event.
-        AddHandler recognizer.SpeechRecognized, New EventHandler(Of Speech.Recognition.SpeechRecognizedEventArgs)(AddressOf sre_SpeechRecognized)
+        AddHandler recognizer.SpeechRecognized, New EventHandler(Of
+            Speech.Recognition.SpeechRecognizedEventArgs)(AddressOf sre_SpeechRecognized)
     End Sub
 
     ' Create a simple handler for the SpeechRecognized event.
     Private Sub sre_SpeechRecognized(sender As Object, e As Speech.Recognition.SpeechRecognizedEventArgs)
-        AppendInputext(e.Result.Text)
+        AppendInputText(e.Result.Text)
     End Sub
-    Private Sub AppendInputext(Text As String)
+    Private Sub AppendInputText(Text As String)
         If Input.InvokeRequired Then
-            Dim myDelegate As New AppendTextDelegate(AddressOf AppendOutputText)
+            Dim myDelegate As New AppendTextDelegate(AddressOf AppendInputText)
             Me.Invoke(myDelegate, Text)
         Else
             Input.Text &= Text
