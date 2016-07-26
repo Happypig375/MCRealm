@@ -18,8 +18,8 @@ Public Class Settings
     End Sub
 
     Private Sub Apply_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Apply_Button.Click
-        Me.DialogResult = DialogResult.None
-        Me.Hide()
+        Me.DialogResult = DialogResult.Retry
+        Me.Close()
     End Sub
 
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
@@ -83,6 +83,7 @@ Public Class Settings
             .Close()
             .Dispose()
         End With
+        If DialogResult = DialogResult.Retry Then e.Cancel = True
         If RestartServer Then
             Main.RunServer_Click(sender, e)
             Threading.Thread.Sleep(1000)

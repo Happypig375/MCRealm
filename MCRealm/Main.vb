@@ -419,7 +419,7 @@
         Next
     End Sub
 
-    Private Sub RestartServer_Click(sender As Object, e As EventArgs) Handles RestartServer.Click
+    Private Sub RestartServer_Click(sender As Object, e As EventArgs) Handles UpdateServer.Click
         If ServerRunning Then KillServer()
         Threading.Thread.Sleep(10000)
 
@@ -442,6 +442,33 @@
                 End Try
             End Try
         End With
+    End Sub
+
+    Friend Shared Function ExternalExecute(File As String, Type As String,
+                                           ConstructerArgs As Object(), Member As String, Args As Object()) As Object
+        Dim DLL As Reflection.Assembly = Reflection.Assembly.LoadFile(File)
+        Return DLL.GetType(Type).InvokeMember(
+            Member, Reflection.BindingFlags.InvokeMethod, Nothing, Activator.CreateInstance(DLL.GetType(Type), ConstructerArgs), Args)
+    End Function
+
+    Friend Shared Function ExternalExecute(Of TReturn)(File As String, Type As String,
+                                           ConstructerArgs As Object(), Member As String, Args As Object()) As TReturn
+        Dim DLL As Reflection.Assembly = Reflection.Assembly.LoadFile(File)
+        Return CType(DLL.GetType(Type).InvokeMember(Member, Reflection.BindingFlags.InvokeMethod, Nothing,
+             Activator.CreateInstance(DLL.GetType(Type), ConstructerArgs), Args), TReturn)
+    End Function
+
+    Friend Shared Iterator Function ExternalExecuteOnEach(File As String, ConstructerArgs As Object(),
+                                                          Member As String, Args As Object()) As IEnumerable(Of Object)
+        Dim Types As Type() = Reflection.Assembly.LoadFile(File).GetExportedTypes
+        For Each Type As Type In Types
+            Yield Type.InvokeMember(Member, Reflection.BindingFlags.InvokeMethod, Nothing,
+                                     Activator.CreateInstance(Type, ConstructerArgs), Args)
+        Next
+    End Function
+
+    Private Sub PlayersButton_Click(sender As Object, e As EventArgs) Handles PlayersButton.Click
+
     End Sub
 End Class
 
