@@ -106,6 +106,9 @@
     <Compile Include="Environment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Players.Designer2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PropertiesFile.vb" />
     <Compile Include="Players.Designer.vb">
       <DependentUpon>Players.vb</DependentUpon>

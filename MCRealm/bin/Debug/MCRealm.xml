@@ -335,6 +335,15 @@ MCRealm
  </summary>
  <param name="message">A descriptive message for the exception</param>
 </member>
+<member name="M:MCRealm.Players.GetSkin(System.String,System.String)">
+ <summary>
+ Gets a Minecraft player skin.
+ </summary>
+ <param name="Username">The minecraft player username.</param>
+ <param name="BasePath">Optional. The player skin is stored in this directory with the username as the filename.
+ If not specified, is empty or is nothing, %temp% will be used.</param>
+ <returns>The skin file's location on this computer. (extension: .png)</returns>
+</member>
 <member name="F:MCRealm.Main.JavaRuntimeArgs.MemoryUnit.K">
  <summary>
  Kilobyte (1024 Bytes)

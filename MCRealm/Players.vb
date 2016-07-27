@@ -1,8 +1,15 @@
 ﻿Imports System.Windows.Forms
 Imports System.IO
 Imports System.Net
+Imports System.Drawing.Imaging
 
 Public Class Players
+    Dim InitialWidth As Integer
+    Dim InitialHeadWidth As Integer
+    Dim InitialNameWidth As Integer
+    Dim InitialKickWidth As Integer
+    Dim InitialBanWidth As Integer
+    Dim InitialOpWidth As Integer
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         DialogResult = DialogResult.OK
         Close()
@@ -19,8 +26,58 @@ Public Class Players
     End Sub
 
     Private Sub Players_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetSkin("Rex0401YT")
+        AddPlayer("Rex0401YT")
+        AddPlayer("MCmario117")
+        AddPlayer("henrykwokchihei")
+        'AddPlayer("stevef91")
     End Sub
+
+    Friend Sub AddPlayer(Username As String, Optional State As PlayerState = PlayerState.Normal)
+        Dim SkinPath As String = GetSkin(Username)
+        If String.IsNullOrEmpty(SkinPath) Then Exit Sub
+        Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
+        Dim Item As New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
+        'CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8))
+        View.Items.Add(Item)
+    End Sub
+
+    <Flags> Friend Enum PlayerState As Byte
+        Normal
+        [Operator]
+        Banned
+        Owner = 4
+    End Enum
+
+    Friend Function GetGroup(Code As Char) As ListViewGroup
+        Code = Char.ToUpper(Code)
+        Select Case Code
+            Case "A"c To "Z"c
+                Return View.Groups.Item(AscW(Code) - AscW("A"c))
+            Case "0"c To "9"c
+                Return View.Groups.Item(27)
+            Case Else
+                Return View.Groups.Item(28)
+        End Select
+    End Function
+
+    Friend Function ImageResize(Source As Image, Scale As Single) As Bitmap ' Get the source bitmap and the scale factor.
+
+        ' Make a bitmap for the result.
+        Dim bm_dest As New Bitmap(
+        CInt(Source.Width * Scale),
+        CInt(Source.Height * Scale))
+
+        ' Make a Graphics object for the result Bitmap.
+        Dim gr_dest As Graphics = Graphics.FromImage(bm_dest)
+
+        ' Copy the source image into the destination bitmap.
+        gr_dest.DrawImage(Source, 0, 0,
+        bm_dest.Width + 1,
+        bm_dest.Height + 1)
+
+        ' Display the result.
+        Return bm_dest
+    End Function
 
     ''' <summary>
     ''' Gets a Minecraft player skin.
@@ -28,12 +85,20 @@ Public Class Players
     ''' <param name="Username">The minecraft player username.</param>
     ''' <param name="BasePath">Optional. The player skin is stored in this directory with the username as the filename.
     ''' If not specified, is empty or is nothing, %temp% will be used.</param>
-    ''' <returns></returns>
+    ''' <returns>The skin file's location on this computer. (extension: .png)</returns>
     Friend Shared Function GetSkin(Username As String, Optional BasePath As String = Nothing) As String
         If String.IsNullOrEmpty(BasePath) Then BasePath = My.Computer.FileSystem.SpecialDirectories.Temp 'Change accordingly...
         Dim req As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
         req.AllowAutoRedirect = False
-        Dim realUrl As String = req.GetResponse.Headers("Location")
+        Dim realUrl As String
+        Try
+            realUrl = req.GetResponse.Headers("Location")
+        Catch ex As WebException When ex.Status = WebExceptionStatus.ProtocolError And ex.Message.Contains("404")
+            MsgBox($"Unexisting player: {Username}", MsgBoxStyle.MsgBoxSetForeground, "Player not found")
+            Return Nothing
+        Catch ex As WebException
+            MsgBox(ex.ToString)
+        End Try
         'Dim WebClient As New WebClient()
         'AddHandler WebClient.DownloadFileCompleted, New System.ComponentModel.AsyncCompletedEventHandler(AddressOf Completed)
         'AddHandler WebClient.DownloadProgressChanged, New DownloadProgressChangedEventHandler(AddressOf ProgressChanged)
@@ -84,17 +149,6 @@ Public Class Players
         End Using
     End Function
 
-    Friend Shared Function CropImage(img As Image, cropArea As Rectangle) As Image
-        Try
-            Dim bmpImage As New Bitmap(img)
-            Return bmpImage.Clone(cropArea, bmpImage.PixelFormat)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Error while cropping player skin")
-        Finally
-        End Try
-        Return Nothing
-    End Function
-
     Private Shared ReadOnly Property UseFileName As Boolean
         Get
 #If FilenameMethod = 0 Then
@@ -113,6 +167,120 @@ Public Class Players
         End While
     End Sub
 
+    Friend Shared Function CropImage(img As Image, cropArea As Rectangle) As Image
+        Try
+            Dim bmpImage As New Bitmap(img)
+            Return bmpImage.Clone(cropArea, bmpImage.PixelFormat)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error while cropping player skin")
+        Finally
+        End Try
+        Return Nothing
+    End Function
+
+    Friend Shared Function CropImage(img As Image, cropArea As Rectangle, ZoomedRatio As Double) As Image
+        Try
+            Dim ScaledCropRect As New Rectangle()
+            ScaledCropRect.X = CInt(cropArea.X / ZoomedRatio)
+            ScaledCropRect.Y = CInt(cropArea.Y / ZoomedRatio)
+            ScaledCropRect.Width = CInt(cropArea.Width / ZoomedRatio)
+            ScaledCropRect.Height = CInt(cropArea.Height / ZoomedRatio)
+            Dim bmpImage As New Bitmap(img)
+            Return bmpImage.Clone(cropArea, bmpImage.PixelFormat)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error while cropping player skin")
+        Finally
+        End Try
+        Return Nothing
+    End Function
+
+    Friend Sub SaveImage(path As String, img As Bitmap, extension As Extensions, quality As Long)
+        ' Encoder parameter for image quality
+        Dim qualityParam As New EncoderParameter(Encoder.Quality, quality)
+
+        ' Jpeg image codec
+        Dim jpegCodec As ImageCodecInfo = GetEncoderInfo(extension)
+
+        If jpegCodec Is Nothing Then
+            MessageBox.Show($"Can't find {[Enum].GetName(GetType(Encoders), extension)} encoder?", "Error while saving image")
+            Return
+        End If
+        Dim encoderParams As New EncoderParameters(1)
+        encoderParams.Param(0) = qualityParam
+
+        img.Save(path, jpegCodec, encoderParams)
+    End Sub
+
+    Friend Function GetEncoderInfo(mimeType As String) As ImageCodecInfo
+        ' Get image codecs for all image formats
+        Dim codecs As ImageCodecInfo() = ImageCodecInfo.GetImageEncoders()
+
+        ' Find the correct image codec
+        For i As Integer = 0 To codecs.Length - 1
+            If codecs(i).MimeType = mimeType Then
+                Return codecs(i)
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    Friend Function GetEncoderInfo(Type As Encoders) As ImageCodecInfo
+        Return GetEncoderInfo("image/" & [Enum].GetName(GetType(Encoders), Type).ToLower)
+    End Function
+
+    Friend Function GetEncoderInfo(Type As Extensions) As ImageCodecInfo
+        Return GetEncoderInfo("image/" & [Enum].GetName(GetType(Encoders), Type).ToLower)
+    End Function
+
+    Friend Enum Encoders As Byte
+        BMP
+        JPEG
+        GIF
+        TIFF
+        PNG
+    End Enum
+
+    Friend Enum Extensions As Byte
+        BMP = Encoders.BMP
+        DIB = Encoders.BMP
+        RLE = Encoders.BMP
+
+        JPG = Encoders.JPEG
+        JPEG = Encoders.JPEG
+        JPE = Encoders.JPEG
+        JFIF = Encoders.JPEG
+
+        GIF = Encoders.GIF
+
+        TIF = Encoders.TIFF
+        TIFF = Encoders.TIFF
+
+        PNG = Encoders.PNG
+    End Enum
+
+    Friend Sub SaveCrop(Image As Image, CropRect As Rectangle, ZoomedRatio As Double,
+                        SavePath As String, Extension As Extensions, Optional Quality As Long = 85)
+        ' output image size is based upon the visible crop rectangle and scaled to 
+        ' the ratio of actual image size to displayed image size
+        Dim BMP As Bitmap = Nothing
+        Dim ScaledCropRect As New Rectangle()
+        ScaledCropRect.X = CInt(CropRect.X / ZoomedRatio)
+        ScaledCropRect.Y = CInt(CropRect.Y / ZoomedRatio)
+        ScaledCropRect.Width = CInt(CropRect.Width / ZoomedRatio)
+        ScaledCropRect.Height = CInt(CropRect.Height / ZoomedRatio)
+
+        Try
+            BMP = DirectCast(CropImage(Image, ScaledCropRect), Bitmap)
+            ' 85% quality
+            SaveImage(SavePath, BMP, Extension, Quality)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error while saving image")
+        End Try
+
+        If BMP IsNot Nothing Then BMP.Dispose()
+    End Sub
+#If Not FilenameMethod = 0 Then
     Private Sub ProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs)
         PlayerSkinProgress.Value = e.ProgressPercentage
         BytesDownloaded.Text = Str(e.BytesReceived)
@@ -123,7 +291,7 @@ Public Class Players
         BytesDownloaded.Text = "Download completed!"
         TotalBytes.Text = BytesDownloaded.Text
     End Sub
-
+#End If
     Friend Shared Function InlineAssignHelper(Of T)(ByRef target As T, ByVal value As T) As T
         target = value
         Return value
@@ -132,6 +300,25 @@ Public Class Players
     Friend Shared Function InlineCommentHelper(Of T)(Comment As String) As T
         Return Nothing
     End Function
+
+    Private Sub Players_Resize(sender As Object, e As EventArgs)
+        Head.Width = View.Width * InitialHeadWidth \ InitialWidth
+        PName.Width = View.Width * InitialNameWidth \ InitialWidth
+        Kick.Width = View.Width * InitialKickWidth \ InitialWidth
+        Ban.Width = View.Width * InitialBanWidth \ InitialWidth
+        Op.Width = View.Width * InitialOpWidth \ InitialWidth
+    End Sub
+
+    Private Sub Players_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        InitialWidth = View.Width
+        InitialHeadWidth = Head.Width
+        InitialNameWidth = PName.Width
+        InitialKickWidth = Kick.Width
+        InitialBanWidth = Ban.Width
+        InitialOpWidth = Op.Width
+        AddHandler Resize, AddressOf Players_Resize
+        Players_Resize(sender, e)
+    End Sub
 #If False Then'
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse

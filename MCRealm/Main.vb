@@ -1,5 +1,5 @@
 ﻿Public Class Main
-    Friend ReadOnly MinSize As Size = Size
+    Friend ReadOnly MinSize As Size
     Friend WithEvents Server As New Process()
     Friend JavaArgs As JavaRuntimeArgs
     Friend Structure JavaRuntimeArgs
@@ -44,6 +44,14 @@
             End Try
         End Get
     End Property
+    Public Sub New()
+        MyBase.New
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        MinSize = Size
+    End Sub
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If ServerRunning Then RunServer_Click(sender, e)
     End Sub
@@ -468,7 +476,10 @@
     End Function
 
     Private Sub PlayersButton_Click(sender As Object, e As EventArgs) Handles PlayersButton.Click
-        Players.Show()
+        If Players.Visible Then
+            Players.TopMost = True
+        Else Players.Show()
+        End If
     End Sub
 End Class
 
