@@ -1,22 +1,138 @@
 ﻿Imports System.Windows.Forms
 Imports System.IO
+Imports System.Net
 
 Public Class Players
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
-        Me.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Close()
+        DialogResult = DialogResult.OK
+        Close()
     End Sub
 
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
-        Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Close()
+        DialogResult = DialogResult.Cancel
+        Close()
     End Sub
 
     Private Sub Apply_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Apply_Button.Click
-        Me.DialogResult = DialogResult.Retry
-        Me.Close()
+        DialogResult = DialogResult.Retry
+        Close()
     End Sub
-#If False Then'http://skins.minecraft.net/MinecraftSkins/USERNAME.png
+
+    Private Sub Players_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        GetSkin("Rex0401YT")
+    End Sub
+
+    ''' <summary>
+    ''' Gets a Minecraft player skin.
+    ''' </summary>
+    ''' <param name="Username">The minecraft player username.</param>
+    ''' <param name="BasePath">Optional. The player skin is stored in this directory with the username as the filename.
+    ''' If not specified, is empty or is nothing, %temp% will be used.</param>
+    ''' <returns></returns>
+    Friend Shared Function GetSkin(Username As String, Optional BasePath As String = Nothing) As String
+        If String.IsNullOrEmpty(BasePath) Then BasePath = My.Computer.FileSystem.SpecialDirectories.Temp 'Change accordingly...
+        Dim req As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
+        req.AllowAutoRedirect = False
+        Dim realUrl As String = req.GetResponse.Headers("Location")
+        'Dim WebClient As New WebClient()
+        'AddHandler WebClient.DownloadFileCompleted, New System.ComponentModel.AsyncCompletedEventHandler(AddressOf Completed)
+        'AddHandler WebClient.DownloadProgressChanged, New DownloadProgressChangedEventHandler(AddressOf ProgressChanged)
+        'WebClient.DownloadFileAsync(New Uri(realUrl), LocalFile)
+#If False Then
+
+        Dim url = "http://findicons.com/icon/download/235456/internet_download/128/png?id=235724"
+
+        Using client = New HttpClient()
+            Using response = Await client.GetAsync(url)
+		' make sure our request was successful
+		response.EnsureSuccessStatusCode()
+
+                ' read the filename from the Content-Disposition header
+                Dim filename = response.Content.Headers.ContentDisposition.FileName
+
+                ' read the downloaded file data
+                Dim stream = Await response.Content.ReadAsStreamAsync()
+
+		' Where you want the file to be saved
+		Dim destinationFile = Path.Combine("C:\local\directory", filename)
+
+                ' write the steam content into a file
+                Using fileStream = File.Create(destinationFile)
+                    stream.CopyTo(fileStream)
+                End Using
+            End Using
+        End Using
+#End If
+        Dim Request As HttpWebRequest = DirectCast(WebRequest.Create(realUrl), HttpWebRequest)
+        Using Response As HttpWebResponse = DirectCast(Request.GetResponse(), HttpWebResponse)
+            Dim Header As String = Response.Headers.ToString
+#Const FilenameMethod = 0
+#If FilenameMethod = 1 Then
+            Dim Filename As String = Header.Remove(0, Header.IndexOf("filename=") + 10)
+            Filename = Filename.Remove(Filename.IndexOf(""""c))
+#ElseIf FilenameMethod = 2 Then
+            Dim Filename = Response.Headers("Content-Disposition").Split(New String() {"="}, StringSplitOptions.None)(1)
+#ElseIf FilenameMethod = 0 Then
+            Dim Filename As String = String.Empty
+#End If
+            Dim ResponseStream = Response.GetResponseStream()
+            GetSkin = Path.Combine(BasePath, If(UseFileName, Filename, Username))
+            If Not My.Computer.FileSystem.DirectoryExists(GetSkin) Then My.Computer.FileSystem.CreateDirectory(GetSkin)
+            Using FileStream = File.Create(InlineAssignHelper(GetSkin, GetSkin & If(UseFileName, String.Empty, ".png")))
+                CopyStream(ResponseStream, FileStream)
+            End Using
+        End Using
+    End Function
+
+    Friend Shared Function CropImage(img As Image, cropArea As Rectangle) As Image
+        Try
+            Dim bmpImage As New Bitmap(img)
+            Return bmpImage.Clone(cropArea, bmpImage.PixelFormat)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error while cropping player skin")
+        Finally
+        End Try
+        Return Nothing
+    End Function
+
+    Private Shared ReadOnly Property UseFileName As Boolean
+        Get
+#If FilenameMethod = 0 Then
+            Return False
+#ElseIf True Then
+            Return True
+#End If
+        End Get
+    End Property
+
+    Friend Shared Sub CopyStream(input As Stream, output As Stream)
+        Dim buffer As Byte() = New Byte(32767) {}
+        Dim read As Integer
+        While (InlineAssignHelper(read, input.Read(buffer, 0, buffer.Length))) > 0
+            output.Write(buffer, 0, read)
+        End While
+    End Sub
+
+    Private Sub ProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs)
+        PlayerSkinProgress.Value = e.ProgressPercentage
+        BytesDownloaded.Text = Str(e.BytesReceived)
+        TotalBytes.Text = Str(e.TotalBytesToReceive)
+    End Sub
+
+    Private Sub Completed(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs)
+        BytesDownloaded.Text = "Download completed!"
+        TotalBytes.Text = BytesDownloaded.Text
+    End Sub
+
+    Friend Shared Function InlineAssignHelper(Of T)(ByRef target As T, ByVal value As T) As T
+        target = value
+        Return value
+    End Function
+
+    Friend Shared Function InlineCommentHelper(Of T)(Comment As String) As T
+        Return Nothing
+    End Function
+#If False Then'
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
             Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub

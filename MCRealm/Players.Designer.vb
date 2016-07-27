@@ -26,6 +26,12 @@ Partial Class Players
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Apply_Button = New System.Windows.Forms.Button()
+        Me.PlayerSkinProgress = New System.Windows.Forms.ProgressBar()
+        Me.PlayerSkinProgressLabel = New System.Windows.Forms.Label()
+        Me.BytesDownload = New System.Windows.Forms.Label()
+        Me.BytesDownloaded = New System.Windows.Forms.Label()
+        Me.TotalBytes = New System.Windows.Forms.Label()
+        Me.TotalByte = New System.Windows.Forms.Label()
         Me.Buttons.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,7 +45,7 @@ Partial Class Players
         Me.Buttons.Controls.Add(Me.Cancel_Button, 0, 0)
         Me.Buttons.Controls.Add(Me.OK_Button, 0, 0)
         Me.Buttons.Controls.Add(Me.Apply_Button, 1, 0)
-        Me.Buttons.Location = New System.Drawing.Point(204, 500)
+        Me.Buttons.Location = New System.Drawing.Point(290, 500)
         Me.Buttons.Name = "Buttons"
         Me.Buttons.RowCount = 1
         Me.Buttons.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
@@ -75,28 +81,95 @@ Partial Class Players
         Me.Apply_Button.TabIndex = 1
         Me.Apply_Button.Text = "Apply"
         '
-        'SettingsCopy
+        'PlayerSkinProgress
+        '
+        Me.PlayerSkinProgress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PlayerSkinProgress.Location = New System.Drawing.Point(155, 9)
+        Me.PlayerSkinProgress.Name = "PlayerSkinProgress"
+        Me.PlayerSkinProgress.Size = New System.Drawing.Size(354, 17)
+        Me.PlayerSkinProgress.TabIndex = 1
+        '
+        'PlayerSkinProgressLabel
+        '
+        Me.PlayerSkinProgressLabel.AutoSize = True
+        Me.PlayerSkinProgressLabel.Location = New System.Drawing.Point(12, 9)
+        Me.PlayerSkinProgressLabel.Name = "PlayerSkinProgressLabel"
+        Me.PlayerSkinProgressLabel.Size = New System.Drawing.Size(137, 13)
+        Me.PlayerSkinProgressLabel.TabIndex = 2
+        Me.PlayerSkinProgressLabel.Text = "Progress of skin download: "
+        '
+        'BytesDownload
+        '
+        Me.BytesDownload.AutoSize = True
+        Me.BytesDownload.Location = New System.Drawing.Point(12, 29)
+        Me.BytesDownload.Name = "BytesDownload"
+        Me.BytesDownload.Size = New System.Drawing.Size(100, 13)
+        Me.BytesDownload.TabIndex = 3
+        Me.BytesDownload.Text = "Bytes downloaded: "
+        '
+        'BytesDownloaded
+        '
+        Me.BytesDownloaded.AutoSize = True
+        Me.BytesDownloaded.Location = New System.Drawing.Point(118, 29)
+        Me.BytesDownloaded.Name = "BytesDownloaded"
+        Me.BytesDownloaded.Size = New System.Drawing.Size(121, 13)
+        Me.BytesDownloaded.TabIndex = 4
+        Me.BytesDownloaded.Text = "9223372036854775807"
+        '
+        'TotalBytes
+        '
+        Me.TotalBytes.AutoSize = True
+        Me.TotalBytes.Location = New System.Drawing.Point(389, 29)
+        Me.TotalBytes.Name = "TotalBytes"
+        Me.TotalBytes.Size = New System.Drawing.Size(121, 13)
+        Me.TotalBytes.TabIndex = 6
+        Me.TotalBytes.Text = "9223372036854775807"
+        '
+        'TotalByte
+        '
+        Me.TotalByte.AutoSize = True
+        Me.TotalByte.Location = New System.Drawing.Point(245, 29)
+        Me.TotalByte.Name = "TotalByte"
+        Me.TotalByte.Size = New System.Drawing.Size(138, 13)
+        Me.TotalByte.TabIndex = 5
+        Me.TotalByte.Text = "Total bytes to downloaded: "
+        '
+        'Players
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Apply_Button
-        Me.ClientSize = New System.Drawing.Size(435, 541)
+        Me.ClientSize = New System.Drawing.Size(521, 541)
+        Me.Controls.Add(Me.TotalBytes)
+        Me.Controls.Add(Me.TotalByte)
+        Me.Controls.Add(Me.BytesDownloaded)
+        Me.Controls.Add(Me.BytesDownload)
+        Me.Controls.Add(Me.PlayerSkinProgressLabel)
+        Me.Controls.Add(Me.PlayerSkinProgress)
         Me.Controls.Add(Me.Buttons)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.HelpButton = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "SettingsCopy"
+        Me.Name = "Players"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Players"
         Me.Buttons.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Buttons As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Apply_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
+    Friend WithEvents PlayerSkinProgress As ProgressBar
+    Friend WithEvents PlayerSkinProgressLabel As Label
+    Friend WithEvents BytesDownload As Label
+    Friend WithEvents BytesDownloaded As Label
+    Friend WithEvents TotalBytes As Label
+    Friend WithEvents TotalByte As Label
 End Class

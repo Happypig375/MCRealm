@@ -468,7 +468,7 @@
     End Function
 
     Private Sub PlayersButton_Click(sender As Object, e As EventArgs) Handles PlayersButton.Click
-
+        Players.Show()
     End Sub
 End Class
 
