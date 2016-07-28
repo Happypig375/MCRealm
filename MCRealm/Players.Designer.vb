@@ -62,6 +62,9 @@ Partial Class Players
         Me.Ban = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Op = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Images = New System.Windows.Forms.ImageList(Me.components)
+        Me.ImageLoader = New System.ComponentModel.BackgroundWorker()
+        Me.HeadLoading = New System.Windows.Forms.Label()
+        Me.HeadLoad = New System.Windows.Forms.Label()
         Me.Buttons.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -209,6 +212,29 @@ Partial Class Players
         Me.Images.ImageSize = New System.Drawing.Size(16, 26)
         Me.Images.TransparentColor = System.Drawing.Color.Transparent
         '
+        'ImageLoader
+        '
+        Me.ImageLoader.WorkerReportsProgress = True
+        Me.ImageLoader.WorkerSupportsCancellation = True
+        '
+        'HeadLoading
+        '
+        Me.HeadLoading.AutoSize = True
+        Me.HeadLoading.Location = New System.Drawing.Point(112, 508)
+        Me.HeadLoading.Name = "HeadLoading"
+        Me.HeadLoading.Size = New System.Drawing.Size(102, 13)
+        Me.HeadLoading.TabIndex = 2
+        Me.HeadLoading.Text = "Head load progress:"
+        '
+        'HeadLoad
+        '
+        Me.HeadLoad.AutoSize = True
+        Me.HeadLoad.Location = New System.Drawing.Point(220, 508)
+        Me.HeadLoad.Name = "HeadLoad"
+        Me.HeadLoad.Size = New System.Drawing.Size(60, 13)
+        Me.HeadLoad.TabIndex = 3
+        Me.HeadLoad.Text = "Completed!"
+        '
         'Players
         '
         Me.AcceptButton = Me.OK_Button
@@ -216,6 +242,8 @@ Partial Class Players
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Apply_Button
         Me.ClientSize = New System.Drawing.Size(514, 541)
+        Me.Controls.Add(Me.HeadLoad)
+        Me.Controls.Add(Me.HeadLoading)
         Me.Controls.Add(Me.View)
         Me.Controls.Add(Me.Buttons)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -227,6 +255,7 @@ Partial Class Players
         Me.Text = "Players"
         Me.Buttons.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Buttons As System.Windows.Forms.TableLayoutPanel
@@ -240,4 +269,7 @@ Partial Class Players
     Friend WithEvents Ban As ColumnHeader
     Friend WithEvents Op As ColumnHeader
     Friend WithEvents Images As ImageList
+    Friend WithEvents ImageLoader As System.ComponentModel.BackgroundWorker
+    Friend WithEvents HeadLoading As Label
+    Friend WithEvents HeadLoad As Label
 End Class

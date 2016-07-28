@@ -98,7 +98,7 @@
             Process.Start(javaStartInfo)
 #End If
                 Try
-                    For Each p In Process.GetProcesses
+                    For Each p As Process In Process.GetProcesses
                         If p.ProcessName = Determine() Then
                             p.Kill()
                         End If

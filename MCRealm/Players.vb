@@ -2,7 +2,79 @@
 Imports System.IO
 Imports System.Net
 Imports System.Drawing.Imaging
+Imports System.ComponentModel
 
+#If False Then
+Imports System.Threading
+Imports System.Runtime.InteropServices
+
+Namespace Examples.AdvancedProgramming.AsynchronousOperations
+
+    Public Class AsyncMain
+        Shared Sub Main()
+            ' The asynchronous method puts the thread id here.
+            Dim threadId As Integer
+
+            ' Create an instance of the test class.
+            Dim ad As New AsyncDemo()
+
+            ' Create the delegate.
+            Dim caller As New AsyncMethodCaller(AddressOf ad.TestMethod)
+
+            ' Initiate the asynchronous call.
+            Dim result As IAsyncResult = caller.BeginInvoke(3000,
+                threadId, Nothing, Nothing)
+
+            Thread.Sleep(0)
+            Console.WriteLine("Main thread {0} does some work.",
+                Thread.CurrentThread.ManagedThreadId)
+            ' Perform additional processing here and then
+            ' wait for the WaitHandle to be signaled.
+            result.AsyncWaitHandle.WaitOne()
+
+            ' Call EndInvoke to retrieve the results.
+            Dim returnValue As String = caller.EndInvoke(threadId, result)
+
+            ' Close the wait handle.
+            result.AsyncWaitHandle.Close()
+
+            Console.WriteLine("The call executed on thread {0}, with return value ""{1}"".",
+                threadId, returnValue)
+        End Sub
+    End Class
+    Public Class AsyncDemo
+        ' The method to be executed asynchronously.
+        Public Function TestMethod(ByVal callDuration As Integer,
+                <Out> ByRef threadId As Integer) As String
+            Console.WriteLine("Test method begins.")
+            Thread.Sleep(callDuration)
+            threadId = Thread.CurrentThread.ManagedThreadId()
+            Return String.Format("My call time was {0}.", callDuration.ToString())
+        End Function
+    End Class
+
+    ' The delegate must have the same signature as the method
+    ' it will call asynchronously.
+    Public Delegate Function AsyncMethodCaller(ByVal callDuration As Integer,
+        <Out> ByRef threadId As Integer) As String
+End Namespace
+
+Public Class AsyncDemo
+    ' The method to be executed asynchronously.
+    Public Function TestMethod(ByVal callDuration As Integer,
+                <Out> ByRef threadId As Integer) As String
+        Console.WriteLine("Test method begins.")
+        Thread.Sleep(callDuration)
+        threadId = Thread.CurrentThread.ManagedThreadId()
+        Return String.Format("My call time was {0}.", callDuration.ToString())
+    End Function
+End Class
+
+' The delegate must have the same signature as the method
+' it will call asynchronously.
+Public Delegate Function AsyncMethodCaller(ByVal callDuration As Integer,
+        <Out> ByRef threadId As Integer) As String
+#End If
 Public Class Players
     Dim InitialWidth As Integer
     Dim InitialHeadWidth As Integer
@@ -10,12 +82,26 @@ Public Class Players
     Dim InitialKickWidth As Integer
     Dim InitialBanWidth As Integer
     Dim InitialOpWidth As Integer
-    Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        AddPlayers("Rex0401YT", "MCmario117", "Happypig375", "KooDog", "BlowBearBear", "")
+        'AddPlayer("henrykwokchihei")
+        'AddPlayer("stevef91")
+        If Not ImageLoader.IsBusy Then ImageLoader.RunWorkerAsync() ' Start the asynchronous operation.
+
+    End Sub
+
+    Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click
         DialogResult = DialogResult.OK
         Close()
     End Sub
 
-    Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
+    Private Sub Cancel_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Cancel_Button.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
@@ -26,19 +112,17 @@ Public Class Players
     End Sub
 
     Private Sub Players_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AddPlayer("Rex0401YT")
-        AddPlayer("MCmario117")
-        AddPlayer("henrykwokchihei")
-        'AddPlayer("stevef91")
     End Sub
 
-    Friend Sub AddPlayer(Username As String, Optional State As PlayerState = PlayerState.Normal)
-        Dim SkinPath As String = GetSkin(Username)
-        If String.IsNullOrEmpty(SkinPath) Then Exit Sub
-        Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
-        Dim Item As New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
-        'CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8))
-        View.Items.Add(Item)
+    Friend Sub AddPlayer(Username As String)
+        View.Items.Add(New ListViewItem({String.Empty, Username}, GetGroup(Username.First)))
+    End Sub
+
+    Friend Sub AddPlayers(ParamArray Username As String())
+        For Each Player As String In Username
+            If Player.Count = 0 Then Continue For
+            View.Items.Add(New ListViewItem({String.Empty, Player}, GetGroup(Player.First)))
+        Next
     End Sub
 
     <Flags> Friend Enum PlayerState As Byte
@@ -87,10 +171,11 @@ Public Class Players
     ''' If not specified, is empty or is nothing, %temp% will be used.</param>
     ''' <returns>The skin file's location on this computer. (extension: .png)</returns>
     Friend Shared Function GetSkin(Username As String, Optional BasePath As String = Nothing) As String
+        If String.IsNullOrEmpty(Username) Then Return Nothing
         If String.IsNullOrEmpty(BasePath) Then BasePath = My.Computer.FileSystem.SpecialDirectories.Temp 'Change accordingly...
         Dim req As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
         req.AllowAutoRedirect = False
-        Dim realUrl As String
+        Dim realUrl As String = Nothing
         Try
             realUrl = req.GetResponse.Headers("Location")
         Catch ex As WebException When ex.Status = WebExceptionStatus.ProtocolError And ex.Message.Contains("404")
@@ -100,7 +185,7 @@ Public Class Players
             MsgBox(ex.ToString)
         End Try
         'Dim WebClient As New WebClient()
-        'AddHandler WebClient.DownloadFileCompleted, New System.ComponentModel.AsyncCompletedEventHandler(AddressOf Completed)
+        'AddHandler WebClient.DownloadFileCompleted, New ComponentModel.AsyncCompletedEventHandler(AddressOf Completed)
         'AddHandler WebClient.DownloadProgressChanged, New DownloadProgressChangedEventHandler(AddressOf ProgressChanged)
         'WebClient.DownloadFileAsync(New Uri(realUrl), LocalFile)
 #If False Then
@@ -140,10 +225,10 @@ Public Class Players
 #ElseIf FilenameMethod = 0 Then
             Dim Filename As String = String.Empty
 #End If
-            Dim ResponseStream = Response.GetResponseStream()
+            Dim ResponseStream As Stream = Response.GetResponseStream()
             GetSkin = Path.Combine(BasePath, If(UseFileName, Filename, Username))
             If Not My.Computer.FileSystem.DirectoryExists(GetSkin) Then My.Computer.FileSystem.CreateDirectory(GetSkin)
-            Using FileStream = File.Create(InlineAssignHelper(GetSkin, GetSkin & If(UseFileName, String.Empty, ".png")))
+            Using FileStream As FileStream = File.Create(InlineAssignHelper(GetSkin, GetSkin & If(UseFileName, String.Empty, ".png")))
                 CopyStream(ResponseStream, FileStream)
             End Using
         End Using
@@ -287,7 +372,7 @@ Public Class Players
         TotalBytes.Text = Str(e.TotalBytesToReceive)
     End Sub
 
-    Private Sub Completed(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs)
+    Private Sub Completed(sender As Object, e As ComponentModel.AsyncCompletedEventArgs)
         BytesDownloaded.Text = "Download completed!"
         TotalBytes.Text = BytesDownloaded.Text
     End Sub
@@ -319,7 +404,61 @@ Public Class Players
         AddHandler Resize, AddressOf Players_Resize
         Players_Resize(sender, e)
     End Sub
-#If False Then'
+
+    Private Sub CancelOperation()
+        If ImageLoader.WorkerSupportsCancellation = True Then ImageLoader.CancelAsync() ' Cancel the asynchronous operation.
+    End Sub
+    Delegate Function ViewItemsQueryCallback() As ListViewItem()
+    Private Function QueryViewItems() As ListViewItem()
+        ' InvokeRequired required compares the thread ID of the
+        ' calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If View.InvokeRequired Then
+            Return CType(Invoke(New ViewItemsQueryCallback(AddressOf QueryViewItems)), ListViewItem())
+        Else
+            Dim Returner As ListViewItem() = {}
+            View.Items.CopyTo(Returner, 0)
+            Return Returner
+        End If
+    End Function
+    ' This event handler is where the time-consuming work is done. 
+    Private Sub ImageLoader_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles ImageLoader.DoWork
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        For Each Player As ListViewItem In QueryViewItems()
+            Dim Username As String = Player.SubItems(1).Text
+            If worker.CancellationPending Then
+                e.Cancel = True
+                Exit For
+            ElseIf Player.ImageIndex = -1 Then
+                ' Perform a time consuming operation and report progress.
+                Dim SkinPath As String = GetSkin(Username)
+                If String.IsNullOrEmpty(SkinPath) Then Exit Sub
+                Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
+                Dim Item As New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
+                'CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8))
+                View.Items.Add(Item)
+                worker.ReportProgress(Player.Index \ QueryViewItems.Count)
+            End If
+        Next
+    End Sub
+
+    ' This event handler updates the progress. 
+    Private Sub ImageLoader_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles ImageLoader.ProgressChanged
+        HeadLoad.Text = (e.ProgressPercentage.ToString() & "%")
+    End Sub
+
+    ' This event handler deals with the results of the background operation. 
+    Private Sub ImageLoader_RunWorkerCompleted(ByVal sender As Object,
+                                               ByVal e As RunWorkerCompletedEventArgs) Handles ImageLoader.RunWorkerCompleted
+        If e.Cancelled = True Then
+            HeadLoad.Text = "Canceled!"
+        ElseIf e.Error IsNot Nothing Then
+            HeadLoad.Text = "Error: " & e.Error.Message
+        Else
+            HeadLoad.Text = "Done!"
+        End If
+    End Sub
+#If False Then
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
             Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
@@ -510,7 +649,6 @@ Public Class Players
     End Sub
 
 #End If
-
 
 
 

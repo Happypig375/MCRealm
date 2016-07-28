@@ -1,7 +1,7 @@
 ﻿' This document (only) uses an open source code.
 Option Strict On
 Option Explicit On
-Option Infer On
+Option Infer Off
 '
 ' * Copyright 2009-15 Williams Technologies Limited.
 ' *
@@ -422,9 +422,9 @@ Public Class JavaPropertyReader
     ''' <param name="stream">The input stream that the properties are read from.</param>
     ''' <param name="encoding">The <see cref="System.Text.Encoding">encoding</see> that is used to read the properies file stream.</param>
     Public Sub Parse(stream As Stream, encoding As Encoding)
-        Dim bufferedStream = New BufferedStream(stream, bufferSize)
+        Dim bufferedStream As New BufferedStream(stream, bufferSize)
         ' the default encoding ISO-8859-1 (codepabe 28592) will be used if we do not pass explicitly different encoding
-        Dim parserEncoding = If(encoding, JavaProperties.DefaultEncoding)
+        Dim parserEncoding As Encoding = If(encoding, JavaProperties.DefaultEncoding)
         reader = New BinaryReader(bufferedStream, parserEncoding)
 
         Dim state As Integer = STATE_start
