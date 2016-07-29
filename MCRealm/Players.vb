@@ -92,6 +92,8 @@ Public Class Players
         AddPlayers("Rex0401YT", "MCmario117", "Happypig375", "KooDog", "BlowBearBear", "")
         'AddPlayer("henrykwokchihei")
         'AddPlayer("stevef91")
+        'MsgBox("( ͡°ل͜ ͡°) ( ͡° ͜ʖ ͡°)╭∩╮﻿")
+
         If Not ImageLoader.IsBusy Then ImageLoader.RunWorkerAsync() ' Start the asynchronous operation.
 
     End Sub
@@ -408,25 +410,60 @@ Public Class Players
     Private Sub CancelOperation()
         If ImageLoader.WorkerSupportsCancellation = True Then ImageLoader.CancelAsync() ' Cancel the asynchronous operation.
     End Sub
-    Delegate Function ViewItemsQueryCallback() As ListViewItem()
-    Private Function QueryViewItems() As ListViewItem()
+
+    Delegate Function ViewItemsQueryCallback() As IEnumerable(Of ListViewItem)
+    Private Function QueryViewItems() As IEnumerable(Of ListViewItem)
         ' InvokeRequired required compares the thread ID of the
         ' calling thread to the thread ID of the creating thread.
         ' If these threads are different, it returns true.
         If View.InvokeRequired Then
-            Return CType(Invoke(New ViewItemsQueryCallback(AddressOf QueryViewItems)), ListViewItem())
-        Else
-            Dim Returner As ListViewItem() = {}
-            View.Items.CopyTo(Returner, 0)
-            Return Returner
+            Return CType(Invoke(New ViewItemsQueryCallback(AddressOf QueryViewItems)), IEnumerable(Of ListViewItem))
+        Else Return View.Items.Cast(Of ListViewItem)
         End If
     End Function
+
+    Delegate Function IndexQueryCallback(Item As ListViewItem) As Integer
+    Private Function GetIndex(Item As ListViewItem) As Integer
+        ' InvokeRequired required compares the thread ID of the
+        ' calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If View.InvokeRequired Then
+            Return CInt(Invoke(New IndexQueryCallback(AddressOf GetIndex), Item))
+        Else Return View.Items.IndexOf(View.Items.Find(Item.SubItems.Item(1).Text, True).First)
+        End If
+    End Function
+
+    Delegate Sub SetItemCallback(Index As Integer, Item As ListViewItem)
+    Private Sub SetItem(Index As Integer, Item As ListViewItem)
+        ' InvokeRequired required compares the thread ID of the
+        ' calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If View.InvokeRequired Then
+            Invoke(New SetItemCallback(AddressOf SetItem), Index, Item)
+        Else View.Items.Item(Index) = Item
+        End If
+    End Sub
+
+    Delegate Sub SetViewCallback(View As ListView)
+    Private Sub SetView(View As ListView)
+        ' InvokeRequired required compares the thread ID of the
+        ' calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If View.InvokeRequired Then
+            Invoke(New SetViewCallback(AddressOf SetView), View)
+        Else View.Items.Item(Index) = Item
+        End If
+    End Sub
+
     ' This event handler is where the time-consuming work is done. 
     Private Sub ImageLoader_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles ImageLoader.DoWork
-        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
-        For Each Player As ListViewItem In QueryViewItems()
+        Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Worker.ReportProgress(0)
+        Dim Items As IEnumerable(Of ListViewItem) = QueryViewItems()
+        For i As Integer = 0 To Items.Count - 1
+            Dim Player As ListViewItem = Items(i)
             Dim Username As String = Player.SubItems(1).Text
-            If worker.CancellationPending Then
+            If Worker.CancellationPending Then
                 e.Cancel = True
                 Exit For
             ElseIf Player.ImageIndex = -1 Then
@@ -434,12 +471,13 @@ Public Class Players
                 Dim SkinPath As String = GetSkin(Username)
                 If String.IsNullOrEmpty(SkinPath) Then Exit Sub
                 Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
-                Dim Item As New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
-                'CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8))
-                View.Items.Add(Item)
-                worker.ReportProgress(Player.Index \ QueryViewItems.Count)
+                Player = New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
+                Dim Index As Integer = GetIndex(Player)
+                'SetItem(Index, Player)
+                Worker.ReportProgress(Index \ Items.Count)
             End If
         Next
+
     End Sub
 
     ' This event handler updates the progress. 
