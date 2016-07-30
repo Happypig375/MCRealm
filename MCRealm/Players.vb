@@ -90,8 +90,8 @@ Public Class Players
 
         ' Add any initialization after the InitializeComponent() call.
         AddPlayers("Rex0401YT", "MCmario117", "Happypig375", "KooDog", "BlowBearBear", "")
-        'AddPlayer("henrykwokchihei")
-        'AddPlayer("stevef91")
+        AddPlayer("henrykwokchihei")
+        AddPlayer("steveff91")
         'MsgBox("( ͡°ل͜ ͡°) ( ͡° ͜ʖ ͡°)╭∩╮﻿")
 
         If Not ImageLoader.IsBusy Then ImageLoader.RunWorkerAsync() ' Start the asynchronous operation.
@@ -140,9 +140,9 @@ Public Class Players
             Case "A"c To "Z"c
                 Return View.Groups.Item(AscW(Code) - AscW("A"c))
             Case "0"c To "9"c
-                Return View.Groups.Item(27)
+                Return View.Groups.Item(26)
             Case Else
-                Return View.Groups.Item(28)
+                Return View.Groups.Item(27)
         End Select
     End Function
 
@@ -175,17 +175,21 @@ Public Class Players
     Friend Shared Function GetSkin(Username As String, Optional BasePath As String = Nothing) As String
         If String.IsNullOrEmpty(Username) Then Return Nothing
         If String.IsNullOrEmpty(BasePath) Then BasePath = My.Computer.FileSystem.SpecialDirectories.Temp 'Change accordingly...
-        Dim req As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
-        req.AllowAutoRedirect = False
+        Dim Request As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
+        Request.AllowAutoRedirect = False
         Dim realUrl As String = Nothing
         Try
-            realUrl = req.GetResponse.Headers("Location")
+            Using Resp As HttpWebResponse = DirectCast(Request.GetResponse, HttpWebResponse)
+                realUrl = Resp.Headers("Location")
+            End Using
         Catch ex As WebException When ex.Status = WebExceptionStatus.ProtocolError And ex.Message.Contains("404")
             MsgBox($"Unexisting player: {Username}", MsgBoxStyle.MsgBoxSetForeground, "Player not found")
             Return Nothing
         Catch ex As WebException
             MsgBox(ex.ToString)
+            Return Nothing
         End Try
+        If String.IsNullOrEmpty(realUrl) Then Return Nothing
         'Dim WebClient As New WebClient()
         'AddHandler WebClient.DownloadFileCompleted, New ComponentModel.AsyncCompletedEventHandler(AddressOf Completed)
         'AddHandler WebClient.DownloadProgressChanged, New DownloadProgressChangedEventHandler(AddressOf ProgressChanged)
@@ -215,7 +219,7 @@ Public Class Players
             End Using
         End Using
 #End If
-        Dim Request As HttpWebRequest = DirectCast(WebRequest.Create(realUrl), HttpWebRequest)
+        Request = DirectCast(WebRequest.Create(realUrl), HttpWebRequest)
         Using Response As HttpWebResponse = DirectCast(Request.GetResponse(), HttpWebResponse)
             Dim Header As String = Response.Headers.ToString
 #Const FilenameMethod = 0
@@ -418,7 +422,10 @@ Public Class Players
         ' If these threads are different, it returns true.
         If View.InvokeRequired Then
             Return CType(Invoke(New ViewItemsQueryCallback(AddressOf QueryViewItems)), IEnumerable(Of ListViewItem))
-        Else Return View.Items.Cast(Of ListViewItem)
+        Else
+            Dim Returner(View.Items.Count) As ListViewItem
+            View.Items.CopyTo(Returner, 0)
+            Return Returner
         End If
     End Function
 
@@ -444,14 +451,17 @@ Public Class Players
         End If
     End Sub
 
-    Delegate Sub SetViewCallback(View As ListView)
-    Private Sub SetView(View As ListView)
+    Delegate Sub SetViewCallback(Items As ListViewItem())
+    Private Sub SetView(Items As ListViewItem())
         ' InvokeRequired required compares the thread ID of the
         ' calling thread to the thread ID of the creating thread.
         ' If these threads are different, it returns true.
         If View.InvokeRequired Then
-            Invoke(New SetViewCallback(AddressOf SetView), View)
-        Else View.Items.Item(Index) = Item
+            Invoke(New SetViewCallback(AddressOf SetView), Items)
+        Else
+            For i As Integer = 0 To Items.Count - 1
+                View.Items.Item(i) = Items(i)
+            Next
         End If
     End Sub
 
@@ -460,20 +470,20 @@ Public Class Players
         Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
         Worker.ReportProgress(0)
         Dim Items As IEnumerable(Of ListViewItem) = QueryViewItems()
-        For i As Integer = 0 To Items.Count - 1
-            Dim Player As ListViewItem = Items(i)
-            Dim Username As String = Player.SubItems(1).Text
+        For Index As Integer = 0 To Items.Count - 2
+            Dim Player As ListViewItem = Items(Index)
             If Worker.CancellationPending Then
                 e.Cancel = True
                 Exit For
             ElseIf Player.ImageIndex = -1 Then
                 ' Perform a time consuming operation and report progress.
+                Dim Username As String = Player.SubItems(1).Text
                 Dim SkinPath As String = GetSkin(Username)
                 If String.IsNullOrEmpty(SkinPath) Then Exit Sub
                 Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
                 Player = New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
-                Dim Index As Integer = GetIndex(Player)
-                'SetItem(Index, Player)
+                'Dim Index As Integer = GetIndex(Player)
+                SetItem(Index, Player)
                 Worker.ReportProgress(Index \ Items.Count)
             End If
         Next
