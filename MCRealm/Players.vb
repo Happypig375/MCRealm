@@ -90,7 +90,7 @@ Public Class Players
 
         ' Add any initialization after the InitializeComponent() call.
         AddPlayers("Rex0401YT", "MCmario117", "Happypig375", "KooDog", "BlowBearBear", "")
-        AddPlayer("henrykwokchihei")
+        'AddPlayer("henrykwokchihei")
         AddPlayer("steveff91")
         'MsgBox("( ͡°ل͜ ͡°) ( ͡° ͜ʖ ͡°)╭∩╮﻿")
 
@@ -117,7 +117,7 @@ Public Class Players
     End Sub
 
     Friend Sub AddPlayer(Username As String)
-        View.Items.Add(New ListViewItem({String.Empty, Username}, GetGroup(Username.First)))
+        View.Items.Add(New ListViewItem({String.Empty, Username}, GetGroup(Username.First)) With {.Name = Username})
     End Sub
 
     Friend Sub AddPlayers(ParamArray Username As String())
@@ -175,7 +175,8 @@ Public Class Players
     Friend Shared Function GetSkin(Username As String, Optional BasePath As String = Nothing) As String
         If String.IsNullOrEmpty(Username) Then Return Nothing
         If String.IsNullOrEmpty(BasePath) Then BasePath = My.Computer.FileSystem.SpecialDirectories.Temp 'Change accordingly...
-        Dim Request As HttpWebRequest = DirectCast(WebRequest.Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
+        Dim Request As HttpWebRequest = DirectCast(WebRequest.
+            Create($"http://skins.minecraft.net/MinecraftSkins/{Username}.png"), HttpWebRequest)
         Request.AllowAutoRedirect = False
         Dim realUrl As String = Nothing
         Try
@@ -481,10 +482,11 @@ Public Class Players
                 Dim SkinPath As String = GetSkin(Username)
                 If String.IsNullOrEmpty(SkinPath) Then Exit Sub
                 Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
-                Player = New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username), GetGroup(Username.First))
+                Player = New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username),
+                                           GetGroup(Username.First)) With {.Name = Username}
                 'Dim Index As Integer = GetIndex(Player)
                 SetItem(Index, Player)
-                Worker.ReportProgress(Index \ Items.Count)
+                Worker.ReportProgress(CInt(Index / Items.Count) * 100)
             End If
         Next
 
