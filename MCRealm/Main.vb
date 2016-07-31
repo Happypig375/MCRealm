@@ -1,4 +1,6 @@
-﻿Public Class Main
+﻿Imports System.IO
+
+Public Class Main
     Friend ReadOnly MinSize As Size
     Friend WithEvents Server As New Process()
     Friend JavaArgs As JavaRuntimeArgs
@@ -74,6 +76,29 @@
             If ServerRunning Then
                 KillServer()
             Else
+                Dim EULAPath As String = Path.Combine(Path.GetDirectoryName(JAR.Text), "eula.txt")
+                Dim EULA As New JavaProperties
+                Dim EULAResponse As MsgBoxResult
+                Using EULAStream As New FileStream(EULAPath, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read)
+                    Dim Reader As New JavaPropertyReader(EULA)
+                    Reader.Parse(EULAStream)
+                    If Not File.Exists(EULAPath) Then DisplayError(New FileNotFoundException("eula.txt not found!", EULAPath))
+                    For Each Pair As DictionaryEntry In EULA
+                        If Convert.ToBoolean(Pair.Value) Then EULAResponse = MsgBoxResult.Ok
+                        If CStr(Pair.Key) = "eula" AndAlso EULAResponse = 0 Then EULAResponse =
+                            MsgBox("By pressing OK you are indicating your agreement to Mojang's EULA (" &
+                            "https://account.mojang.com/documents/minecraft_eula).", MsgBoxStyle.OkCancel Or
+                            MsgBoxStyle.Exclamation, "Accept EULA")
+                    Next
+                End Using
+                If EULAResponse = MsgBoxResult.Ok Then
+                    Using EULAStream As New FileStream(EULAPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)
+                        Dim Writer As New JavaPropertyWriter(EULA)
+                        Writer.Write(EULAStream, "By changing the setting below to TRUE you are indicating your agreement" &
+                                     " to our EULA (https://account.mojang.com/documents/minecraft_eula).")
+                    End Using
+                Else Exit Sub
+                End If
 #If False Then
             ProcID = Shell("java.exe", AppWinStyle.NormalFocus)
             AppActivate(ProcID)
@@ -390,16 +415,15 @@
     End Sub
 
     Private Sub SettingsButton_Click(sender As Object, e As EventArgs) Handles SettingsButton.Click
-        If Settings.Visible Then
-            Settings.TopMost = True
-        Else Settings.Show()
-        End If
+        If Settings.Visible Then Settings.BringToFront() Else Settings.Show()
     End Sub
     Public Sub DisplayError(ByVal Exception As Exception)
         MsgBox(Exception.ToString, MsgBoxStyle.Critical)
     End Sub
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles Me.Load
+        TestCode.Main()
+
         With JavaArgs
             .JavaW = False
             .MemoryInit = 1024
@@ -411,9 +435,31 @@
             .Bit64 = False
             .NoGUI = True
             .Online = True
+            .Args = "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy"
         End With
     End Sub
+#If False Then
+    Shared is64BitProcess As Boolean = (IntPtr.Size = 8)
+    Shared is64BitOperatingSystem As Boolean = is64BitProcess OrElse InternalCheckIsWow64()
 
+    <DllImport("kernel32.dll", SetLastError:=True, CallingConvention:=CallingConvention.Winapi)>
+    Private Shared Function IsWow64Process(<[In]> hProcess As IntPtr, <Out> ByRef wow64Process As Boolean) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+
+    Public Shared Function InternalCheckIsWow64() As Boolean
+        If (My.Computer.Info.OSVersion.Version.Major = 5 AndAlso Environment.OSVersion.Version.Minor >= 1) OrElse Environment.OSVersion.Version.Major >= 6 Then
+            Using p As Process = Process.GetCurrentProcess()
+                Dim retVal As Boolean
+                If Not IsWow64Process(p.Handle, retVal) Then
+                    Return False
+                End If
+                Return retVal
+            End Using
+        Else
+            Return False
+        End If
+    End Function
+#End If
     Private Sub EnvironmentButton_Click(sender As Object, e As EventArgs) Handles EnvironmentButton.Click
         Environment.Show()
     End Sub
@@ -476,10 +522,7 @@
     End Function
 
     Private Sub PlayersButton_Click(sender As Object, e As EventArgs) Handles PlayersButton.Click
-        If Players.Visible Then
-            Players.TopMost = True
-        Else Players.Show()
-        End If
+        If Players.Visible Then Players.BringToFront() Else Players.Show()
     End Sub
 End Class
 

@@ -115,6 +115,12 @@ MCRealm
  <param name="o">An Object or null to be returned as a string.</param>
  <returns>string value of the object - or null.</returns>
 </member>
+<member name="P:MCRealm.JavaProperties.JavaNow">
+ <summary>
+ Custom code, not from the source.
+ </summary>
+ <returns>The time now in a string just like the Minecraft signature.</returns>
+</member>
 <member name="T:MCRealm.JavaPropertyReader">
  <summary>
  This class reads Java style properties from an input stream.  
@@ -380,6 +386,11 @@ MCRealm
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member>
+<member name="T:MCRealm.TestCode">
+ <summary>
+ Run upon loading of Main. Used for quick test of functons and stuff.
+ </summary>
 </member>
 </members>
 </doc>

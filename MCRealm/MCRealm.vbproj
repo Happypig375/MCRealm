@@ -76,6 +76,7 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -93,7 +94,6 @@
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
-    <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.Designer.vb">
@@ -108,6 +108,7 @@
     <Compile Include="Environment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="JSONReader.vb" />
     <Compile Include="Players.Designer2.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +153,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TestCode.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">

@@ -8,9 +8,9 @@ Imports System.ComponentModel
 Imports System.Threading
 Imports System.Runtime.InteropServices
 
-Namespace Examples.AdvancedProgramming.AsynchronousOperations
+'Namespace Examples.AdvancedProgramming.AsynchronousOperations
 
-    Public Class AsyncMain
+    'Public Class AsyncMain
         Shared Sub Main()
             ' The asynchronous method puts the thread id here.
             Dim threadId As Integer
@@ -42,7 +42,7 @@ Namespace Examples.AdvancedProgramming.AsynchronousOperations
                 threadId, returnValue)
         End Sub
     End Class
-    Public Class AsyncDemo
+    'Public Class AsyncDemo
         ' The method to be executed asynchronously.
         Public Function TestMethod(ByVal callDuration As Integer,
                 <Out> ByRef threadId As Integer) As String
@@ -58,28 +58,11 @@ Namespace Examples.AdvancedProgramming.AsynchronousOperations
     Public Delegate Function AsyncMethodCaller(ByVal callDuration As Integer,
         <Out> ByRef threadId As Integer) As String
 End Namespace
-
-Public Class AsyncDemo
-    ' The method to be executed asynchronously.
-    Public Function TestMethod(ByVal callDuration As Integer,
-                <Out> ByRef threadId As Integer) As String
-        Console.WriteLine("Test method begins.")
-        Thread.Sleep(callDuration)
-        threadId = Thread.CurrentThread.ManagedThreadId()
-        Return String.Format("My call time was {0}.", callDuration.ToString())
-    End Function
-End Class
-
-' The delegate must have the same signature as the method
-' it will call asynchronously.
-Public Delegate Function AsyncMethodCaller(ByVal callDuration As Integer,
-        <Out> ByRef threadId As Integer) As String
 #End If
 Public Class Players
     Dim InitialWidth As Integer
     Dim InitialHeadWidth As Integer
     Dim InitialNameWidth As Integer
-    Dim InitialKickWidth As Integer
     Dim InitialBanWidth As Integer
     Dim InitialOpWidth As Integer
 
@@ -98,19 +81,16 @@ Public Class Players
 
     End Sub
 
-    Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click
-        DialogResult = DialogResult.OK
-        Close()
+    Private Sub Kick_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Kick.Click
+
     End Sub
 
-    Private Sub Cancel_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Cancel_Button.Click
-        DialogResult = DialogResult.Cancel
-        Close()
+    Private Sub Ban_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Ban.Click
+
     End Sub
 
-    Private Sub Apply_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Apply_Button.Click
-        DialogResult = DialogResult.Retry
-        Close()
+    Private Sub Op_Click(ByVal sender As Object, ByVal e As EventArgs) Handles Op.Click
+
     End Sub
 
     Private Sub Players_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -222,9 +202,9 @@ Public Class Players
 #End If
         Request = DirectCast(WebRequest.Create(realUrl), HttpWebRequest)
         Using Response As HttpWebResponse = DirectCast(Request.GetResponse(), HttpWebResponse)
-            Dim Header As String = Response.Headers.ToString
 #Const FilenameMethod = 0
 #If FilenameMethod = 1 Then
+            Dim Header As String = Response.Headers.ToString
             Dim Filename As String = Header.Remove(0, Header.IndexOf("filename=") + 10)
             Filename = Filename.Remove(Filename.IndexOf(""""c))
 #ElseIf FilenameMethod = 2 Then
@@ -235,7 +215,8 @@ Public Class Players
             Dim ResponseStream As Stream = Response.GetResponseStream()
             GetSkin = Path.Combine(BasePath, If(UseFileName, Filename, Username))
             If Not My.Computer.FileSystem.DirectoryExists(GetSkin) Then My.Computer.FileSystem.CreateDirectory(GetSkin)
-            Using FileStream As FileStream = File.Create(InlineAssignHelper(GetSkin, GetSkin & If(UseFileName, String.Empty, ".png")))
+            GetSkin = GetSkin & If(UseFileName, String.Empty, ".png")
+            Using FileStream As New FileStream(GetSkin, FileMode.OpenOrCreate, FileAccess.Write)
                 CopyStream(ResponseStream, FileStream)
             End Using
         End Using
@@ -394,20 +375,18 @@ Public Class Players
     End Function
 
     Private Sub Players_Resize(sender As Object, e As EventArgs)
-        Head.Width = View.Width * InitialHeadWidth \ InitialWidth
+        PHead.Width = View.Width * InitialHeadWidth \ InitialWidth
         PName.Width = View.Width * InitialNameWidth \ InitialWidth
-        Kick.Width = View.Width * InitialKickWidth \ InitialWidth
-        Ban.Width = View.Width * InitialBanWidth \ InitialWidth
-        Op.Width = View.Width * InitialOpWidth \ InitialWidth
+        PBan.Width = View.Width * InitialBanWidth \ InitialWidth
+        POp.Width = View.Width * InitialOpWidth \ InitialWidth
     End Sub
 
     Private Sub Players_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         InitialWidth = View.Width
-        InitialHeadWidth = Head.Width
+        InitialHeadWidth = PHead.Width
         InitialNameWidth = PName.Width
-        InitialKickWidth = Kick.Width
-        InitialBanWidth = Ban.Width
-        InitialOpWidth = Op.Width
+        InitialBanWidth = PBan.Width
+        InitialOpWidth = POp.Width
         AddHandler Resize, AddressOf Players_Resize
         Players_Resize(sender, e)
     End Sub
@@ -473,28 +452,36 @@ Public Class Players
         Dim Items As IEnumerable(Of ListViewItem) = QueryViewItems()
         For Index As Integer = 0 To Items.Count - 2
             Dim Player As ListViewItem = Items(Index)
+            Dim Username As String = Player.SubItems(1).Text
             If Worker.CancellationPending Then
                 e.Cancel = True
                 Exit For
             ElseIf Player.ImageIndex = -1 Then
                 ' Perform a time consuming operation and report progress.
-                Dim Username As String = Player.SubItems(1).Text
                 Dim SkinPath As String = GetSkin(Username)
+                If Worker.CancellationPending Then
+                    e.Cancel = True
+                    Exit For
+                End If
                 If String.IsNullOrEmpty(SkinPath) Then Exit Sub
                 Images.Images.Add(Username, CropImage(New Bitmap(SkinPath), New Rectangle(8, 8, 8, 8), 2))
                 Player = New ListViewItem({String.Empty, Username}, Images.Images.IndexOfKey(Username),
                                            GetGroup(Username.First)) With {.Name = Username}
                 'Dim Index As Integer = GetIndex(Player)
+                If Worker.CancellationPending Then
+                    e.Cancel = True
+                    Exit For
+                End If
                 SetItem(Index, Player)
-                Worker.ReportProgress(CInt(Index / Items.Count) * 100)
             End If
+            Worker.ReportProgress(CInt((Index + 1) / (Items.Count - 1) * 100), Username)
         Next
 
     End Sub
 
     ' This event handler updates the progress. 
     Private Sub ImageLoader_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles ImageLoader.ProgressChanged
-        HeadLoad.Text = (e.ProgressPercentage.ToString() & "%")
+        HeadLoad.Text = (e.ProgressPercentage.ToString() & "%"c)
     End Sub
 
     ' This event handler deals with the results of the background operation. 
@@ -508,8 +495,11 @@ Public Class Players
             HeadLoad.Text = "Done!"
         End If
     End Sub
+
+    Private Sub Players_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+        e.Cancel = True
+        Hide()
 #If False Then
-    Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
             Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
         Dim RestartServer As Boolean = False
@@ -576,8 +566,10 @@ Public Class Players
             Threading.Thread.Sleep(1000)
             Main.RunServer_Click(sender, e)
         End If
+#End If
     End Sub
 
+#If False Then
     Private Sub Settings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Try
             PropertiesPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Main.JAR.Text), "server.properties")
@@ -699,7 +691,4 @@ Public Class Players
     End Sub
 
 #End If
-
-
-
 End Class

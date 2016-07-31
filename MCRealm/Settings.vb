@@ -24,7 +24,7 @@ Public Class Settings
 
     Private Sub Settings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
-            Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
+           Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
         Dim RestartServer As Boolean = False
         If Changed OrElse Main.ServerRunning Then
             Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
@@ -71,11 +71,7 @@ Public Class Settings
         Properties.SetProperty("spawn-protection={0}", Str(SpawnProtection.Value))
         Properties.SetProperty("view-distance={0}", Str(ViewDistance.Value))
         Properties.SetProperty("white-list={0}", UseWhiteList.Checked.ToString.ToLower)
-        Properties.Store(PropertiesStream, "Minecraft server properties", String.Format(
-                         "{0} {1} {2} {3} {4} {5}", WeekdayName(Weekday(Now), True), MonthName(Month(Now), True), Now.Day,
-                         Now.TimeOfDay.ToString, If(TimeZone.CurrentTimeZone.IsDaylightSavingTime(Now),
-                         TimeZone.CurrentTimeZone.DaylightName.TakeWhile(Function(Character) Char.IsUpper(Character)
-                     ), TimeZone.CurrentTimeZone.StandardName.TakeWhile(Function(Character) Char.IsUpper(Character))), Now.Year))
+        Properties.Store(PropertiesStream, "Minecraft server properties", JavaProperties.JavaNow)
         '#Thu Feb 04 18:24:36 CST 2016
         With PropertiesStream
             .Flush()
