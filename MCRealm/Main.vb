@@ -425,14 +425,14 @@ Public Class Main
         TestCode.Main()
 
         With JavaArgs
-            .JavaW = False
+            .JavaW = True
             .MemoryInit = 1024
             .MemoryInitUnit = JavaRuntimeArgs.MemoryUnit.M
             .MemoryMax = 2048
             .MemoryMaxUnit = JavaRuntimeArgs.MemoryUnit.M
             .MemoryMin = 1024
             .MemoryMinUnit = JavaRuntimeArgs.MemoryUnit.M
-            .Bit64 = False
+            .Bit64 = Is64BitOS
             .NoGUI = True
             .Online = True
             .Args = "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy"
@@ -459,7 +459,18 @@ Public Class Main
             Return False
         End If
     End Function
+#Else
+    Shared ReadOnly Property Is64BitOS As Boolean
+        Get
+            Return System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE").Contains("64") OrElse
+            InlineComment(Of Boolean)(" •AMD64   •IA64   •x86   •EM64T (XP-64)") OrElse
+            System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432").Contains("64") ' •AMD64   •IA64
+        End Get
+    End Property
 #End If
+    Public Shared Function InlineComment(Of T)(Message As String) As T
+        Return Nothing
+    End Function
     Private Sub EnvironmentButton_Click(sender As Object, e As EventArgs) Handles EnvironmentButton.Click
         Environment.Show()
     End Sub

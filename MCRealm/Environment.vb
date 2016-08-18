@@ -1,13 +1,13 @@
 ﻿Public Class Environment
     Private Sub Reset_Click(sender As Object, e As EventArgs) Handles Reset.Click
         JAVASwitch.Value = 1
-        MemoryMinimum.Value = 512
+        MemoryMinimum.Value = 1024
         MemoryMinimumUnit.SelectedIndex = 2
         MemoryMaximum.Value = 2048
         MemoryMaximumUnit.SelectedIndex = 2
         MemoryInitial.Value = MemoryMinimum.Value
         MemoryInitialUnit.SelectedIndex = MemoryMinimumUnit.SelectedIndex
-        BitSwitch.Value = 0
+        BitSwitch.Value = If(Main.Is64BitOS, 1, 0)
         GUI.Checked = False
         Online.Checked = True
         JavaArgs.Text = "-XX:+UseConcMarkSweepGC -XX:-UseAdaptiveSizePolicy"

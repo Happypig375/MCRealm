@@ -25,7 +25,7 @@ End Class
 ''' </summary>
 Friend Module TestCode
     Friend Sub Main()
-        'Return
+        Return
         'http://superuser.com/questions/305901/possible-values-of-processor-architecture
         MsgBox(System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE").ToString())
         End

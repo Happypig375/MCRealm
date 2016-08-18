@@ -26,7 +26,7 @@ Public Class Settings
         If Me.DialogResult = Windows.Forms.DialogResult.None OrElse
            Me.DialogResult = Windows.Forms.DialogResult.Cancel OrElse ErrorOccurred Then Exit Sub
         Dim RestartServer As Boolean = False
-        If Changed OrElse Main.ServerRunning Then
+        If Changed AndAlso Main.ServerRunning Then
             Select Case MsgBox("Server restart needed to apply changes. Restart server?", MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question)
                 Case MsgBoxResult.Yes
                     RestartServer = True
@@ -75,12 +75,15 @@ Public Class Settings
         '#Thu Feb 04 18:24:36 CST 2016
         With PropertiesStream
             .Flush()
-            .Unlock(0, .Length)
+            Try
+                .Unlock(0, .Length)
+            Catch ex As IOException
+            End Try
             .Close()
             .Dispose()
         End With
         If DialogResult = DialogResult.Retry Then e.Cancel = True
-        If RestartServer Then
+        If Main.ServerRunning AndAlso RestartServer Then
             Main.RunServer_Click(sender, e)
             Threading.Thread.Sleep(1000)
             Main.RunServer_Click(sender, e)
